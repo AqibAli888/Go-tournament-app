@@ -42,7 +42,7 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                               Container(
                                 height: 10,),
                               Container(
-                                height: MediaQuery.of(context).size.height * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.25,
                                 decoration: BoxDecoration(
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(10)
@@ -71,7 +71,18 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(match_detail_model.id.toString()),
+                                          Text(match_detail_model.Date.toString()),
+                                          Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("At "),
+                                                Text(match_detail_model.Time.toString()),
+                                                SizedBox(width: 10,),
+                                                Icon(Icons.access_time)
+                                              ],
+                                            ),
+                                          ),
 
                                           Text(match_detail_model.result.toString()==null.toString()?"Result not added":match_detail_model.result.toString()),
                                           Row(

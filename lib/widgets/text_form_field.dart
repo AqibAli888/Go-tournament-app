@@ -5,9 +5,12 @@ class Text_form_field extends StatelessWidget {
   final TextEditingController controller;
   final String texthint;
   final IconData? data;
+TextInputType? type;
   bool? obscure;
+
   bool?enabled;
   Text_form_field({
+    this.type,
     required this.controller,required this.texthint,this.obscure=false,required this.data
 ,this.enabled=true});
   @override
@@ -20,6 +23,7 @@ class Text_form_field extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.all(8),
       child: TextFormField(
+        keyboardType:type,
         controller: controller,
         enabled: enabled,
         obscureText: obscure!,

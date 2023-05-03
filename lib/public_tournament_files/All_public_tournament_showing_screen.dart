@@ -9,10 +9,12 @@ class All_Tournament_showing_screen extends StatefulWidget {
   const All_Tournament_showing_screen({Key? key}) : super(key: key);
 
   @override
-  State<All_Tournament_showing_screen> createState() => _All_Tournament_showing_screenState();
+  State<All_Tournament_showing_screen> createState() =>
+      _All_Tournament_showing_screenState();
 }
 
-class _All_Tournament_showing_screenState extends State<All_Tournament_showing_screen> {
+class _All_Tournament_showing_screenState
+    extends State<All_Tournament_showing_screen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,24 +22,24 @@ class _All_Tournament_showing_screenState extends State<All_Tournament_showing_s
         backgroundColor: Colors.black,
         appBar: AppBar(
           toolbarHeight: 100,
-
           backgroundColor: Colors.black,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  IconButton(onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => tournament_SearchScreen()));
-                  }, icon: Icon(Icons.search_outlined)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => tournament_SearchScreen()));
+                      },
+                      icon: Icon(Icons.search_outlined)),
                 ],
               ),
             ),
-
           ],
         ),
-        body:SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               StreamBuilder(
@@ -53,50 +55,181 @@ class _All_Tournament_showing_screenState extends State<All_Tournament_showing_s
                       child: ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            All_Tournament_Showing_model new_tournamnent =All_Tournament_Showing_model.fromJson(snapshot.data!.docs[index]
-                                .data()! as Map<String, dynamic>);
+                            All_Tournament_Showing_model new_tournamnent =
+                                All_Tournament_Showing_model.fromJson(
+                                    snapshot.data!.docs[index].data()!
+                                        as Map<String, dynamic>);
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
                                   Container(
-                                    height: 10,),
+                                    height: 10,
+                                  ),
                                   Container(
-                                    height: MediaQuery.of(context).size.height * 0.3,
+                                    padding: EdgeInsets.all(10),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
                                     decoration: BoxDecoration(
-                                        color: Color.fromARGB(706, 112, 107, 107),
-                                        borderRadius: BorderRadius.circular(10)
-                                    ),
+                                        color:
+                                            Color.fromARGB(706, 112, 107, 107),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: ListTile(
                                         trailing: SizedBox(
-                                          width: MediaQuery.of(context).size.width*0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.01,
                                           // to enter the
                                           // delete and updaate icon
                                           child: Row(
-                                            children:  [
-                                            ],
+                                            children: [],
                                           ),
                                         ),
                                         focusColor: Colors.red,
-                                        title: Text(new_tournamnent.Tournament_Name.toString(),
-                                          style: TextStyle(
-                                              color: Colors.white
-                                          ),),
-                                        subtitle: Text(new_tournamnent.format.toString(),style: TextStyle(
-                                            color: Colors.white
-                                        )),
+                                        title: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text("Tournament Name"),
+                                                Text(
+                                                  new_tournamnent
+                                                          .Tournament_Name
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text("Tournament Format"),
+                                                Text(
+                                                    new_tournamnent.format
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text("Start Date "),
+                                                Text(new_tournamnent.time!
+                                                    .split(" 00:00:00.000 - ")
+                                                    .first),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text("End Date"),
+                                                Text(new_tournamnent.time!
+                                                    .split(" 00:00:00.000 - ")
+                                                    .last
+                                                    .split(" 00:00:00.000")
+                                                    .first)
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Text("Location"),
+                                                Text("Hripur")
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.03,
+                                            ),
+                                          ],
+                                        ),
                                         onTap: () {
                                           Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) => Navigatetoscreen_tournament(
-                                                all_tournament_showing_model: new_tournamnent,)));
-
-
-
-
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Navigatetoscreen_tournament(
+                                                        all_tournament_showing_model:
+                                                            new_tournamnent,
+                                                      )));
 
                                           // transfer data to new screen
-                                         print( new_tournamnent.id);
+                                          print(new_tournamnent.id);
                                         }),
                                   ),
                                 ],
@@ -111,7 +244,7 @@ class _All_Tournament_showing_screenState extends State<All_Tournament_showing_s
               ),
             ],
           ),
-        ) ,
+        ),
       ),
     );
   }

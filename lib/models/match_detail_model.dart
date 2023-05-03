@@ -1,18 +1,19 @@
 class Match_Detail_model
 {
   String? id;
+  String? Date;
+  String?Time;
   String? team0;
-  bool?team0_win;
   String? team1;
   String? result;
-  bool?team1_win;
   Match_Detail_model({
     required this.id,
+    required this.Time,
     required this.result,
     required this.team0,
     required this.team1,
-    required this.team0_win,
-    required this.team1_win
+    required this.Date,
+
 
   });
 
@@ -20,20 +21,23 @@ class Match_Detail_model
   {
     id=json["id"];
     result=json["result"];
+    Time=json["Time"];
     team0=json["team0"];
-    team0_win=json["team0_win"];
+    Date=json["Date"];
+
     team1=json["team1"];
-    team1_win=json["team1_win"];
+
   }
   Map<String,dynamic>toJson()
   {
     final Map<String,dynamic>data=Map<String,dynamic>();
     data["id"]=this.id;
     data["team0"]=this.team0;
+    data["Time"]=this.Time;
     data["result"]=this.result;
-    data["team0_win"]=this.team0_win;
+    data["Date"]=this.Date;
     data["team1"]=this.team1;
-    data["team1_win"]=this.team1_win;
+
     return data;
   }
 

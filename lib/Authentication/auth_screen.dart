@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_app/Authentication/registration.dart';
 
+import '../models/user_detail_model.dart';
 import 'login.dart';
 class Auth_screen extends StatefulWidget {
   const Auth_screen({Key? key}) : super(key: key);

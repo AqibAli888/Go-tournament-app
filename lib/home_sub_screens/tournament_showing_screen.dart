@@ -6,15 +6,19 @@ import '../Global/global.dart';
 import '../models/New_Tournament_create_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
+import '../widgets/text_form_field.dart';
 import 'navigatescreen.dart';
 
 class Tournament_home_screen extends StatefulWidget {
+
   const Tournament_home_screen({Key? key}) : super(key: key);
   @override
   State<Tournament_home_screen> createState() => _Tournament_home_screenState();
 }
 
 class _Tournament_home_screenState extends State<Tournament_home_screen> {
+  DateTime start_selecteddate = DateTime.now();
+  DateTime End_selecteddate = DateTime.now();
   var _chosenValue;
   // void _showDecline() {
   //   showDialog(
@@ -106,14 +110,16 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
 
 
 
-  TextEditingController tournamentcontroller=TextEditingController();
-  TextEditingController formatcontroller=TextEditingController();
-  TextEditingController startdatecontroller=TextEditingController();
-  TextEditingController enddatecontroller=TextEditingController();
+  TextEditingController name=TextEditingController();
+  TextEditingController format=TextEditingController();
+  TextEditingController total_teams=TextEditingController();
+  TextEditingController phone_number=TextEditingController();
+  TextEditingController Detail=TextEditingController();
 
   formvalidation() {
-    if (tournamentcontroller.text.trim().isNotEmpty &&
-        formatcontroller.text.isNotEmpty) {
+    if (name.text.trim().isNotEmpty &&
+        format.text.isNotEmpty&&total_teams.text.trim().isNotEmpty
+        &&phone_number.text.trim().isNotEmpty &&Detail.text.trim().isNotEmpty) {
       //login
       Adding_team();
     } else {
@@ -137,30 +143,37 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
     var time=DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore.instance
         .collection("All_Tournaments")
-        .doc(tournamentcontroller.text)
+        .doc(name.text)
         .set({
-      "Tournament_Name":tournamentcontroller.text,
-      "id":time,
-      "format":formatcontroller.text,
-      "time":dateRange.toString(),
-      "Location":"location"
+      "Tournament_Name":name.text,
+      "id":time.trim(),
+      "format":format.text,
+      "Phone_Number":phone_number.text,
+      "Detail":Detail.text,
+      "Total_Teams":total_teams.text,
+      "Start_tournament":start_selecteddate.toString(),
+      "End_tournament":End_selecteddate.toString()
     });
     FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("Tournaments")
-        .doc(tournamentcontroller.text)
+        .doc(name.text)
         .set({
-      "Tournament_Name":tournamentcontroller.text,
-      "format":formatcontroller.text,
-      "time":dateRange.toString(),
-      "Location":"location"
+      "Tournament_Name":name.text,
+      "id":time,
+      "format":format.text,
+      "Phone_Number":phone_number.text,
+      "Detail":Detail.text,
+      "Total_Teams":total_teams.text,
+      "Start_tournament":start_selecteddate.toString(),
+      "End_tournament":End_selecteddate.toString()
 
     }).then((value) async {
-      await sharedpreference!.setString("Tournament_Name", tournamentcontroller.text.trim());
-      await sharedpreference!.setString("format", formatcontroller.text.trim());
-      await sharedpreference!.setString("Start_date", startdatecontroller.text.trim());
-      await sharedpreference!.setString("End_date", enddatecontroller.text.trim());
+      await sharedpreference!.setString("Tournament_Name", name.text.trim());
+      await sharedpreference!.setString("format", format.text.trim());
+      // await sharedpreference!.setString("Start_date", startdatecontroller.text.trim());
+      // await sharedpreference!.setString("End_date", enddatecontroller.text.trim());
       Navigator.pop(context);
     });
   }
@@ -214,14 +227,14 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                 Container(
                                   height: 10,),
                                 Container(
-                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  height: MediaQuery.of(context).size.height * 0.5,
                                   decoration: BoxDecoration(
                                       color: Color.fromARGB(706, 112, 107, 107),
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
                                       trailing: SizedBox(
-                                        width: MediaQuery.of(context).size.width*0.3,
+                                        width: MediaQuery.of(context).size.width*0.01,
                                         // to enter the
                                         // delete and updaate icon
                                         child: Row(
@@ -231,17 +244,151 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                       ),
                                       focusColor: Colors.red,
                                       title: Column(
+
                                         children: [
-                                          Text(new_tournamnent.Tournament_Name.toString(),
-                                            style: TextStyle(
-                                            color: Colors.white
+                                          Container(
+                                            color: Colors.white,
+                                            height: 10,
                                           ),
+                                          Text((index+1).toString(),style: TextStyle(
+                                            fontSize: 20,fontWeight: FontWeight.bold,
+                                              color: Colors.white
+                                          ),),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.004,
+                                            color: Colors.white,
+                                            width:  MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                0.1,
                                           ),
-                                    Text(new_tournamnent.time.toString(),),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Tournament Name"),
+                                              Text(
+                                                new_tournamnent
+                                                    .Tournament_Name
+                                                    .toString(),
 
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.004,
+                                            color: Colors.white,
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Tournament Format"),
+                                              Text(
+                                                  new_tournamnent.format
+                                                      .toString(),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.004,
+                                            color: Colors.white,
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Start Date "),
+                                              Text(new_tournamnent.Start_tournament.toString().split(" ").first)
+                                            ],
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.004,
+                                            color: Colors.white,
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Final"),
+                                              Text(new_tournamnent.End_tournament.toString().split(" ").first)
+                                            ],
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.004,
+                                            color: Colors.white,
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
 
+                                              Text("Location"),
+                                              Text("Hripur")
+                                            ],
+                                          ),
 
-                                    ],
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.03,
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            height: 10,
+                                          ),
+                                        ],
                                       ),
                                       onTap: () {
                                         // transfer data to new screen
@@ -273,35 +420,66 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                         return StatefulBuilder(
                           builder: (BuildContext context, StateSetter setState) {
                             return AlertDialog(
+                              backgroundColor: Colors.deepPurple,
                               scrollable: true,
-                              title: Text('Add Tournament'),
+                              title: Text('Create Tournament'),
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Form(
                                   child: Column(
                                     children: <Widget>[
-                                      TextFormField(
-                                        controller: tournamentcontroller,
-                                        decoration: InputDecoration(
-                                          labelText: 'Name of the Tournament',
-                                          icon: Icon(Icons.account_box),
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        controller:formatcontroller,
-                                        decoration: InputDecoration(
-                                          labelText: 'Tournament Format',
-                                          icon: Icon(Icons.email),
-                                        ),
-                                      ),
-                                      TextButton(onPressed:pickdateRange, child: Text("Pick Date Range")),
-                                      Text('${"Start Date :"}${dateRange.start}'),
-                                      Text('${"Start Date :"}${dateRange.end}')
 
-                                      // province
+                                      Text_form_field(texthint:"Name",type: TextInputType.name,
+                                          data: Icons.access_time,controller: name),
 
-                                      // district
-                                      // tehsil
+
+
+                                      TextButton(
+                                          onPressed:
+                                              () async {
+                                            final DateTime? datetime = await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime.now(),
+                                                lastDate: DateTime(2024));
+                                            if (datetime !=
+                                                null) {
+                                              setState(() {
+                                                start_selecteddate = datetime;
+                                              });
+                                              print(start_selecteddate);
+                                            }
+                                          },
+                                          child: Text(
+                                              "Pick Start Date")),
+                                      TextButton(
+                                          onPressed:
+                                              () async {
+                                            final DateTime? datetime = await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime.now(),
+                                                lastDate: DateTime(2024));
+                                            if (datetime !=
+                                                null) {
+                                              setState(() {
+                                                End_selecteddate = datetime;
+                                              });
+                                              print( End_selecteddate);
+                                            }
+                                          },
+                                          child: Text(
+                                              "Pick Final Date")),
+
+                                      Text_form_field(texthint:"Format",
+                                          data: Icons.access_time,controller: format),
+
+                                      Text_form_field(texthint:"Total Teams",type: TextInputType.number,
+                                          data: Icons.access_time,controller: total_teams),
+                                      Text_form_field(texthint:"Phone Number",type: TextInputType.number,
+                                          data: Icons.access_time,controller: phone_number),
+                                      Text_form_field(texthint:"Detail about Tournament",type: TextInputType.number,
+                                          data: Icons.access_time,controller: Detail),
 
                                       // short address
                                     ],

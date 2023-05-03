@@ -12,18 +12,14 @@ import '../widgets/loading_dialog.dart';
 
 class Teams_in_Tournament extends StatefulWidget {
   final New_Tournament_model new_tournament_model;
-  const Teams_in_Tournament({Key? key, required this.new_tournament_model}) : super(key: key);
+  const Teams_in_Tournament({Key? key, required this.new_tournament_model})
+      : super(key: key);
 
   @override
   State<Teams_in_Tournament> createState() => _Teams_in_TournamentState();
 }
 
 class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
-
-
-
-
-
   TextEditingController teamnamecontroller = TextEditingController();
   TextEditingController levelcontroller = TextEditingController();
   TextEditingController shirtnumber = TextEditingController();
@@ -42,34 +38,53 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
           });
     }
   }
+
   Adding_team() async {
     showDialog(
         context: context,
         builder: (c) {
           return Loading_Dialog(
-            message: 'Adding Player please wait',
+            message: 'Adding Team please wait',
           );
         });
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
-        .collection("Players")
-        .doc(shirtnumber.text)
+        .collection("Teams")
+        .doc(teamnamecontroller.text)
         .set({
-      "shirt_Number":shirtnumber.text,
       "Name": teamnamecontroller.text,
       "level": levelcontroller.text
     }).then((value) async {
-      await sharedpreference!.setString("Team_Name", teamnamecontroller.text.trim());
+      await sharedpreference!
+          .setString("Team_Name", teamnamecontroller.text.trim());
       await sharedpreference!.setString("level", levelcontroller.text.trim());
       Navigator.pop(context);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.1,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(5)
+              ),
+              child: Center(
+                child: Text(
+                  "Tap on The teams to add on the Tournament",
+                  style: TextStyle(color: Colors.white,fontSize: 15),
+                ),
+              ),
+            ),
+          ),
+
           // for real time we use stream builder
           StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -81,7 +96,7 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
               if (snapshot.hasData) {
                 return Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   child: ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
@@ -92,61 +107,76 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                           child: Column(
                             children: [
                               Container(
-                                height: 10,),
+                                height: 10,
+                              ),
                               Container(
-                                height: MediaQuery.of(context).size.height * 0.1,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
                                 decoration: BoxDecoration(
                                     color: Colors.green,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: ListTile(
-                                    trailing: SizedBox(
-                                      width: MediaQuery.of(context).size.width*0.57,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children:  [
-
-                                          TextButton(onPressed: (){
-                                            FirebaseFirestore.instance
-                                                .collection("Users")
-                                                .doc(firebaseAuth.currentUser!.uid)
-                                                .collection("Tournaments").
-                                            doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").doc(team.Name).set({
-                                              "Team_Name":team.Name,
-                                              "Level":team.level,
-                                              "point":0,
-                                              "played":0,
-                                              "win":0
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("All_Tournaments").doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament")
-                                                .doc(team.Name).set({
-                                              "Team_Name":team.Name,
-                                              "Level":team.level,
-                                              "point":0,
-                                              "played":0,
-                                              "win":0
-                                            });
-
-                                          }, child:Text("ADD Team To Tournament",style:  TextStyle(color: Colors.black),)),
-                                          // TextButton(onPressed: ()async {
-                                          //  await FirebaseFirestore.instance
-                                          //       .collection("Users")
-                                          //       .doc(firebaseAuth.currentUser!.uid)
-                                          //       .collection("Tournaments").
-                                          //   doc(widget.new_tournament_model.
-                                          //   Tournament_Name).collection("Teams_in_Tournament").doc(team.Name).delete();
-                                          //
-                                          // }, child:Text("remove")),
-
-                                        ],
-                                      ),
+                                  trailing: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.57,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                      ],
                                     ),
-                                    focusColor: Colors.red,
-                                    title: Text(team.Name.toString()),
-                                    subtitle: Text(team.level.toString()),
-                                    onTap: () {
-                                    }),
+                                  ),
+                                  focusColor: Colors.red,
+                                  title: Text(team.Name.toString()),
+                                  subtitle: Text(team.level.toString()),
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (c) {
+                                          return Loading_Dialog(
+                                            message: 'Please wait',
+                                          );
+                                        });
+
+                                    FirebaseFirestore.instance
+                                        .collection("Users")
+                                        .doc(firebaseAuth.currentUser!.uid)
+                                        .collection("Tournaments")
+                                        .doc(widget.new_tournament_model
+                                            .Tournament_Name)
+                                        .collection("Teams_in_Tournament")
+                                        .doc(team.Name)
+                                        .set({
+                                      "Team_Name": team.Name,
+                                      "Level": team.level,
+                                      "point": 0,
+                                      "played": 0,
+                                      "win": 0
+                                    });
+                                    FirebaseFirestore.instance
+                                        .collection("All_Tournaments")
+                                        .doc(widget.new_tournament_model
+                                            .Tournament_Name)
+                                        .collection("Teams_in_Tournament")
+                                        .doc(team.Name)
+                                        .set({
+                                      "Team_Name": team.Name,
+                                      "Level": team.level,
+                                      "point": 0,
+                                      "played": 0,
+                                      "win": 0
+                                    }).then((value) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (c) {
+                                            return Error_Dialog(
+                                              message: 'Team Added Succesfully',
+                                            );
+                                          });
+                                    });
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -190,13 +220,6 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                       icon: Icon(Icons.email),
                                     ),
                                   ),
-                                  TextFormField(
-                                    controller: shirtnumber,
-                                    decoration: InputDecoration(
-                                      labelText: 'Shirt Number',
-                                      icon: Icon(Icons.email),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -205,6 +228,7 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                             TextButton(
                                 child: Text("Submit"),
                                 onPressed: () {
+                                  Navigator.pop(context);
                                   formvalidation();
                                   // your code
                                 })

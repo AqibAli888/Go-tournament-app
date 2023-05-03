@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/Global/global.dart';
 import 'package:sports_app/main_screens/option_screen_for_public_private.dart';
 
+import '../models/user_detail_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 import '../widgets/text_form_field.dart';
 import 'forget_password_page.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+
+  const Login({Key? key,}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();

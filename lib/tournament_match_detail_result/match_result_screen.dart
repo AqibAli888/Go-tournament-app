@@ -142,62 +142,101 @@ class _Match_result_screenState extends State<Match_result_screen> {
                       .collection("Teams_in_Tournament").doc(newlist[2]).update({
                     "point":FieldValue.increment(1)
                   });
-
-                }
-                else{
                   FirebaseFirestore.instance
                       .collection('Users')
                       .doc(firebaseAuth.currentUser!.uid)
                       .collection("Tournaments")
                       .doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament").doc(newlist[number]).update({
-                    "point":FieldValue.increment(2),
-                    "win":FieldValue.increment(1),
-                    "result":newlist[number]
-                  });
-                  FirebaseFirestore.instance
-                      .collection('Users')
-                      .doc(firebaseAuth.currentUser!.uid)
-                      .collection("Tournaments")
-                      .doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament").doc(newlist[1]).update({
-                    "played":FieldValue.increment(1)
-                  });
-                  FirebaseFirestore.instance
-                      .collection('Users')
-                      .doc(firebaseAuth.currentUser!.uid)
-                      .collection("Tournaments")
-                      .doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament").doc(newlist[2]).update({
-                    "played":FieldValue.increment(1)
+                      .collection("Tournament_schedule").doc(widget.match_detail_model.id).update({
+                    "result":"Match has been drawn"
                   });
                   FirebaseFirestore.instance
                       .collection("All_Tournaments").
                   doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament")
-                      .doc(newlist[number]).update({
-                    "point":FieldValue.increment(2),
-                    "win":FieldValue.increment(1),
-                    "result":newlist[number]
-                  });
-                  FirebaseFirestore.instance
-                      .collection("All_Tournaments").
-                  doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament").doc(newlist[2]).update({
-                    "played":FieldValue.increment(1)
-                  });
-
-                  FirebaseFirestore.instance
-                      .collection("All_Tournaments").
-                  doc(widget.new_tournament_model.Tournament_Name)
-                      .collection("Teams_in_Tournament").doc(newlist[1]).update({
-                    "played":FieldValue.increment(1)
+                      .collection("Tournament_schedule").doc(widget.match_detail_model.id).update({
+                    "result":"Match has been drawn"
                   });
 
                 }
-                print(newlist[number]);
 
-              }, child: Text("SAVE"))
+      else{
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("Tournaments")
+          .doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[number]).update({
+      "point":FieldValue.increment(2),
+      "win":FieldValue.increment(1),
+      "result":newlist[number]
+      });
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("Tournaments")
+          .doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[1]).update({
+      "played":FieldValue.increment(1)
+      });
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("Tournaments")
+          .doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[2]).update({
+      "played":FieldValue.increment(1)
+      });
+      FirebaseFirestore.instance
+          .collection("All_Tournaments").
+      doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament")
+          .doc(newlist[number]).update({
+      "point":FieldValue.increment(2),
+      "win":FieldValue.increment(1),
+      "result":newlist[number]
+      });
+      FirebaseFirestore.instance
+          .collection("All_Tournaments").
+      doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[2]).update({
+      "played":FieldValue.increment(1)
+      });
+
+      FirebaseFirestore.instance
+          .collection("All_Tournaments").
+      doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[1]).update({
+      "played":FieldValue.increment(1)
+      });
+
+      FirebaseFirestore.instance
+          .collection("All_Tournaments").
+      doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Teams_in_Tournament").doc(newlist[1]).update({
+        "played": FieldValue.increment(1)
+      });
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("Tournaments")
+          .doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Tournament_schedule").doc(widget.match_detail_model.id).update({
+        "result":(newlist[number]) + " win the match"
+      });
+      FirebaseFirestore.instance
+          .collection("All_Tournaments").
+      doc(widget.new_tournament_model.Tournament_Name)
+          .collection("Tournament_schedule").doc(widget.match_detail_model.id).update({
+        "result":(newlist[number]) + " win the match"
+      });
+      print(newlist[number]);
+
+      }
+
+
+
+              },
+                  child: Text("SAVE"))
 
             ],
           ),
@@ -205,3 +244,5 @@ class _Match_result_screenState extends State<Match_result_screen> {
       );
     }
   }
+
+

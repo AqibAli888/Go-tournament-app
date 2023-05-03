@@ -4,12 +4,12 @@ class All_Tournament_Showing_model
   String? id;
   String?end;
   String?format;
-  String? startdate;
+  String? time;
   All_Tournament_Showing_model({
     this.Tournament_Name,
     this.id,
     this.format,
-    this.startdate,
+    this.time,
     this.end
   });
 
@@ -18,7 +18,7 @@ class All_Tournament_Showing_model
     Tournament_Name=json["Tournament_Name"];
     id=json["id"];
     format=json["format"];
-    startdate=json["startdate"];
+    time=json["time"];
     format=json["format"];
   }
   Map<String,dynamic>toJson()
@@ -27,7 +27,7 @@ class All_Tournament_Showing_model
     data["Tournament_Name"]=this.Tournament_Name;
     data["id"]=this.id;
     data["format"]=this.format;
-    data["startdate"]=this.startdate;
+    data["time"]=this.time;
     data["end"]=this.end;
     return data;
   }

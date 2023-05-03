@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/main_screens/home_screen.dart';
 
 import '../Authentication/auth_screen.dart';
+import '../models/user_detail_model.dart';
 import '../public_tournament_files/All_public_tournament_showing_screen.dart';
 
 class Option_Screen extends StatefulWidget {
-  const Option_Screen({Key? key}) : super(key: key);
+  const Option_Screen({Key? key, }) : super(key: key);
 
   @override
   State<Option_Screen> createState() => _Option_ScreenState();

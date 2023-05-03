@@ -4,13 +4,16 @@ import 'package:sports_app/create_tournament_sub_screens/teams_in_tournament.dar
 import 'package:sports_app/create_tournament_sub_screens/tournament_match_detail.dart';
 
 import '../models/New_Tournament_create_model.dart';
+import '../models/user_detail_model.dart';
 import 'Basic_detail_screen_for_tournamnet.dart';
+import 'Detail about tournament.dart';
 import 'Standings_tournamen.dart';
 import 'final_added_teams_in_tournament.dart';
 
 class Navigate_Tournament_full_detail_screen extends StatefulWidget {
+
   final New_Tournament_model new_tournament_model;
-  const Navigate_Tournament_full_detail_screen({Key? key, required this.new_tournament_model}) : super(key: key);
+  const Navigate_Tournament_full_detail_screen({Key? key, required this.new_tournament_model, }) : super(key: key);
 
   @override
   State<Navigate_Tournament_full_detail_screen> createState() => _Navigate_Tournament_full_detail_screenState();
@@ -28,7 +31,8 @@ class _Navigate_Tournament_full_detail_screenState extends State<Navigate_Tourna
           title: Text("Go Tournamentt"),centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(text: "Basic Details",icon: Icon(Icons.info_outline),),
+              Tab(text: "Deatail",icon: Icon(Icons.newspaper),),
+              // Tab(text: "Basic Details",icon: Icon(Icons.info_outline),),
               Tab(text: "Teams in Tournament",icon: Icon(Icons.group),),
               Tab(text: "Added Teams in Tournament",icon: Icon(Icons.group),),
               Tab(text: "Standings",icon: Icon(Icons.format_list_numbered),),
@@ -39,7 +43,8 @@ class _Navigate_Tournament_full_detail_screenState extends State<Navigate_Tourna
           color: Colors.black,
           child: TabBarView(
             children: [
-              Basic_detail_screen(),
+              // Basic_detail_screen(),
+              Tournament_Deatail_Screen(new_tournament_model:widget.new_tournament_model,),
               Teams_in_Tournament(new_tournament_model:widget.new_tournament_model, ),
               Final_added_teams_in_tournament(new_tournament_model:widget.new_tournament_model,),
               Standing_tournament(new_tournament_model: widget.new_tournament_model,),

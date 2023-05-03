@@ -10,8 +10,10 @@ import '../home_sub_screens/player_screen.dart';
 import '../home_sub_screens/teams_screen.dart';
 import '../home_sub_screens/tournament_showing_screen.dart';
 import '../home_sub_screens/vanue_screen.dart';
+import '../models/user_detail_model.dart';
 
 class Home_screen extends StatefulWidget {
+
   const Home_screen({Key? key}) : super(key: key);
 
   @override
