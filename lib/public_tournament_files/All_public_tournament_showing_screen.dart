@@ -105,10 +105,6 @@ class _All_Tournament_showing_screenState
                     onPressed: () {
                       _showDecline();
                       print(_chosenValue);
-
-
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => tournament_SearchScreen()));
                     },
                     icon: Icon(Icons.search_outlined)),
               ],

@@ -7,6 +7,7 @@ import 'package:sports_app/Global/global.dart';
 import '../Authentication/login.dart';
 import '../Authentication/registration.dart';
 import '../home_sub_screens/player_screen.dart';
+import '../home_sub_screens/private_tournament_search_screen.dart';
 import '../home_sub_screens/teams_screen.dart';
 import '../home_sub_screens/tournament_showing_screen.dart';
 import '../home_sub_screens/vanue_screen.dart';
@@ -21,6 +22,75 @@ class Home_screen extends StatefulWidget {
 }
 
 class _Home_screenState extends State<Home_screen> {
+  var _chosenValue;
+  void _showDecline() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState){
+            return AlertDialog(
+              title: new Text("SEARCH TOURNAMENT WITH"),
+              content: Container(
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Column(
+                      children: <Widget>[
+                        Text("Search With"),
+                        DropdownButton<String>(
+                          hint: Text('Select one option'),
+                          value: _chosenValue,
+                          underline: Container(
+
+                          ),
+                          items: <String>[
+                            'Tournament_Name',
+                            'id',
+                            'format',
+                            'Entry_Fees'
+                          ].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(
+                                value,
+                                style: TextStyle(fontWeight: FontWeight.w200),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _chosenValue = value.toString();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                TextButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: new Text("ok"),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Private_Tournament_search_screen(data: _chosenValue,)));
+                  },
+                ),
+              ],
+            );
+          },
+
+        );
+      },
+    );
+  }
   User? currentuser;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +98,18 @@ class _Home_screenState extends State<Home_screen> {
         child: Scaffold(
           backgroundColor: Colors.black26,
           appBar: AppBar(
+            actions: [
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        _showDecline();
+
+                      },
+                      icon: Icon(Icons.search_outlined)),
+                ],
+              ),
+            ],
             elevation: 0,
             backgroundColor: Colors.black26,
             title: Text("Go Tournamentt",
