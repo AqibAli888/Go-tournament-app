@@ -24,6 +24,9 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   DateTime selecteddate = DateTime.now();
   TimeOfDay matchtime = TimeOfDay(hour: 12, minute: 30);
 
+
+
+
   Future<void> deletecollection() async {
     var collection = await FirebaseFirestore.instance
         .collection('Users')
@@ -127,7 +130,17 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   formvalidation(String time) {
     if (date.text.trim().isNotEmpty) {
       //login
-      Adding_team(time);
+      if (selectedItem != secondselected) {
+        Adding_team(time);
+      } else {
+        showDialog(
+            context: context,
+            builder: (c) {
+              return Error_Dialog(
+                message: 'Same Team Name cannot play with each other ',
+              );
+            });
+      }
     } else {
       showDialog(
           context: context,
@@ -214,6 +227,20 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   String option2 = "select";
   @override
   Widget build(BuildContext context) {
+
+    DocumentReference all_tournament_ref=FirebaseFirestore.instance
+        .collection("All_Tournaments")
+        .doc(widget.new_tournament_model.Tournament_Name);
+
+    DocumentReference pri_tournament_ref=FirebaseFirestore.instance
+        .collection('Users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("Tournaments")
+        .doc(widget.new_tournament_model.Tournament_Name);
+
+
+
+
     List<String> teamsadded = <String>[""];
 
     void getallteams() async {
@@ -365,13 +392,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                       .id)
                                                               .delete();
 
-                                                          FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'All_Tournaments')
-                                                              .doc(widget
-                                                                  .new_tournament_model
-                                                                  .Tournament_Name)
+                                                          all_tournament_ref
                                                               .collection(
                                                                   "Tournament_schedule")
                                                               .doc(
@@ -396,15 +417,9 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                     ),
                                                     IconButton(
                                                         onPressed: () async {
-                                                          DocumentSnapshot variable = await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'Users')
-                                                              .doc(firebaseAuth
-                                                                  .currentUser!
-                                                                  .uid)
-                                                              .collection(
-                                                                  "Tournaments")
+                                                          DocumentSnapshot variable = await FirebaseFirestore.instance
+                                                              .collection('Users').doc(firebaseAuth.currentUser!.uid)
+                                                              .collection("Tournaments")
                                                               .doc(widget
                                                                   .new_tournament_model
                                                                   .Tournament_Name)
@@ -430,7 +445,10 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                               new_tournament_model: widget.new_tournament_model,
                                                                               match_detail_model: match_detail_model,
                                                                             )));
-                                                          } else if (team ==
+                                                          }
+
+
+                                                          else if (team ==
                                                               match_detail_model
                                                                   .team0) {
                                                             print(team);
@@ -438,77 +456,47 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                             print(
                                                                 match_detail_model
                                                                     .team0);
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'Users')
-                                                                .doc(firebaseAuth
-                                                                    .currentUser!
-                                                                    .uid)
-                                                                .collection(
-                                                                    "Tournaments")
-                                                                .doc(widget
-                                                                    .new_tournament_model
-                                                                    .Tournament_Name)
-                                                                .collection(
-                                                                    "Tournament_schedule")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .id)
-                                                                .update({
-                                                              "result":
-                                                                  "Result Not added"
+                                                            // result updaate
+                                                            FirebaseFirestore.instance.collection('Users').doc(firebaseAuth
+                                                                    .currentUser!.uid).collection("Tournaments").doc(widget.new_tournament_model
+                                                                    .Tournament_Name).collection("Tournament_schedule").doc(match_detail_model.id)
+                                                                .update({"result": "Result Not added"});
+
+                                                            FirebaseFirestore.instance
+                                                                .collection("All_Tournaments")
+                                                                .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").doc(
+                                                                match_detail_model.team0).update({"played": FieldValue.increment(
+                                                                -1),"point": FieldValue.increment(-2), "win": FieldValue.increment(-1)});
+
+                                                            //  decrease the other team played match
+
+                                                            FirebaseFirestore.instance
+                                                                .collection("All_Tournaments")
+                                                                .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament")
+                                                                .doc(match_detail_model.team1).update({"played": FieldValue
+                                                                .increment(-1),
                                                             });
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'Users')
-                                                                .doc(firebaseAuth
-                                                                    .currentUser!
-                                                                    .uid)
-                                                                .collection(
-                                                                    "Tournaments")
-                                                                .doc(widget
-                                                                    .new_tournament_model
-                                                                    .Tournament_Name)
-                                                                .collection(
-                                                                    "Teams_in_Tournament")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .team0)
-                                                                .update({
-                                                              "played":
-                                                                  FieldValue
-                                                                      .increment(
-                                                                          -1),
-                                                              "point": FieldValue
-                                                                  .increment(
-                                                                      -2),
-                                                              "win": FieldValue
-                                                                  .increment(-1)
-                                                            });
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'Users')
-                                                                .doc(firebaseAuth
-                                                                    .currentUser!
-                                                                    .uid)
-                                                                .collection(
-                                                                    "Tournaments")
-                                                                .doc(widget
-                                                                    .new_tournament_model
-                                                                    .Tournament_Name)
-                                                                .collection(
-                                                                    "Teams_in_Tournament")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .team1)
-                                                                .update({
-                                                              "played":
-                                                                  FieldValue
-                                                                      .increment(
-                                                                          -1),
+
+
+
+
+
+
+
+
+                                                            // decrease the get points played win all in private of team[0]
+
+                                                            FirebaseFirestore.instance.collection('Users').
+                                                            doc(firebaseAuth.currentUser!.uid).collection("Tournaments").doc(widget
+                                                                .new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").doc(
+                                                                    match_detail_model.team0).update({"played": FieldValue.increment(
+                                                                          -1),"point": FieldValue.increment(-2), "win": FieldValue.increment(-1)});
+
+                                                            //  decrease the other team played match
+
+                                                            FirebaseFirestore.instance.collection('Users').doc(firebaseAuth.currentUser!.uid).collection("Tournaments").doc(widget.new_tournament_model
+                                                                .Tournament_Name).collection("Teams_in_Tournament").doc(match_detail_model.team1).update({"played": FieldValue
+                                                                .increment(-1),
                                                             }).then((value) {
                                                               Navigator.of(context).push(
                                                                   MaterialPageRoute(
@@ -520,14 +508,77 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                                 match_detail_model,
                                                                           )));
                                                             });
-                                                          } else if (team ==
+
+
+
+
+
+
+                                                          }
+                                                          else if (team ==
                                                               match_detail_model
                                                                   .team1) {
-                                                            print(team +
+                                                            print(team);
+                                                            print("here 1");
+                                                            print(
                                                                 match_detail_model
-                                                                    .team1
-                                                                    .toString());
-                                                            print("here 2");
+                                                                    .team0);
+                                                            // result updaate
+                                                            FirebaseFirestore.instance.collection('Users').doc(firebaseAuth
+                                                                .currentUser!.uid).collection("Tournaments").doc(widget.new_tournament_model
+                                                                .Tournament_Name).collection("Tournament_schedule").doc(match_detail_model.id)
+                                                                .update({"result": "Result Not added"});
+
+
+                                                            FirebaseFirestore.instance
+                                                                .collection("All_Tournaments")
+                                                                .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").doc(
+                                                                match_detail_model.team1).update({"played": FieldValue.increment(
+                                                                -1),"point": FieldValue.increment(-2), "win": FieldValue.increment(-1)});
+
+                                                            //  decrease the other team played match
+
+                                                            FirebaseFirestore.instance
+                                                                .collection("All_Tournaments")
+                                                                .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament")
+                                                                .doc(match_detail_model.team0).update({"played": FieldValue
+                                                                .increment(-1),
+                                                            });
+
+                                                            // decrease the get points played win all in private of team[0]
+
+                                                            FirebaseFirestore.instance.collection('Users').
+                                                            doc(firebaseAuth.currentUser!.uid).collection("Tournaments").doc(widget
+                                                                .new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").doc(
+                                                                match_detail_model.team1).update({"played": FieldValue.increment(
+                                                                -1),"point": FieldValue.increment(-2), "win": FieldValue.increment(-1)});
+
+                                                            //  decrease the other team played match
+
+                                                            FirebaseFirestore.instance.collection('Users').doc(firebaseAuth.currentUser!.uid).collection("Tournaments").doc(widget.new_tournament_model
+                                                                .Tournament_Name).collection("Teams_in_Tournament").doc(match_detail_model.team0).update({"played": FieldValue
+                                                                .increment(-1),
+                                                            }).then((value) {
+                                                              Navigator.of(context).push(
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          Match_result_screen(
+                                                                            new_tournament_model:
+                                                                            widget.new_tournament_model,
+                                                                            match_detail_model:
+                                                                            match_detail_model,
+                                                                          )));
+                                                            });
+
+
+
+
+
+
+                                                          }
+                                                          // draw
+                                                          else if (team == "Draw") {
+                                                            print("Draw");
                                                             FirebaseFirestore
                                                                 .instance
                                                                 .collection(
@@ -589,9 +640,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                           -1),
                                                               "point": FieldValue
                                                                   .increment(
-                                                                      -2),
-                                                              "win": FieldValue
-                                                                  .increment(-1)
+                                                                      -1),
                                                             });
                                                             FirebaseFirestore
                                                                 .instance
@@ -615,6 +664,9 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                   FieldValue
                                                                       .increment(
                                                                           -1),
+                                                              "point": FieldValue
+                                                                  .increment(
+                                                                  -1),
                                                             }).then((value) {
                                                               Navigator.of(context).push(
                                                                   MaterialPageRoute(
@@ -717,14 +769,13 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                             items:
                                                                                 items.map((item) {
                                                                               return DropdownMenuItem(
-
                                                                                 value: item,
                                                                                 child: Text(item),
                                                                               );
                                                                             }).toList(),
                                                                             onChanged: (value) =>
                                                                                 setState(() {
-                                                                                  items = items.toSet().toList();
+                                                                              items = items.toSet().toList();
                                                                               selectedItem = value!;
                                                                               items.add(selectedItem);
                                                                               items.clear();
@@ -735,11 +786,6 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                         ),
                                                                       ],
                                                                     ),
-
-
-
-
-
                                                                     Text(
                                                                         "hello"),
                                                                     Row(
@@ -794,11 +840,46 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
+                                                                          print(
+                                                                              "hello here");
+                                                                          var myInt = widget
+                                                                              .new_tournament_model
+                                                                              .End_tournament
+                                                                              .toString()
+                                                                              .split(" ")
+                                                                              .first;
+                                                                          print(
+                                                                              myInt);
+                                                                          var year = int.parse(myInt
+                                                                              .split("-")
+                                                                              .first);
+                                                                          var month = int.parse(myInt
+                                                                              .split("")
+                                                                              .skip(5)
+                                                                              .first);
+                                                                          var monthh = int.parse(myInt
+                                                                              .split("")
+                                                                              .skip(6)
+                                                                              .first);
+                                                                          print(
+                                                                              month);
+                                                                          print(
+                                                                              monthh);
+                                                                          var m =
+                                                                              int.parse(month.toString() + monthh.toString());
+                                                                          print(
+                                                                              m);
+                                                                          var day = int.parse(myInt
+                                                                              .split("-")
+                                                                              .last);
+                                                                          print(
+                                                                              "${year}y-${m}m-${day}");
+
                                                                           final DateTime? datetime = await showDatePicker(
                                                                               context: context,
                                                                               initialDate: DateTime.now(),
                                                                               firstDate: DateTime.now(),
-                                                                              lastDate: DateTime(2024));
+                                                                              lastDate: DateTime(year, m, day));
                                                                           if (datetime !=
                                                                               null) {
                                                                             setState(() {
@@ -971,12 +1052,36 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                           "-${selecteddate.day}"),
                                       TextButton(
                                           onPressed: () async {
+                                            print("hello here");
+                                            var myInt = widget
+                                                .new_tournament_model
+                                                .End_tournament
+                                                .toString()
+                                                .split(" ")
+                                                .first;
+                                            print(myInt);
+                                            var year = int.parse(
+                                                myInt.split("-").first);
+                                            var month = int.parse(
+                                                myInt.split("").skip(5).first);
+                                            var monthh = int.parse(
+                                                myInt.split("").skip(6).first);
+                                            print(month);
+                                            print(monthh);
+                                            var m = int.parse(month.toString() +
+                                                monthh.toString());
+                                            print(m);
+                                            var day = int.parse(
+                                                myInt.split("-").last);
+                                            print("${year}y-${m}m-${day}");
+
                                             final DateTime? datetime =
                                                 await showDatePicker(
                                                     context: context,
                                                     initialDate: DateTime.now(),
                                                     firstDate: DateTime.now(),
-                                                    lastDate: DateTime(2024));
+                                                    lastDate:
+                                                        DateTime(year, m, day));
                                             if (datetime != null) {
                                               setState(() {
                                                 selecteddate = datetime;
@@ -1026,7 +1131,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                 ),
                               )
                             : Container(
-                                child: Text("Loading"),
+                                child: Center(child: Text("Loading")),
                               );
                       });
                 },

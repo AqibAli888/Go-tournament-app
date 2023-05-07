@@ -6,7 +6,8 @@ import 'package:sports_app/public_tournament_files/single_tournament_detail_scre
 import '../models/all_tournament_showing_model.dart';
 
 class All_Tournament_showing_screen extends StatefulWidget {
-  const All_Tournament_showing_screen({Key? key}) : super(key: key);
+
+  const All_Tournament_showing_screen({Key? key,}) : super(key: key);
 
   @override
   State<All_Tournament_showing_screen> createState() =>
@@ -15,6 +16,80 @@ class All_Tournament_showing_screen extends StatefulWidget {
 
 class _All_Tournament_showing_screenState
     extends State<All_Tournament_showing_screen> {
+  var _chosenValue;
+  void _showDecline() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState){
+            return AlertDialog(
+              title: new Text("SEARCH TOURNAMENT WITH"),
+              content: Container(
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Column(
+                      children: <Widget>[
+                       Text("Search With"),
+                     DropdownButton<String>(
+                          hint: Text('Select one option'),
+                          value: _chosenValue,
+                          underline: Container(
+
+                          ),
+                          items: <String>[
+                            'Tournament_Name',
+                            'id',
+                            'format',
+                            'Entry_Fees'
+                          ].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(
+                                value,
+                                style: TextStyle(fontWeight: FontWeight.w200),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _chosenValue = value.toString();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                TextButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: new Text("ok"),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => tournament_SearchScreen( data:_chosenValue,)));
+                  },
+                ),
+              ],
+            );
+          },
+
+        );
+      },
+    );
+  }
+
+
+
+
+  TextEditingController search=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,18 +99,19 @@ class _All_Tournament_showing_screenState
           toolbarHeight: 100,
           backgroundColor: Colors.black,
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => tournament_SearchScreen()));
-                      },
-                      icon: Icon(Icons.search_outlined)),
-                ],
-              ),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _showDecline();
+                      print(_chosenValue);
+
+
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => tournament_SearchScreen()));
+                    },
+                    icon: Icon(Icons.search_outlined)),
+              ],
             ),
           ],
         ),
@@ -89,17 +165,46 @@ class _All_Tournament_showing_screenState
                                         ),
                                         focusColor: Colors.red,
                                         title: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 Text("Tournament Name"),
                                                 Text(
                                                   new_tournamnent
-                                                          .Tournament_Name
+                                                      .Tournament_Name
                                                       .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.004,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Text("Start Date"),
+                                                Text(
+                                                  new_tournamnent
+                                                      .Start_tournament
+                                                      .toString().split(" ").first,
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
@@ -146,76 +251,43 @@ class _All_Tournament_showing_screenState
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text("Start Date "),
-                                                Text(new_tournamnent.time!
-                                                    .split(" 00:00:00.000 - ")
-                                                    .first),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text("End Date"),
-                                                Text(new_tournamnent.time!
-                                                    .split(" 00:00:00.000 - ")
-                                                    .last
-                                                    .split(" 00:00:00.000")
-                                                    .first)
-                                              ],
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
                                               MainAxisAlignment
                                                   .spaceBetween,
                                               children: [
-                                                Text("Location"),
-                                                Text("Hripur")
+                                                Text("Final Date"),
+                                                Text(
+                                                    new_tournamnent.End_tournament
+                                                        .toString().split(" ").first,
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
+                                            // Row(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment
+                                            //           .spaceBetween,
+                                            //   children: [
+                                            //     Text("Start Date "),
+                                            //     Text(new_tournamnent.time!
+                                            //         .split(" 00:00:00.000 - ")
+                                            //         .first),
+                                            //   ],
+                                            // ),
                                             Container(
                                               height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
+                                                      .size
+                                                      .height *
                                                   0.004,
                                               color: Colors.white,
                                             ),
                                             Container(
                                               height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
+                                                      .size
+                                                      .height *
                                                   0.03,
                                             ),
+
+
                                           ],
                                         ),
                                         onTap: () {

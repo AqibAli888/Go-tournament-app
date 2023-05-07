@@ -1,16 +1,19 @@
 class All_Tournament_Showing_model
 {
   String? Tournament_Name;
+  String? End_tournament;
+  String? Location;
+  String? Start_tournament;
   String? id;
-  String?end;
   String?format;
-  String? time;
   All_Tournament_Showing_model({
     this.Tournament_Name,
     this.id,
     this.format,
-    this.time,
-    this.end
+    this.End_tournament,
+    this.Start_tournament,
+    this.Location
+
   });
 
   All_Tournament_Showing_model.fromJson(Map<String,dynamic>json)
@@ -18,8 +21,9 @@ class All_Tournament_Showing_model
     Tournament_Name=json["Tournament_Name"];
     id=json["id"];
     format=json["format"];
-    time=json["time"];
-    format=json["format"];
+    End_tournament=json["End_tournament"];
+    Location=json["Location"];
+    Start_tournament=json["Start_tournament"];
   }
   Map<String,dynamic>toJson()
   {
@@ -27,8 +31,9 @@ class All_Tournament_Showing_model
     data["Tournament_Name"]=this.Tournament_Name;
     data["id"]=this.id;
     data["format"]=this.format;
-    data["time"]=this.time;
-    data["end"]=this.end;
+    data["End_tournament"]=this.End_tournament;
+    data["Location"]=this.Location;
+    data["Start_tournament"]=this.Start_tournament;
     return data;
   }
 }

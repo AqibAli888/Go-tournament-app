@@ -4,7 +4,12 @@ import '../../models/all_tournament_showing_model.dart';
 import 'Navigate_Screen_single_tournament_detail.dart';
 
 class tournament_SearchScreen extends StatefulWidget {
+  final String data;
+  const tournament_SearchScreen({Key? key, required this.data,}) : super(key: key);
+
   @override
+
+
   _tournament_SearchScreenState createState() => _tournament_SearchScreenState();
 }
 
@@ -12,8 +17,10 @@ class _tournament_SearchScreenState extends State<tournament_SearchScreen> {
   var inputText = "";
   @override
   Widget build(BuildContext context) {
+    print(widget.data);
     return SafeArea(
       child: Scaffold(
+
         backgroundColor:  Colors.black,
         appBar: AppBar(
           elevation: 30,
@@ -56,7 +63,7 @@ class _tournament_SearchScreenState extends State<tournament_SearchScreen> {
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection("All_Tournaments")
-                            .where("Tournament_Name",
+                            .where(widget.data,
                             isEqualTo: inputText)
                             .snapshots(),
                         builder: (BuildContext context,

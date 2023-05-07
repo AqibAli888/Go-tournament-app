@@ -9,6 +9,7 @@ import 'package:sports_app/public_tournament_files/single_tournament_detail_scre
 import '../../models/New_Tournament_create_model.dart';
 import 'Match_Schedule_result_screen.dart';
 import 'Standing_screen.dart';
+import 'Tournaament_Deatil_Screen.dart';
 
 class Navigatetoscreen_tournament extends StatefulWidget {
   final All_Tournament_Showing_model all_tournament_showing_model;
@@ -22,7 +23,7 @@ class _Navigatetoscreen_tournamentState extends State<Navigatetoscreen_tournamen
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -35,6 +36,7 @@ class _Navigatetoscreen_tournamentState extends State<Navigatetoscreen_tournamen
         ),centerTitle: true,
           bottom: TabBar(
             tabs: [
+              Tab(text: "Details",icon: Icon(Icons.group),),
               Tab(text: "Teams",icon: Icon(Icons.group),),
               Tab(text: "Standing",icon: Icon(Icons.format_list_numbered),),
               Tab(text: "Schedule",icon: Icon(Icons.schedule),)
@@ -44,6 +46,7 @@ class _Navigatetoscreen_tournamentState extends State<Navigatetoscreen_tournamen
           color: Colors.black,
           child: TabBarView(
             children: [
+              Match_Detail_screen(all_tournament_showing_model:widget.all_tournament_showing_model),
               Teams_added_in_Tournament(all_tournament_showing_model:widget.all_tournament_showing_model,),
               Standing_screen(all_Tournament_Showing_model: widget.all_tournament_showing_model),
               Match_schedule_result_screen_public(all_Tournament_Showing_model: widget.all_tournament_showing_model),

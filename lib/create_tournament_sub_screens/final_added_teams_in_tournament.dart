@@ -71,6 +71,7 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return Container(
+
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
@@ -87,7 +88,7 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                           Container(
                             height: MediaQuery.of(context).size.height * 0.2,
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(706, 112, 107, 107),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10)
                             ),
                             child: ListTile(
@@ -95,7 +96,7 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                                   width: MediaQuery.of(context).size.width*0.35,
                                   child:Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.red,
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10)
                                     ),
                                     
@@ -105,12 +106,32 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                                             .doc(firebaseAuth.currentUser!.uid)
                                             .collection("Tournaments").
                                         doc(widget.new_tournament_model.
-                                        Tournament_Name).collection("Teams_in_Tournament").doc(final_added_teams.Team_Name).delete();
+                                        Tournament_Name).collection("Teams_in_Tournament").
+                                      doc(final_added_teams.Team_Name).delete();
 
-                                    }, child:Text("Remove Team",style:  TextStyle(color: Colors.black),)),
+
+
+                                      FirebaseFirestore.instance
+                                          .collection("All_Tournaments")
+                                          .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").
+                                      doc(final_added_teams.Team_Name).delete();
+
+
+
+                                    }, child:Container(
+                                      height:MediaQuery.of(context).size.height*0.15 ,
+                                      width: MediaQuery.of(context).size.width*0.25,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.black
+                                      ),
+                                        child: Center(child: Padding(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: Text("Remove Team",style:  TextStyle(color: Colors.white),),
+                                        )))),
                                   )
                                 ),
-                                focusColor: Colors.red,
+                                focusColor: Colors.white,
                                 title: Text(final_added_teams.Team_Name.toString()),
                                 subtitle: Text(final_added_teams.Level.toString()),
                                 onTap: () {

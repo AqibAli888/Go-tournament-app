@@ -24,7 +24,7 @@ class _Home_screenState extends State<Home_screen> {
   User? currentuser;
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(length:4,
+    return  DefaultTabController(length:3,
         child: Scaffold(
           backgroundColor: Colors.black26,
           appBar: AppBar(
@@ -36,7 +36,7 @@ class _Home_screenState extends State<Home_screen> {
               tabs: [
                 Tab(text: "Tournaments",icon: Icon(Icons.celebration),),
                 Tab(text: "Team",icon: Icon(Icons.group),),
-                Tab(text: "Players",icon: Icon(Icons.person),),
+                // Tab(text: "Players",icon: Icon(Icons.person),),
                 Tab(text: "Place",icon: Icon(Icons.place),)
               ],
             ),),
@@ -45,7 +45,7 @@ class _Home_screenState extends State<Home_screen> {
               children: [
                 Tournament_home_screen(),
                 Teams_screen(),
-                player_screen(),
+                // player_screen(),
                 Vanue_screen()
               ],
             ),

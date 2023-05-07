@@ -151,6 +151,10 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
       "Phone_Number":phone_number.text,
       "Detail":Detail.text,
       "Total_Teams":total_teams.text,
+      "Register_Teams":0.toString(),
+      "Entry_Fees":0.toString(),
+      "Winning_price":0.toString(),
+      "Detail":"",
       "Start_tournament":start_selecteddate.toString(),
       "End_tournament":End_selecteddate.toString()
     });
@@ -161,11 +165,15 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
         .doc(name.text)
         .set({
       "Tournament_Name":name.text,
-      "id":time,
+      "id":time.trim(),
       "format":format.text,
       "Phone_Number":phone_number.text,
       "Detail":Detail.text,
       "Total_Teams":total_teams.text,
+      "Register_Teams":0.toString(),
+      "Entry_Fees":0.toString(),
+      "Winning_price":0.toString(),
+      "Detail":"",
       "Start_tournament":start_selecteddate.toString(),
       "End_tournament":End_selecteddate.toString()
 
@@ -457,8 +465,8 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                               () async {
                                             final DateTime? datetime = await showDatePicker(
                                                 context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime.now(),
+                                                initialDate: start_selecteddate,
+                                                firstDate: start_selecteddate,
                                                 lastDate: DateTime(2024));
                                             if (datetime !=
                                                 null) {

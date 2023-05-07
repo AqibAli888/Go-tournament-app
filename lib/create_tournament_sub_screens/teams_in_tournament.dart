@@ -54,7 +54,8 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
         .doc(teamnamecontroller.text)
         .set({
       "Name": teamnamecontroller.text,
-      "level": levelcontroller.text
+      "level": levelcontroller.text,
+      "Added": "Team not added to tournament"
     }).then((value) async {
       await sharedpreference!
           .setString("Team_Name", teamnamecontroller.text.trim());
@@ -62,6 +63,33 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
       Navigator.pop(context);
     });
   }
+  Updaate_team(String teamname,String result) async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return Loading_Dialog(
+            message: 'Adding Team please wait',
+          );
+        });
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(
+        firebaseAuth.currentUser!.uid)
+        .collection("Tournaments")
+        .doc(widget.new_tournament_model
+        .Tournament_Name)
+        .collection("Teams_in_Tournament").doc(teamname)
+        .update({
+      "added":result
+    }).then((value) async {
+      await sharedpreference!
+          .setString("Team_Name", teamnamecontroller.text.trim());
+      await sharedpreference!.setString("level", levelcontroller.text.trim());
+      Navigator.pop(context);
+    });
+  }
+
+  double slidervalue = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +99,13 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: MediaQuery.of(context).size.height*0.1,
+              height: MediaQuery.of(context).size.height * 0.1,
               decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5)
-              ),
+                  color: Colors.blue, borderRadius: BorderRadius.circular(5)),
               child: Center(
                 child: Text(
                   "Tap on The teams to add on the Tournament",
-                  style: TextStyle(color: Colors.white,fontSize: 15),
+                  style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
               ),
             ),
@@ -111,24 +137,28 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                               ),
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.1,
+                                    MediaQuery.of(context).size.height * 0.15,
                                 decoration: BoxDecoration(
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: ListTile(
                                   trailing: SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.57,
+                                        0.00057,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                      ],
+                                      children: [],
                                     ),
                                   ),
                                   focusColor: Colors.red,
-                                  title: Text(team.Name.toString()),
-                                  subtitle: Text(team.level.toString()),
+                                  title: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(team.Name.toString())
+                                    ],
+                                  ),
                                   onTap: () {
                                     showDialog(
                                         context: context,
@@ -206,6 +236,17 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                             child: Form(
                               child: Column(
                                 children: <Widget>[
+                                  Slider(
+                                      divisions: 100,
+                                      max: 100,
+                                      min: 0,
+                                      activeColor: Colors.green,
+                                      label: "$slidervalue",
+                                      value: slidervalue,
+                                      onChanged: (value) => setState(() {
+                                            print(value);
+                                            slidervalue = value;
+                                          })),
                                   TextFormField(
                                     controller: teamnamecontroller,
                                     decoration: InputDecoration(
