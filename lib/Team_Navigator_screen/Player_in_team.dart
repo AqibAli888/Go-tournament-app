@@ -9,8 +9,7 @@ import '../widgets/loading_dialog.dart';
 class Player_in_team extends StatefulWidget {
   // parameter that it require to complte its jobs
   final String teamname; //team name
-  final String level; // level of the team
-  const Player_in_team({Key? key, required this.teamname, required this.level})
+  const Player_in_team({Key? key, required this.teamname,})
       : super(key: key);
 
   @override
@@ -22,15 +21,15 @@ class _Player_in_teamState extends State<Player_in_team> {
   TextEditingController age = TextEditingController();
   TextEditingController shirtnumber = TextEditingController();
   formvalidation() {
+    Navigator.pop(context);
     if (player_name.text.trim().isNotEmpty && age.text.isNotEmpty) {
       Adding_Player();
     } else {
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(
-              message: 'Please Enter All textfields',
-            );
+           return Error_Dialog(message: 'Please Enter All the Text Fields'
+              ,path:"animation/95614-error-occurred.json" ,);
           });
     }
   }
@@ -39,11 +38,10 @@ class _Player_in_teamState extends State<Player_in_team> {
     showDialog(
         context: context,
         builder: (c) {
-          return Loading_Dialog(
-            message: 'Adding Team please wait',
-          );
+          return Loading_Dialog(message: 'Please wait',
+            path:"animation/97930-loading.json" ,);
         });
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("Teams")
@@ -54,12 +52,13 @@ class _Player_in_teamState extends State<Player_in_team> {
       "Player_Name": player_name.text,
       "Age": age.text,
       "Shirt_Number": shirtnumber.text
-    }).then((value) async {
-      await sharedpreference!.setString("Player_Name", player_name.text.trim());
-      await sharedpreference!.setString("Player_Age", age.text.trim());
-      await sharedpreference!
-          .setString("Shirt_Number", shirtnumber.text.trim());
+    }).then((value){
       Navigator.pop(context);
+      print("done");
+      // await sharedpreference!.setString("Player_Name", player_name.text.trim());
+      // await sharedpreference!.setString("Player_Age", age.text.trim());
+      // await sharedpreference!
+      //     .setString("Shirt_Number", shirtnumber.text.trim());
     });
   }
 
@@ -76,6 +75,67 @@ class _Player_in_teamState extends State<Player_in_team> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: MediaQuery.of(context).size.height*0.01),
+          GestureDetector(
+            onTap:() {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      title: Text("Player Information"),
+                      content: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: player_name,
+                                decoration: InputDecoration(
+                                  labelText: 'Player Name',
+                                  icon: Icon(Icons.account_box),
+                                ),
+                              ),
+                              TextFormField(
+                                controller: age,
+                                decoration: InputDecoration(
+                                  labelText: 'Age',
+                                  icon: Icon(Icons.account_box),
+                                ),
+                              ),
+                              TextFormField(
+                                controller: shirtnumber,
+                                decoration: InputDecoration(
+                                  labelText: 'Shirt number',
+                                  icon: Icon(Icons.email),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                            child: Text("Add Player to " +
+                                widget.teamname.toString()),
+                            onPressed: () {
+                              formvalidation();
+                            })
+                      ],
+                    );
+                  });
+            },
+            child:   Container(
+              height: MediaQuery.of(context).size.height*0.10,
+              width:MediaQuery.of(context).size.width*0.55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue,
+
+              ),
+              child: Center(child: Text("Add Player To Team",style: TextStyle(fontWeight: FontWeight.bold),)),
+            ),
+          ),
           // for real time we use stream builder
           StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -179,6 +239,9 @@ class _Player_in_teamState extends State<Player_in_team> {
               }
             },
           ),
+
+
+
 // floating action button to add new team to the firebase
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -227,6 +290,7 @@ class _Player_in_teamState extends State<Player_in_team> {
                                 child: Text("Add Player to " +
                                     widget.teamname.toString()),
                                 onPressed: () {
+                                  Navigator.pop(context);
                                   formvalidation();
                                 })
                           ],

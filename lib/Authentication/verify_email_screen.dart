@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sports_app/Authentication/login.dart';
 
 import '../main_screens/option_screen_for_public_private.dart';
+import '../widgets/error_dialog.dart';
+import '../widgets/loading_dialog.dart';
 import 'auth_screen.dart';
 
 class Verify_email_screen extends StatefulWidget {
@@ -49,9 +52,16 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
   }
 
   Future sendverificationemail() async{
+    Loading_Dialog(message: 'Checking Credintial',
+      path:"animation/97930-loading.json" ,);
     try{
     final user=FirebaseAuth.instance.currentUser!;
-    await user.sendEmailVerification();
+    await user.sendEmailVerification().then((value){
+      Navigator.pop(context);
+
+      return Error_Dialog(message: 'Sent succefully '
+        ,path:"animation/95614-error-occurred.json" ,);
+    });
     setState(() {
       canresend=false;
     });
@@ -75,17 +85,29 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
   @override
   Widget build(BuildContext context) {
    return isverifiedemail?Option_Screen():Scaffold(
+     backgroundColor: Colors.black12,
+
      appBar: AppBar(
+       automaticallyImplyLeading: false,
+       backgroundColor: Colors.black,
        title: Text("verify email to continue"),
      ),
      body: Column(
        mainAxisAlignment: MainAxisAlignment.center,
        children: [
-         Text("Verification link has been sent to the email"),
+         Container(
+             height: MediaQuery.of(context).size.height*0.4,
+             child:Lottie.asset("animation/verify.json")
+         ),
+         Text("Verification link has been sent to the email",style: TextStyle(
+           color: Colors.white
+         ),),
         ElevatedButton(
           onPressed: canresend?sendverificationemail:null,
           child: Container(
-            child: Text("send",
+            child: Text("Resend",style: TextStyle(
+                color: Colors.tealAccent
+            ),
           )
 
            ),

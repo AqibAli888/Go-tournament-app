@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sports_app/main_screens/home_screen.dart';
-
 import '../Authentication/auth_screen.dart';
-import '../models/user_detail_model.dart';
 import '../public_tournament_files/All_public_tournament_showing_screen.dart';
+import '../widgets/loading_dialog.dart';
 
 class Option_Screen extends StatefulWidget {
   const Option_Screen({Key? key, }) : super(key: key);
@@ -28,7 +28,6 @@ class _Option_ScreenState extends State<Option_Screen> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    print("private");
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => Home_screen()));
                   },
@@ -41,7 +40,9 @@ class _Option_ScreenState extends State<Option_Screen> {
                             color: Colors.blue),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Center(child: Text("Private"))],
+                          children: [Lottie.asset("animation/96957-lock.json",height:50,fit:BoxFit.cover,reverse:true,repeat:true
+                        ),
+                            Center(child: Text("Private"))],
                         )),
                   ),
                 ),
@@ -51,9 +52,12 @@ class _Option_ScreenState extends State<Option_Screen> {
                 ),
                 GestureDetector(
                   onTap: (){
+                     Loading_Dialog(message: 'please wait',
+                      path:"animation/97930-loading.json" ,);
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => All_Tournament_showing_screen()));
-
+                     Loading_Dialog(message: 'please wait',
+                       path:"animation/97930-loading.json" ,);
                   },
                   child: Center(
                     child: Container(
@@ -70,6 +74,8 @@ class _Option_ScreenState extends State<Option_Screen> {
                 )
               ],
             ),
+
+
             SizedBox(
               height: MediaQuery.of(context).size.height*0.3,
             ),

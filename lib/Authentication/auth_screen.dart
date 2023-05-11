@@ -24,7 +24,7 @@ class _Auth_screenState extends State<Auth_screen> {
             title: Text("Go Tournament"),centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(text: "login",icon: Icon(Icons.lock),),
+              Tab(text: "login",icon: Container(child: Icon(Icons.lock)),),
               Tab(text: "Signup",icon: Icon(Icons.app_registration),)
             ],
           ),),

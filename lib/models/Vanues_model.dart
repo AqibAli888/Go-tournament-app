@@ -3,10 +3,12 @@ class Vanues
   String? Name;
   String?vanuename;
   String? Location;
+  String? id;
   Vanues({
     this.vanuename,
     this.Name,
-    this.Location
+    this.Location,
+    this.id
   });
 
   Vanues.fromJson(Map<String,dynamic>json)
@@ -14,6 +16,7 @@ class Vanues
     Name=json["Name"];
     Location=json["Location"];
     vanuename=json["vanuename"];
+    id=json["id"];
   }
   Map<String,dynamic>toJson()
   {
@@ -21,6 +24,7 @@ class Vanues
     data["Name"]=this.Name;
     data["vanuename"]=this.vanuename;
     data["Location"]=this.Location;
+    data["id"]=this.id;
     return data;
   }
 }

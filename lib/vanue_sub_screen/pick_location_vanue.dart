@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:sports_app/models/Vanues_model.dart';
-import 'package:sports_app/vanue_sub_screen/vanue_detail_screen.dart';
+
 
 import '../Global/global.dart';
+import '../home_sub_screens/vanue_screen.dart';
 import '../widgets/error_dialog.dart';
 
 class Pick_Location_Vanue extends StatefulWidget {
@@ -23,17 +24,18 @@ class _Pick_Location_VanueState extends State<Pick_Location_Vanue> {
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("Vanue")
-        .doc(widget.vanues.Name)
+        .doc(widget.vanues.id)
         .update({
       "Location": location,
     }).then((value){
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(
-              message: 'Location has been selected',
-            );
+           return Error_Dialog(message: 'selected'
+              ,path:"animation/95614-error-occurred.json" ,);
           });
+
+
     });
   }
   @override

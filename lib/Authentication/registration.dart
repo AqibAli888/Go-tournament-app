@@ -3,15 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_app/Authentication/verify_email_screen.dart';
 import '../Global/global.dart';
-import '../main_screens/home_screen.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 import '../widgets/text_form_field.dart';
-
-import "package:firebase_storage/firebase_storage.dart" as fstorage;
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -60,7 +58,8 @@ class _RegistrationState extends State<Registration> {
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(message: err.toString());
+            return Error_Dialog(message: err.toString().split("]").last
+              ,path:"animation/95614-error-occurred.json" ,);
           });
     }
   }
@@ -97,9 +96,8 @@ class _RegistrationState extends State<Registration> {
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(
-              message: "Please Enter the All text Fields",
-            );
+            return Error_Dialog(message: 'Please Enter All textfields'
+              ,path:"animation/95614-error-occurred.json" ,);
           });
     } else {
       if (emailcontroller.text.isNotEmpty &&
@@ -111,17 +109,15 @@ class _RegistrationState extends State<Registration> {
           showDialog(
               context: context,
               builder: (c) {
-                return Error_Dialog(
-                  message: "Password not Matched",
-                );
+                return Error_Dialog(message: 'Password Not Matched'
+                  ,path:"animation/95614-error-occurred.json" ,);
               });
         } else {
           showDialog(
               context: context,
               builder: (c) {
-                return Loading_Dialog(
-                  message: 'Registring ',
-                );
+                return Loading_Dialog(message: 'Registering Please wait',
+                  path:"animation/97930-loading.json" ,);
               });
           sign_up_with_email_and_password();
 
@@ -140,6 +136,13 @@ class _RegistrationState extends State<Registration> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.002,
+            ),
+
+
+            Container(
+              height: MediaQuery.of(context).size.height*0.30,
+              width:MediaQuery.of(context).size.width*0.80 ,
+              child: Lottie.asset("animation/signup.json"),
             ),
             Form(
                 key: _formkey,
@@ -184,43 +187,13 @@ class _RegistrationState extends State<Registration> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.002,
                     ),
-                    Text_form_field(
-                        controller: locationcontroller,
-                        texthint: "Address",
-                        data: Icons.my_location,
-                        enabled: false),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.002,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.location_on),
-                              SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.002,
-                              ),
-                              Center(child: Text("Get Location")),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Formvalidation();
+                        print("here i am");
+                        Formvalidation();
                       },
                       child: Container(
                         padding: EdgeInsets.all(0.8),

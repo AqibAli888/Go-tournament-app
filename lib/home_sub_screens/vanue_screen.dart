@@ -1,16 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
-
 import '../Global/global.dart';
-import '../create_tournament_sub_screens/Navigate_tournament_full_detail_screen.dart';
-import '../models/Main_Player_model.dart';
-import '../models/New_Tournament_create_model.dart';
 import '../models/Vanues_model.dart';
-import '../models/final_added_teams_in_tournament_model.dart';
 import '../vanue_sub_screen/pick_location_vanue.dart';
-import '../vanue_sub_screen/vanue_detail_screen.dart';
+
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 class Vanue_screen extends StatefulWidget {
@@ -25,6 +19,8 @@ class _Vanue_screenState extends State<Vanue_screen> {
   TextEditingController locationcontroller = TextEditingController();
   TextEditingController vanuename = TextEditingController();
   var data;
+
+
   locationfinder()async{
     DocumentSnapshot snapshot=await FirebaseFirestore.instance
         .collection("Users")
@@ -36,34 +32,33 @@ class _Vanue_screenState extends State<Vanue_screen> {
     print(data["Location"]);
 
   }
-  formvalidation() {
+  formvalidation(String id) {
     if (vanuenamecontroller.text.trim().isNotEmpty) {
       //login
-      Adding_vanue ();
+      Adding_vanue (id);
     } else {
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(
-              message: 'Please Enter Name of the vanue',
-            );
+           return  Error_Dialog(message: 'Please Enter the Vanue Name'
+              ,path:"animation/95614-error-occurred.json" ,);
           });
     }
   }
-  Adding_vanue() async {
+  Adding_vanue(String id) async {
     showDialog(
         context: context,
         builder: (c) {
-          return Loading_Dialog(
-            message: 'Adding Player please wait',
-          );
-        });
+          return Loading_Dialog(message: 'Please Wait ',
+            path:"animation/97930-loading.json" ,);
+                });
     FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("Vanue")
-        .doc(vanuenamecontroller.text)
+        .doc(id)
         .set({
+      "id":id,
       "Name":vanuenamecontroller.text,
       "vanuename":vanuename.text,
       "Location":""
@@ -72,88 +67,159 @@ class _Vanue_screenState extends State<Vanue_screen> {
       Navigator.pop(context);
     });
   }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
       child: Column(
         children: [
           // for real time we use stream builder
-          StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("Users")
-                .doc(firebaseAuth.currentUser!.uid)
-                .collection("Vanue")
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Vanues vanues = Vanues.fromJson(snapshot.data!.docs[index]
-                            .data()! as Map<String, dynamic>);
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 10,),
-                              Container(
-                                height: MediaQuery.of(context).size.height * 0.30,
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                        trailing: SizedBox(
-                                          width: MediaQuery.of(context).size.width*0.005,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.58,
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("Users")
+                  .doc(firebaseAuth.currentUser!.uid)
+                  .collection("Vanue")
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          Vanues vanues = Vanues.fromJson(snapshot.data!.docs[index]
+                              .data()! as Map<String, dynamic>);
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 10,),
+                                Container(
+                                  height: MediaQuery.of(context).size.height * 0.33,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                          trailing: SizedBox(
+                                            width: MediaQuery.of(context).size.width*0.005,
 
-                                        ),
-                                        focusColor: Colors.red,
-                                        title: Column(
-                                          children: [
-                                            Text(vanues.vanuename.toString()),
-                                            Text(vanues.Location.toString()==""?"Add Location from map":vanues.Location.toString(),style: TextStyle(
-                                              fontSize: 12
-                                            ),)
-                                          ],
-                                        ),
-                                        subtitle: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children:  [
-                                            IconButton(onPressed: (){
-                                              FirebaseFirestore.instance.collection("Users").
-                                              doc(firebaseAuth.currentUser!.uid).
-                                              collection("Vanue").doc(vanues.Name).delete();
-                                            }, icon: Icon(Icons.delete)),
+                                          ),
+                                          focusColor: Colors.red,
+                                          title: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(vanues.vanuename.toString(),style: TextStyle(
+                                                fontSize: 20,fontWeight: FontWeight.bold
+                                              ),),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
 
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          // transfer data to new screen
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) =>Vanue_detail_screen(vanues: vanues,)));
-                                        }),
-                                    // TextButton(onPressed: (){
-                                    //   locationfinder();
-                                    // }, child: Text(data["Location"],style: TextStyle(color: Colors.black),))
-                                  ],
-                                ),
-                                    ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20.0),
+                                                child: Container(
+                                                  height: MediaQuery.of(context).size.height*0.17,
+                                                  width:double.infinity,
 
-                            ],
+                                                  decoration:BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    color: Colors.black
+
                           ),
-                        );
-                      }),
-                );
-              } else {
-                return Container();
-              }
-            },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Center(
+                                                      child: Text(vanues.Location.toString()==""?"Add Location from map\n         Tap to add":vanues.Location.toString(),style: TextStyle(
+                                                        fontSize: 10,
+                                                        color: Colors.white
+                                                      ),),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 25.0),
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.055,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.50,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          10),
+                                                      color: Colors.deepPurple),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          FirebaseFirestore.instance
+                                                              .collection("Users")
+                                                              .doc(firebaseAuth.currentUser!.uid)
+                                                              .collection("Vanue").doc(
+                                                            vanues.id
+                                                          ).delete();
+
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          onTap: () {
+                                            print(vanues.Location);
+                                            // transfer data to new screen
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) =>Pick_Location_Vanue(vanues: vanues,)));
+                                          }),
+                                      // TextButton(onPressed: (){
+                                      //   locationfinder();
+                                      // }, child: Text(data["Location"],style: TextStyle(color: Colors.black),))
+                                    ],
+                                  ),
+                                      ),
+
+                              ],
+                            ),
+                          );
+                        }),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
 // floating action button to add new vanue to the firebase database
           Padding(
@@ -180,14 +246,6 @@ class _Vanue_screenState extends State<Vanue_screen> {
                                       icon: Icon(Icons.account_box),
                                     ),
                                   ),
-                                  TextFormField(
-                                    controller: vanuename,
-                                    decoration: InputDecoration(
-                                      labelText: 'Name of the vanue',
-                                      icon: Icon(Icons.account_box),
-                                    ),
-                                  ),
-
 
                                 ],
                               ),
@@ -195,9 +253,12 @@ class _Vanue_screenState extends State<Vanue_screen> {
                           ),
                           actions: [
                             TextButton(
-                                child: Text("Submit"),
+                                child: Text("Create"),
                                 onPressed: () {
-                                  formvalidation();
+                                  String id = DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toString();
+                                  formvalidation(id);
                                   // your code
                                 })
                           ],

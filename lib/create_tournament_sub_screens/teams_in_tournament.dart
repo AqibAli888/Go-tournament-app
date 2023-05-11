@@ -178,7 +178,6 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                         .doc(team.Name)
                                         .set({
                                       "Team_Name": team.Name,
-                                      "Level": team.level,
                                       "point": 0,
                                       "played": 0,
                                       "win": 0
@@ -191,7 +190,6 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                         .doc(team.Name)
                                         .set({
                                       "Team_Name": team.Name,
-                                      "Level": team.level,
                                       "point": 0,
                                       "played": 0,
                                       "win": 0

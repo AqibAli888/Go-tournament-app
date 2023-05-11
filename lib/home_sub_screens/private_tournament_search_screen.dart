@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../Global/global.dart';
 import '../create_tournament_sub_screens/Navigate_tournament_full_detail_screen.dart';
 import '../models/New_Tournament_create_model.dart';
-import '../models/all_tournament_showing_model.dart';
-import '../public_tournament_files/single_tournament_detail_screen/Navigate_Screen_single_tournament_detail.dart';
+
+
 
 class Private_Tournament_search_screen extends StatefulWidget {
   final String data;

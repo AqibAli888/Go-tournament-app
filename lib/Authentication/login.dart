@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sports_app/Global/global.dart';
 import 'package:sports_app/main_screens/option_screen_for_public_private.dart';
-
-import '../models/user_detail_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 import '../widgets/text_form_field.dart';
 import 'forget_password_page.dart';
+import 'login succesfully confirmation.dart';
 
 class Login extends StatefulWidget {
 
@@ -32,7 +32,16 @@ class _LoginState extends State<Login> {
     }
     else{
       showDialog(context: context, builder: (c) {
-        return Error_Dialog(message: 'Please Enter All textfields',);
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+
+            //
+            Error_Dialog(message: 'Please Enter All textfields'
+              ,path:"animation/95614-error-occurred.json" ,),
+          ],
+        );
       });
     }
   }
@@ -40,23 +49,43 @@ class _LoginState extends State<Login> {
   User? currentuser;
   Login()async{
     showDialog(context: context, builder: (c) {
-      return Loading_Dialog(message: 'Checking Credintial',);
+      return Loading_Dialog(message: 'Checking Credintial',
+        path:"animation/97930-loading.json" ,);
     });
     await firebaseAuth.signInWithEmailAndPassword(email: emailcontroller.text.trim(), password:passwordcontroller.text.trim()).then((auth){
       currentuser=auth.user!;
       if(currentuser!=null){
         if(firebaseAuth.currentUser!.emailVerified){
           savedatalocally(currentuser).then((value){
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Option_Screen()));
+
+
+
+
             print("email is verified");
+
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Successfully_Login()));
+
+
           }
 
           );
 
         }
         else{
-          print("email is not verified");
+          Navigator.pop(context);
+          showDialog(context: context, builder: (c) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+
+                //
+                Error_Dialog(message: 'Email is not Verified \n'"Please verify the email first"
+                  ,path:"animation/95614-error-occurred.json" ,),
+              ],
+            );
+          });
         }
 
 
@@ -65,7 +94,7 @@ class _LoginState extends State<Login> {
     }).catchError((err) {
       Navigator.pop(context);
       showDialog(context: context, builder: (c) {
-        return Error_Dialog(message: err.message.toString());
+        return Error_Dialog(message: err.message.toString(),path:"animation/95614-error-occurred.json");
       });
       }
     );  }
@@ -83,18 +112,30 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height*,
-            // ),
+
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height*0.20,
+                  width:MediaQuery.of(context).size.width*0.38 ,
+                  child: Lottie.asset("animation/85568-user-login.json",
+                      height:MediaQuery.of(context).size.height*0.60,fit: BoxFit.fitHeight ),
+                ),
+              ],
+            ),
+
             Form(
                 key: _formkey,
                 child:Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height*0.10,
+                      height: MediaQuery.of(context).size.height*0.010,
                     ),
                     Text_form_field(controller: emailcontroller,
                         texthint:"Enter Your Email",

@@ -1,8 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../Team_Navigator_screen/Basic_Team_info.dart';
 import '../Team_Navigator_screen/Player_in_team.dart';
 import '../models/team_model.dart';
 
@@ -18,27 +16,28 @@ class _NavigatetoscreenState extends State<Navigatetoscreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(title: Row(
+        appBar: AppBar(
+          backgroundColor: Colors.black,title: Row(
           children: [
-            Text("Go Tournament"),
+            Text("Players In Team"),
+
 
           ],
         ),centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(text: "Basic Information",icon: Icon(Icons.lock),),
+
               Tab(text: "Players in Team",icon: Icon(Icons.app_registration),)
             ],
           ),),
         body: Container(
-          color: Colors.amber,
+          color: Colors.black,
           child: TabBarView(
             children: [
-              Basic_Team_info(),
-              Player_in_team(level: widget.team.level.toString(),teamname: widget.team.Name.toString() ,)
+              Player_in_team(teamname: widget.team.Name.toString() ,)
             ],
           ),
         ),

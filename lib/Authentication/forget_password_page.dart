@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sports_app/Authentication/auth_screen.dart';
 
 import '../widgets/error_dialog.dart';
@@ -15,6 +16,9 @@ class Forget_password_page extends StatefulWidget {
 }
 
 class _Forget_password_pageState extends State<Forget_password_page> {
+
+
+  // password reset function
   Future resetpassword() async {
     try {
       await FirebaseAuth.instance
@@ -24,9 +28,8 @@ class _Forget_password_pageState extends State<Forget_password_page> {
         showDialog(
             context: context,
             builder: (c) {
-              return Error_Dialog(
-                message: 'Password reset link is sent in email',
-              );
+             return Error_Dialog(message: 'Sent succefully '
+                ,path:"animation/95614-error-occurred.json" ,);
             });
       });
     } catch (err) {
@@ -34,9 +37,8 @@ class _Forget_password_pageState extends State<Forget_password_page> {
       showDialog(
           context: context,
           builder: (c) {
-            return Error_Dialog(
-              message: err.toString(),
-            );
+            return Error_Dialog(message: err.toString().split("]").last
+              ,path:"animation/95614-error-occurred.json" ,);
           });
     }
   }
@@ -44,6 +46,7 @@ class _Forget_password_pageState extends State<Forget_password_page> {
   final formkey = GlobalKey<FormState>();
   final email_controller = TextEditingController();
   @override
+  // dispose to clear the controller text
   void dispose() {
     email_controller.dispose();
     super.dispose();
@@ -56,72 +59,89 @@ class _Forget_password_pageState extends State<Forget_password_page> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
-        title: Text("Reset password"),
+        title: Center(child: Text("Reset Password")),
       ),
-      body: Column(
-        children: [
-          Text_form_field(
-              controller: email_controller,
-              data: Icons.email,
-              texthint: "email",
-              enabled: true,
-              obscure: false),
-          SizedBox(
-            height: 10,
-          ),
-          TextButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (c) {
-                    return Loading_Dialog(
-                      message: 'password reset link is'
-                          ' sent to your email address',
-                    );
-                  });
-              resetpassword();
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.deepPurpleAccent),
-              child: Center(
-                child: Text(
-                  "Change password",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
-                ),
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Auth_screen()));
+      body: SingleChildScrollView(
+        child: Column(
 
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.deepPurpleAccent),
-              child: Center(
-                child: Text(
-                  "Login page",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
+
+
+
+
+
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height*0.4,
+                child:Lottie.asset("animation/forget.json")
+            ),
+            // email of the user that he want to reset
+            Text_form_field(
+                controller: email_controller,
+                data: Icons.email,
+                texthint: "Enter Your Email to Reset password",
+                enabled: true,
+                obscure: false),
+            SizedBox(
+              height: 10,
+            ),
+
+            // reset button
+            TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (c) {
+                      return Loading_Dialog(message: 'Please Wait',
+                        path:"animation/verify.json" ,);
+                    });
+                resetpassword();
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.5,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.deepPurpleAccent),
+                child: Center(
+                  child: Text(
+                    "Sent",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
                 ),
               ),
             ),
-          )
-        ],
+
+
+
+
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Auth_screen()));
+
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.5,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.deepPurpleAccent),
+                child: Center(
+                  child: Text(
+                    "Login page",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

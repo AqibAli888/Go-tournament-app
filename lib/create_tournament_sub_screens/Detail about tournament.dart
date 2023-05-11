@@ -790,11 +790,12 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       StreamBuilder(
-                          stream: FirebaseFirestore.instance
+                          stream:FirebaseFirestore.instance
                               .collection("Users")
                               .doc(firebaseAuth.currentUser!.uid)
                               .collection("Tournaments")
-                              .doc(widget.new_tournament_model.Tournament_Name)
+                              .doc(
+                              widget.new_tournament_model.Tournament_Name)
                               .snapshots(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {

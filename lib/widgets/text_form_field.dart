@@ -23,12 +23,14 @@ TextInputType? type;
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.all(8),
       child: TextFormField(
+
         keyboardType:type,
         controller: controller,
         enabled: enabled,
         obscureText: obscure!,
         cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
+
           border: InputBorder.none,
               prefixIcon: Icon(
             data,

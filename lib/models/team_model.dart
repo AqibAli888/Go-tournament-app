@@ -1,26 +1,25 @@
 class Team
 {
   String? Name;
-  String? level;
-  String? added;
+  String? id;
   Team({
      this.Name,
-    this.added,
-     this.level
+     this.id,
+
 });
 
   Team.fromJson(Map<String,dynamic>json)
   {
     Name=json["Name"];
-    added=json["added"];
-    level=json["level"];
+    id=json["id"];
+
   }
   Map<String,dynamic>toJson()
   {
     final Map<String,dynamic>data=Map<String,dynamic>();
     data["Name"]=this.Name;
-    data["added"]=this.added;
-    data["level"]=this.level;
+    data["id"]=this.id;
+
     return data;
   }
 }

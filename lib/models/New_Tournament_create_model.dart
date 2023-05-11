@@ -5,6 +5,7 @@ class New_Tournament_model
   String?time;
   String?Start_tournament;
   String?End_tournament;
+  String?Location;
 
 
   New_Tournament_model({
@@ -12,7 +13,8 @@ class New_Tournament_model
     this.Start_tournament,
     this.End_tournament,
     this.format,
-    this.time
+    this.time,
+    this.Location
   });
 
   New_Tournament_model.fromJson(Map<String,dynamic>json)
@@ -22,6 +24,7 @@ class New_Tournament_model
     End_tournament=json["End_tournament"];
     format=json["format"];
     time=json["time"];
+    Location=json["Location"];
   }
   Map<String,dynamic>toJson()
   {
@@ -30,6 +33,7 @@ class New_Tournament_model
     data["Start_tournament"]=this.Start_tournament;
     data["End_tournament"]=this.End_tournament;
     data["format"]=this.format;
+    data["Location"]=this.Location;
     data["time"]=this.time;
 
     return data;
