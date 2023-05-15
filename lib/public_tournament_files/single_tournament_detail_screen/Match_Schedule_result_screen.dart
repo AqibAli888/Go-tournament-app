@@ -39,61 +39,111 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              Container(
-                                height: 10,),
-                              Container(
-                                height: MediaQuery.of(context).size.height * 0.25,
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: ListTile(
-                                    trailing: SizedBox(
-                                      width: MediaQuery.of(context).size.width*0.00001,
-                                      child: Row(
-                                        children:  [
 
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height * 0.35,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 5,
+                                            offset: Offset(0, 5), // changes position of shadow
+                                          ),
                                         ],
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                  child: ListTile(
+                                      trailing: SizedBox(
+                                        width: MediaQuery.of(context).size.width*0.00001,
+                                        child: Row(
+                                          children:  [
+
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    focusColor: Colors.red,
-                                    title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(match_detail_model.team0.toString()),
-
-                                        Text("VS"),
-                                        Text(match_detail_model.team1.toString()),
-
-                                      ],
-                                    ),
-                                    subtitle: Center(
-                                      child: Column(
+                                      focusColor: Colors.red,
+                                      title: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(match_detail_model.Date.toString()),
-                                          Center(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text("At "),
-                                                Text(match_detail_model.Time.toString()),
-                                                SizedBox(width: 10,),
-                                                Icon(Icons.access_time)
-                                              ],
-                                            ),
-                                          ),
+                                          Text(match_detail_model.team0.toString(),style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold
+                                          ),),
 
-                                          Text(match_detail_model.result.toString()==null.toString()?"Result not added":match_detail_model.result.toString()),
-                                          Row(
-                                            children: [
+                                          Container(
+                                            width: MediaQuery.of(context).size.width * 0.2,
+                                            height: MediaQuery.of(context).size.height * 0.08,
+                                            child: Image.asset("animation/election.png"),),
+                                          Text(match_detail_model.team1.toString(),style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold
+                                          ),),
 
-                                            ],
-                                          ),
                                         ],
                                       ),
-                                    ),
-                                )
+                                      subtitle: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 25),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width * 0.25,
+                                                    height: MediaQuery.of(context).size.height * 0.05,
+                                                    child: Image.asset("animation/calendar(1).png"),),
+                                                  Text(match_detail_model.Date.toString(),style: TextStyle(
+                                                      color: Colors.white
+                                                  )),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 20),
+                                              child: Center(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width * 0.25,
+                                                      height: MediaQuery.of(context).size.height * 0.05,
+                                                      child: Image.asset("animation/clock.png"),),
+                                                    Text("At ",style: TextStyle(
+                                                        color: Colors.white
+                                                    )),
+                                                    Text(match_detail_model.Time.toString(),style: TextStyle(
+                                                        color: Colors.white
+                                                    )),
+                                                    SizedBox(width: 10,),
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 25),
+                                              child: Text(match_detail_model.result.toString()==null.toString()?"Result not added":match_detail_model.result.toString(),style: TextStyle(
+                                                  color: Colors.white
+                                              )),
+                                            ),
+                                            Row(
+                                              children: [
+
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  )
+                                ),
                               ),
                             ],
                           ),

@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/all_tournament_showing_model.dart';
+import '../../widgets/error_dialog.dart';
 
 
 class Standing_screen extends StatefulWidget {
@@ -27,7 +27,9 @@ class _Standing_screenState extends State<Standing_screen> {
         stream: teamdata,
         builder:(BuildContext context,AsyncSnapshot<QuerySnapshot>snapshot){
           if(snapshot.hasError){
-            print("something is wrong");
+            showDialog(context: context, builder: (c) {
+              return Error_Dialog(message: "Something is wrong",path:"animation/95614-error-occurred.json");
+            });
 
           }
           if(snapshot.connectionState==ConnectionState.waiting){
@@ -40,11 +42,11 @@ class _Standing_screenState extends State<Standing_screen> {
             Map a=snapshot.data() as Map<String,dynamic>;
             storedat.add(a);
           }).toList();
-          print(storedat);
           return Container(
               child:SingleChildScrollView(
                   child: Table(
-                    border: TableBorder(horizontalInside: BorderSide(width: 1, color: Colors.orangeAccent, style: BorderStyle.solid)),
+                    border: TableBorder(horizontalInside: BorderSide(width: 1, color: Colors.white
+                        , style: BorderStyle.solid)),
                     columnWidths: const <int,TableColumnWidth>{
                       0:FixedColumnWidth(130)
                     },
@@ -161,50 +163,3 @@ class _Standing_screenState extends State<Standing_screen> {
 
   }
 }
-
-
-
-// Scaffold(
-// appBar: AppBar(
-// automaticallyImplyLeading: false,
-// backgroundColor: Colors.white,
-// title: Row(
-// mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// children: [
-// Text("Teams",style: TextStyle(
-// color: Colors.black
-// ),),
-// Text("Level",style: TextStyle(
-// color: Colors.black
-// ),),
-// Text("Point",style: TextStyle(
-// color: Colors.black
-// ),),
-// Text("Teams",style: TextStyle(
-// color: Colors.black
-// ),),
-// ],
-// ),
-// ),
-// body: FutureBuilder(
-// future: getDocId(),
-// builder: (context,index){
-// return  ListView.builder(itemCount:docIds.length,
-// itemBuilder: (context,index){
-// return  ListTile(
-// title: Get_User_name(Documentid:docIds[index], new_tournament_model: widget.new_tournament_model ,)
-// );
-// });
-// }),
-//
-// );
-
-
-//   ListTile(
-//   title: Get_User_name(Documentid:docIds[index], new_tournament_model: widget.new_tournament_model ,)
-//   );
-// });
-
-
-
-

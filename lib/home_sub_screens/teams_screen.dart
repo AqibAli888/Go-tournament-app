@@ -87,14 +87,24 @@ class _Teams_screenState extends State<Teams_screen> {
                               children: [
                                 Container(
                                   height: MediaQuery.of(context).size.height *
-                                      0.005,
+                                      0.015,
                                 ),
                                 Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.15,
+                                      MediaQuery.of(context).size.height * 0.20,
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)),
+
+                                      color: Colors.black,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.blue.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(5)
+                                  ),
                                   child: ListTile(
                                       focusColor: Colors.red,
                                       title: Column(
@@ -105,7 +115,7 @@ class _Teams_screenState extends State<Teams_screen> {
                                             child: Text(
                                               team.Name.toString(),
                                               style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.white,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
                                             ),
@@ -117,7 +127,7 @@ class _Teams_screenState extends State<Teams_screen> {
                                                 height: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.055,
+                                                    0.1,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -126,7 +136,7 @@ class _Teams_screenState extends State<Teams_screen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                    color: Colors.deepPurple),
+                                                    color: Colors.white),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -145,10 +155,16 @@ class _Teams_screenState extends State<Teams_screen> {
                                                             .delete();
                                                       },
                                                       child: Container(
-                                                        child: Icon(
-                                                          Icons.delete,
-                                                          color: Colors.white,
-                                                        ),
+                                                          height: MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                              0.085,
+                                                          width: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                              0.35,
+
+                                                        child: Image.asset("animation/delete.png")
                                                       ),
                                                     ),
                                                     GestureDetector(
@@ -229,10 +245,18 @@ class _Teams_screenState extends State<Teams_screen> {
                                                             });
                                                       },
                                                       child: Container(
-                                                        child: Icon(
-                                                          Icons.update,
-                                                          color: Colors.white,
-                                                        ),
+                                                        child: Container(
+                                                            height: MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                                0.085,
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                0.35,
+
+                                                            child: Image.asset("animation/updated.png")
+                                                        )
                                                       ),
                                                     ),
                                                   ],

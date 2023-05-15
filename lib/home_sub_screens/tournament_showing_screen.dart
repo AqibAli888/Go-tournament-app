@@ -141,8 +141,16 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                   height: MediaQuery.of(context).size.height * 0.40,
                                   width:MediaQuery.of(context).size.width * 0.99 ,
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
                                   child: ListTile(
                                       trailing: SizedBox(
@@ -168,7 +176,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                               children: [
                                                 Text(
                                                   "Name",style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.white,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                                 ),
@@ -178,7 +186,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                                   new_tournamnent
                                                       .Tournament_Name
                                                       .toString(),style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),
@@ -196,14 +204,14 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                                   .spaceBetween,
                                               children: [
                                                 Text("Tournament Format",style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),),
                                                 Text(
                                                     new_tournamnent.format
                                                         .toString(),style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),
@@ -220,12 +228,12 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                                   .spaceBetween,
                                               children: [
                                                 Text("From",style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),),
                                                 Text(new_tournamnent.Start_tournament.toString().split(" ").first,style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),)
@@ -241,12 +249,12 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                                   .spaceBetween,
                                               children: [
                                                 Text("To",style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),),
                                                 Text(new_tournamnent.End_tournament.toString().split(" ").first,style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),)
@@ -256,7 +264,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                               height: MediaQuery.of(context).size.height*0.01,
                                             ),
                                             Text("Location",style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.white,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold
                                             ),),
@@ -269,11 +277,20 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                               child: Container(
                                                 height:MediaQuery.of(context).size.height*0.15 ,
                                                 decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius: BorderRadius.circular(5)
+
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(left: 30.0,top: 10,bottom: 10,right: 10),
+                                                  padding: const EdgeInsets.only(left: 20.0,top: 10,bottom: 10,right: 10),
                                                   child: Text(new_tournamnent.Location.toString(),style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 12,

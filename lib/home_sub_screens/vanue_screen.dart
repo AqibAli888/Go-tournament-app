@@ -105,8 +105,17 @@ class _Vanue_screenState extends State<Vanue_screen> {
                                 Container(
                                   height: MediaQuery.of(context).size.height * 0.33,
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
+
+                                      color: Colors.black,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.blue.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(5)
                                   ),
                                   child: Column(
                                     children: [
@@ -120,7 +129,7 @@ class _Vanue_screenState extends State<Vanue_screen> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(vanues.vanuename.toString(),style: TextStyle(
-                                                fontSize: 20,fontWeight: FontWeight.bold
+                                                fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white
                                               ),),
                                               SizedBox(
                                                 height: MediaQuery.of(context).size.height*0.02,
@@ -132,11 +141,19 @@ class _Vanue_screenState extends State<Vanue_screen> {
                                                   height: MediaQuery.of(context).size.height*0.17,
                                                   width:double.infinity,
 
-                                                  decoration:BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(5),
-                                                    color: Colors.black
+                                                  decoration: BoxDecoration(
 
-                          ),
+                                                      color: Colors.black,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.blue.withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0, 1), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                      borderRadius: BorderRadius.circular(5)
+                                                  ),
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(8.0),
                                                     child: Center(
@@ -167,7 +184,7 @@ class _Vanue_screenState extends State<Vanue_screen> {
                                                       borderRadius:
                                                       BorderRadius.circular(
                                                           10),
-                                                      color: Colors.deepPurple),
+                                                      color: Colors.white),
                                                   child: Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment
@@ -184,10 +201,15 @@ class _Vanue_screenState extends State<Vanue_screen> {
 
                                                         },
                                                         child: Container(
-                                                          child: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.white,
-                                                          ),
+                                                            height: MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                                0.05,
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                0.12,
+                                                          child: Image.asset("animation/delete.png")
                                                         ),
                                                       ),
                                                     ],

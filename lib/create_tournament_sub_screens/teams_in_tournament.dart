@@ -99,13 +99,36 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(0, 1), // changes position of shadow
+                  ),
+                ],
+              ),
               child: Center(
-                child: Text(
-                  "Tap on The teams to add on the Tournament",
-                  style: TextStyle(color: Colors.white, fontSize: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+
+                    Text(
+                      "Tap on The teams to add on the Tournament",
+                        style: TextStyle(
+                    color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold
+                    )
+                    ),
+                    Image.asset("animation/touch-screen.png",height:MediaQuery.of(context).size.height*0.1
+                      ,width:MediaQuery.of(context).size.width*0.2 ,),
+                  ],
                 ),
               ),
             ),
@@ -122,7 +145,7 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
               if (snapshot.hasData) {
                 return Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   child: ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
@@ -139,8 +162,17 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.15,
                                 decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(10)),
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
                                 child: ListTile(
                                   trailing: SizedBox(
                                     width: MediaQuery.of(context).size.width *
@@ -156,7 +188,11 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(team.Name.toString())
+                                      Text(team.Name.toString(),style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                      ))
                                     ],
                                   ),
                                   onTap: () {

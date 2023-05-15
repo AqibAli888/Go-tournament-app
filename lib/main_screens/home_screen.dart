@@ -1,17 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_app/Authentication/auth_screen.dart';
-import 'package:sports_app/Global/global.dart';
-
-import '../Authentication/login.dart';
-import '../Authentication/registration.dart';
-import '../home_sub_screens/player_screen.dart';
 import '../home_sub_screens/private_tournament_search_screen.dart';
 import '../home_sub_screens/teams_screen.dart';
 import '../home_sub_screens/tournament_showing_screen.dart';
 import '../home_sub_screens/vanue_screen.dart';
-import '../models/user_detail_model.dart';
 
 class Home_screen extends StatefulWidget {
 
@@ -106,20 +99,39 @@ class _Home_screenState extends State<Home_screen> {
                         _showDecline();
 
                       },
-                      icon: Icon(Icons.search_outlined)),
+          icon: Container(
+
+              child: Container(
+                height:MediaQuery.of(context).size.height*0.060,width:MediaQuery.of(context).size.width*0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+
+                  child: Image.asset("animation/research.png",height:MediaQuery.of(context).size.height*0.04,width:MediaQuery.of(context).size.width*0.09 ,))),)
                 ],
               ),
             ],
-            elevation: 0,
-            backgroundColor: Colors.black26,
-            title: Text("Go Tournamentt",
+            elevation: 2,
+            backgroundColor: Colors.black,
+            shadowColor: Colors.white,
+            title: Text("Go Tournament",
+
             ),centerTitle: true,
             bottom: TabBar(
               tabs: [
-                Tab(text: "Tournaments",icon: Icon(Icons.celebration),),
-                Tab(text: "Team",icon: Icon(Icons.group),),
+                Tab(text: "Tournaments",icon: Image.asset("animation/trophy(1).png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+                Tab(text: "Team",icon: Image.asset("animation/group.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,)),
                 // Tab(text: "Players",icon: Icon(Icons.person),),
-                Tab(text: "Place",icon: Icon(Icons.place),)
+                Tab(text: "Place",icon: Image.asset("animation/places.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,))
               ],
             ),),
           body: Container(

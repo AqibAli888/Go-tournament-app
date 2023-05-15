@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import '../Global/global.dart';
 import '../models/New_Tournament_create_model.dart';
 import '../models/final_added_teams_in_tournament_model.dart';
-import '../models/match_detail_model.dart';
-import '../models/team_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 
@@ -88,54 +86,76 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                           Container(
                             height: MediaQuery.of(context).size.height * 0.2,
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: ListTile(
-                                trailing: SizedBox(
-                                  width: MediaQuery.of(context).size.width*0.35,
-                                  child:Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                    ),
-                                    
-                                    child: TextButton(onPressed: ()async{
-                                      await FirebaseFirestore.instance
-                                            .collection("Users")
-                                            .doc(firebaseAuth.currentUser!.uid)
-                                            .collection("Tournaments").
-                                        doc(widget.new_tournament_model.
-                                        Tournament_Name).collection("Teams_in_Tournament").
-                                      doc(final_added_teams.Team_Name).delete();
-
-
-
-                                      FirebaseFirestore.instance
-                                          .collection("All_Tournaments")
-                                          .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").
-                                      doc(final_added_teams.Team_Name).delete();
-
-
-
-                                    }, child:Container(
-                                      height:MediaQuery.of(context).size.height*0.15 ,
-                                      width: MediaQuery.of(context).size.width*0.25,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.black
-                                      ),
-                                        child: Center(child: Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
-                                          child: Text("Remove Team",style:  TextStyle(color: Colors.white),),
-                                        )))),
-                                  )
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 1), // changes position of shadow
                                 ),
-                                focusColor: Colors.white,
-                                title: Text(final_added_teams.Team_Name.toString()),
-                                subtitle: Text(final_added_teams.Level.toString()),
-                                onTap: () {
-                                }),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5.0,top: 5),
+                              child: ListTile(
+                                  trailing: SizedBox(
+                                    width: MediaQuery.of(context).size.width*0.40,
+                                    child:Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(50)
+                                      ),
+
+                                      child: TextButton(onPressed: ()async{
+                                        await FirebaseFirestore.instance
+                                              .collection("Users")
+                                              .doc(firebaseAuth.currentUser!.uid)
+                                              .collection("Tournaments").
+                                          doc(widget.new_tournament_model.
+                                          Tournament_Name).collection("Teams_in_Tournament").
+                                        doc(final_added_teams.Team_Name).delete();
+
+
+
+                                        FirebaseFirestore.instance
+                                            .collection("All_Tournaments")
+                                            .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").
+                                        doc(final_added_teams.Team_Name).delete();
+
+
+
+                                      }, child:Container(
+                                        height:MediaQuery.of(context).size.height*0.15 ,
+                                        width: MediaQuery.of(context).size.width*0.25,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.yellow.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: Text("Remove Team",style:  TextStyle(color: Colors.white),),
+                                          )))),
+                                    )
+                                  ),
+                                  focusColor: Colors.white,
+                                  title: Text(final_added_teams.Team_Name.toString(),style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                  ),),
+                                  onTap: () {
+                                  }),
+                            ),
                           ),
                         ],
                       ),

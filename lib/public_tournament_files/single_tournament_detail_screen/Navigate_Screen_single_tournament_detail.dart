@@ -25,21 +25,27 @@ class _Navigatetoscreen_tournamentState extends State<Navigatetoscreen_tournamen
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.black,
+          elevation: 5,
+          shadowColor: Colors.white,
+          centerTitle: true,
+
           title: Row(
           children: [
-            Text("Go Tournamenttt"),
+            Text("Tournament Info",style: TextStyle(
+              color: Colors.white
+            ),),
 
           ],
-        ),centerTitle: true,
+        ),
           bottom: TabBar(
             tabs: [
-              Tab(text: "Details",icon: Icon(Icons.group),),
-              Tab(text: "Teams",icon: Icon(Icons.group),),
-              Tab(text: "Standing",icon: Icon(Icons.format_list_numbered),),
-              Tab(text: "Schedule",icon: Icon(Icons.schedule),)
+              Tab(text: "Details",icon: Image.asset("animation/resume.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+              Tab(text: "Teams",icon: Image.asset("animation/group.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,)),
+              Tab(text: "Standing",icon: Image.asset("animation/side-menu.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+              Tab(text: "Schedule",icon: Image.asset("animation/calendar.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),)
             ],
           ),),
         body: Container(

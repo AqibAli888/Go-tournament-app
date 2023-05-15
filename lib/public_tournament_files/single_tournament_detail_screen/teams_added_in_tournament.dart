@@ -23,6 +23,30 @@ class _Teams_added_in_TournamentState extends State<Teams_added_in_Tournament> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03010,
+              ),
+              Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.red.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(child: Text("Registered teams",style: TextStyle(
+                      color: Colors.white
+                  ),)),
+                ),
+              ),
               StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("All_Tournaments")
@@ -46,40 +70,51 @@ class _Teams_added_in_TournamentState extends State<Teams_added_in_Tournament> {
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
-                                  Container(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.125,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromARGB(706, 112, 107, 107),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: ListTile(
-                                        trailing: SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width*0.05,
-                                          // to enter the
-                                          // delete and updaate icon
-                                          child: Row(
-                                            children: [],
-                                          ),
-                                        ),
-                                        focusColor: Colors.red,
-                                        title: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              final_added_teams.Team_Name.toString(),
-                                              style: TextStyle(color: Colors.white),
-                                            ),
-                                            Text(
-                                              final_added_teams.Level.toString(),
-                                              style: TextStyle(color: Colors.white),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height * 0.125,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.blue.withOpacity(0.5),
+                                              spreadRadius: 1,
+                                              blurRadius: 5,
+                                              offset: Offset(0, 1), // changes position of shadow
                                             ),
                                           ],
-                                        ),
-                                        ),
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: ListTile(
+                                          trailing: SizedBox(
+                                            width:
+                                                MediaQuery.of(context).size.width*0.05,
+                                            // to enter the
+                                            // delete and updaate icon
+                                            child: Row(
+                                              children: [],
+                                            ),
+                                          ),
+                                          focusColor: Colors.red,
+                                          title: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                final_added_teams.Team_Name.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                              ),
+
+                                            ],
+                                          ),
+                                          ),
+                                    ),
                                   ),
                                 ],
                               ),

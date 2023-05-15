@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/public_tournament_files/single_tournament_detail_screen/Navigate_Screen_single_tournament_detail.dart';
 import 'package:sports_app/public_tournament_files/single_tournament_detail_screen/result_screen_search.dart';
 import '../models/all_tournament_showing_model.dart';
+import '../widgets/error_dialog.dart';
 
 class All_Tournament_showing_screen extends StatefulWidget {
 
@@ -24,30 +25,43 @@ class _All_Tournament_showing_screenState
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState){
             return AlertDialog(
-              title: new Text("SEARCH TOURNAMENT WITH"),
+              shadowColor: Colors.orange,
+              elevation: 20,
+              backgroundColor: Colors.grey,
+              title: new Text("SEARCH TOURNAMENT",style: TextStyle(
+                color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20
+              ),),
               content: Container(
                 child: SingleChildScrollView(
                   child: Form(
                     child: Column(
                       children: <Widget>[
-                       Text("Search With"),
+                       Text("Search With",style: TextStyle(
+                        color: Colors.white,fontSize: 15
+                    )),
                      DropdownButton<String>(
-                          hint: Text('Select one option'),
+                          hint: Text('Select one option',style: TextStyle(
+                              color: Colors.white,fontSize: 15
+                          )),
                           value: _chosenValue,
                           underline: Container(
 
+
+
                           ),
                           items: <String>[
+
                             'Tournament_Name',
                             'id',
                             'format',
                             'Entry_Fees'
                           ].map((String value) {
                             return new DropdownMenuItem<String>(
+
                               value: value,
                               child: new Text(
                                 value,
-                                style: TextStyle(fontWeight: FontWeight.w200),
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                               ),
                             );
                           }).toList(),
@@ -63,20 +77,46 @@ class _All_Tournament_showing_screenState
                 ),
               ),
               actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                TextButton(
-                  child: new Text("Close"),
-                  onPressed: () {
+
+
+                GestureDetector(
+                  onTap: (){
                     Navigator.of(context).pop();
                   },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Image.asset("animation/multiply.png"),),
                 ),
-                TextButton(
-                  child: new Text("ok"),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => tournament_SearchScreen( data:_chosenValue,)));
+                SizedBox(
+                  width:MediaQuery.of(context).size.width * 0.15 ,
+                ),
+                // usually buttons at the bottom of the dialog
+                GestureDetector(
+                  onTap: (){
+                    if(_chosenValue==null){
+                      showDialog(context: context, builder: (c) {
+                        return Error_Dialog(message: "Please Select one Option For Searching",path:"animation/95614-error-occurred.json");
+                      });
+                      print("please select option");
+                    }
+                    else{
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => tournament_SearchScreen( data:_chosenValue,)));
+                    }
+
+
+
                   },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Image.asset("animation/check.png"),),
                 ),
+                SizedBox(
+                  width:MediaQuery.of(context).size.width * 0.15 ,
+                ),
+
               ],
             );
           },
@@ -98,16 +138,45 @@ class _All_Tournament_showing_screenState
         appBar: AppBar(
           toolbarHeight: 100,
           backgroundColor: Colors.black,
+          elevation: 5,
+          shadowColor: Colors.white,
+          centerTitle: true,
+          title: Container(
+            height:MediaQuery.of(context).size.height*0.10 ,
+            decoration: BoxDecoration(
+                color: Colors.black,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(0, 1), // changes position of shadow
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Center(
+              child: Text("All Tournament",style: TextStyle(
+                  color: Colors.white
+              ),),
+            ),
+          ),
           actions: [
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      _showDecline();
-                      print(_chosenValue);
-                    },
-                    icon: Icon(Icons.search_outlined)),
-              ],
+            Container(
+              height:MediaQuery.of(context).size.height*0.5 ,
+              width:MediaQuery.of(context).size.width*0.2 ,
+
+              child: Row(
+                children: [
+
+
+                  IconButton(
+                      onPressed: () {
+                        _showDecline();
+                      },
+                      icon: Icon(Icons.search_outlined)),
+                ],
+              ),
             ),
           ],
         ),
@@ -136,17 +205,24 @@ class _All_Tournament_showing_screenState
                               child: Column(
                                 children: [
                                   Container(
-                                    height: 10,
+                              height: MediaQuery.of(context).size.height * 0.01,
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(10),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
+                                    height: MediaQuery.of(context).size.height * 0.52,
+                                    width:MediaQuery.of(context).size.width * 0.99 ,
                                     decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(706, 112, 107, 107),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
                                     child: ListTile(
                                         trailing: SizedBox(
                                           width: MediaQuery.of(context)
@@ -160,131 +236,264 @@ class _All_Tournament_showing_screenState
                                           ),
                                         ),
                                         focusColor: Colors.red,
-                                        title: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: [
-                                                Text("Tournament Name"),
-                                                Text(
-                                                  new_tournamnent
-                                                      .Tournament_Name
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                        title: Padding(
+                                          padding: const EdgeInsets.only(left: 20.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: MediaQuery.of(context).size.height*0.035,
+
+                                                decoration: BoxDecoration(
+
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
                                                 ),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                                  0.03,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: [
-                                                Text("Start Date"),
-                                                Text(
-                                                  new_tournamnent
-                                                      .Start_tournament
-                                                      .toString().split(" ").first,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 5,right: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text("Tournament Name",style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold
+                                          ),),
+                                                      Text(
+                                                        new_tournamnent
+                                                            .Tournament_Name
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text("Tournament Format"),
-                                                Text(
-                                                    new_tournamnent.format
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: [
-                                                Text("Final Date"),
-                                                Text(
-                                                    new_tournamnent.End_tournament
-                                                        .toString().split(" ").first,
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                            // Row(
-                                            //   mainAxisAlignment:
-                                            //       MainAxisAlignment
-                                            //           .spaceBetween,
-                                            //   children: [
-                                            //     Text("Start Date "),
-                                            //     Text(new_tournamnent.time!
-                                            //         .split(" 00:00:00.000 - ")
-                                            //         .first),
-                                            //   ],
-                                            // ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.004,
-                                              color: Colors.white,
-                                            ),
-                                            Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                            ),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+
+                                              Container(
+                                                height: MediaQuery.of(context).size.height*0.035,
+
+                                                decoration: BoxDecoration(
+
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 5,right: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text("Tournament Format",style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.bold
+                                                  ),),
+                                                      Text(
+                                                          new_tournamnent.format
+                                                              .toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.bold
+                                                        ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+
+                                              Container(
+                                                height: MediaQuery.of(context).size.height*0.035,
+
+                                                decoration: BoxDecoration(
+
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 5,right: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text("From",style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.bold
+                                                      ),),
+                                                      Text(
+                                                        new_tournamnent
+                                                            .Start_tournament
+                                                            .toString().split(" ").first,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+
+                                              Container(
+                                                height: MediaQuery.of(context).size.height*0.035,
+
+                                                decoration: BoxDecoration(
+
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 5,right: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text("Final Date",style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.bold
+                                                      ),),
+                                                      Text(
+                                                          new_tournamnent.End_tournament
+                                                              .toString().split(" ").first,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.bold
+                                                        ),)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  height:MediaQuery.of(context).size.height*0.22 ,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.black,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.blue.withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0, 1), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                      borderRadius: BorderRadius.circular(5)
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 30.0,top: 10,bottom: 10,right: 10),
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 20.0),
+                                                          child: Container(
+                                                            height: MediaQuery.of(context).size.height*0.035,
+                                                            width:MediaQuery.of(context).size.width*0.25,
+
+                                                            decoration: BoxDecoration(
+
+                                                                color: Colors.black,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.blue.withOpacity(0.5),
+                                                                    spreadRadius: 1,
+                                                                    blurRadius: 5,
+                                                                    offset: Offset(0, 1), // changes position of shadow
+                                                                  ),
+                                                                ],
+                                                                borderRadius: BorderRadius.circular(5)
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                "Location",
+                                                                style: TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.bold
+                                                                ),),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: MediaQuery.of(context).size.height*0.012,
+                                                        ),
+                                                        Container(
+
+                                                          child: Text(new_tournamnent.Location.toString(),style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.bold
+                                                          ),),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
 
 
-                                          ],
+
+                                            ],
+                                          ),
                                         ),
                                         onTap: () {
                                           Navigator.push(

@@ -25,18 +25,23 @@ class _Navigate_Tournament_full_detail_screenState extends State<Navigate_Tourna
     return DefaultTabController(
       length: 5,
       child: Scaffold(
+
         backgroundColor: Colors.black,
+
         appBar: AppBar(
           backgroundColor: Colors.black,
+          elevation: 2,
+          shadowColor: Colors.white,
+
           title: Text("Go Tournamentt"),centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(text: "Deatail",icon: Icon(Icons.newspaper),),
+              Tab(text: "Deatail",icon: Image.asset("animation/resume.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
               // Tab(text: "Basic Details",icon: Icon(Icons.info_outline),),
-              Tab(text: "Teams in Tournament",icon: Icon(Icons.group),),
-              Tab(text: "Added Teams in Tournament",icon: Icon(Icons.group),),
-              Tab(text: "Standings",icon: Icon(Icons.format_list_numbered),),
-              Tab(text: "Match Details",icon: Icon(Icons.calendar_month),)
+              Tab(text: "Teams in Tournament",icon: Image.asset("animation/group.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+              Tab(text: "Added Teams in Tournament",icon: Image.asset("animation/customer.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+              Tab(text: "Standings",icon: Image.asset("animation/side-menu.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
+              Tab(text: "Match Details",icon: Image.asset("animation/calendar.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),)
             ],
           ),),
         body: Container(

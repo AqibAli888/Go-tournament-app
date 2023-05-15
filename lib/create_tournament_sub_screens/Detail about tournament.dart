@@ -168,9 +168,22 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                           height: MediaQuery.of(context).size.height * 0.10,
                           width: MediaQuery.of(context).size.width * 0.9,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white),
-                          child: Center(child: Text("Tournament Details")),
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 1), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(child: Text("Tournament Details",style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),)),
                         ),
                       ),
                       SizedBox(
@@ -248,8 +261,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -266,30 +288,58 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             color: Colors.blueGrey,
                                             borderRadius: BorderRadius.circular(5)
                                           ),
-                                          child: Center(child: Text("Tap To Update")),
+                                          child: Center(child: Text("Tap To Update",style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold
+                                          ))),
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Tournament Creator :"),
-                                            Text(snapshot.data["Name"])
+                                            Text("Tournament Creator :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data["Name"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Email Address:"),
-                                            Text(snapshot.data['useremail'])
+                                            Text("Email Address:",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data['useremail'],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Phone Number :"),
-                                            Text(snapshot.data['Phone'])
+                                            Text("Phone Number :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data['Phone'],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                       ],
@@ -380,8 +430,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -398,23 +457,43 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               color: Colors.blueGrey,
                                               borderRadius: BorderRadius.circular(5)
                                           ),
-                                          child: Center(child: Text("Tap To Update")),
+                                          child: Center(child: Text("Tap To Update",style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold
+                                          ))),
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Total Teams :"),
-                                            Text(snapshot.data["Total_Teams"])
+                                            Text("Total Teams :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data["Total_Teams"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Registered Teams :"),
+                                            Text("Registered Teams :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
                                             Text(
-                                                snapshot.data["Register_Teams"])
+                                                snapshot.data["Register_Teams"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                       ],
@@ -584,8 +663,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -602,30 +690,50 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               color: Colors.blueGrey,
                                               borderRadius: BorderRadius.circular(5)
                                           ),
-                                          child: Center(child: Text("Tap To Update")),
+                                          child: Center(child: Text("Tap To Update",style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold
+                                          ))),
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Tournament Start Date :"),
+                                            Text("Tournament Start Date :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
                                             Text(snapshot.data
                                                 .data()["Start_tournament"]
                                                 .toString()
                                                 .split(" ")
-                                                .first)
+                                                .first,style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Final Date :"),
+                                            Text("Final Date :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
                                             Text(snapshot.data
                                                 .data()["End_tournament"]
                                                 .toString()
                                                 .split(" ")
-                                                .first)
+                                                .first,style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                       ],
@@ -743,8 +851,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -761,22 +878,42 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               color: Colors.blueGrey,
                                               borderRadius: BorderRadius.circular(5)
                                           ),
-                                          child: Center(child: Text("Tap To Update")),
+                                          child: Center(child: Text("Tap To Update",style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold
+                                          ))),
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Entry Fees :"),
-                                            Text(snapshot.data["Entry_Fees"])
+                                            Text("Entry Fees :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data["Entry_Fees"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Winning price :"),
-                                            Text(snapshot.data["Winning_price"])
+                                            Text("Winning price :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                            Text(snapshot.data["Winning_price"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))
                                           ],
                                         ),
                                       ],
@@ -816,8 +953,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                       MediaQuery.of(context).size.height * 0.25,
                                   width: MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -838,16 +984,28 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                   color: Colors.blueGrey,
                                                   borderRadius: BorderRadius.circular(5)
                                               ),
-                                              child: Center(child: Text("Tap To Update")),
+                                              child: Center(child: Text("Tap To Update",style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold
+                                              ))),
                                             ),
-                                            Center(child: Text("Location :")),
+                                            Center(child: Text("Location :",style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            ))),
                                             SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
                                                   0.025,
                                             ),
-                                            Center(child: Text(snapshot.data["Location"]))
+                                            Center(child: Text(snapshot.data["Location"],style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                            )))
                                           ],
                                         ),
                                       ],
@@ -958,8 +1116,17 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white),
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -977,12 +1144,24 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               MediaQuery.of(context).size.width * 0.6,
 
                                               decoration: BoxDecoration(
-                                                  color: Colors.blueGrey,
-                                                  borderRadius: BorderRadius.circular(5)
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+
                                               ),
-                                              child: Center(child: Text("Tap To Update")),
+                                              child: Center(child: Text("Tap To Update",style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold
+                                              ))),
                                             ),
-                                            Center(child: Text("Details")),
+                                            Center(child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text("Details",style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold
+                                              )),
+                                            )),
                                             SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
@@ -991,7 +1170,11 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             ),
                                             Row(
                                               children: [
-                                                Text(snapshot.data["Detail"]),
+                                                Text(snapshot.data["Detail"],style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold
+                                                )),
                                               ],
                                             )
                                           ],
