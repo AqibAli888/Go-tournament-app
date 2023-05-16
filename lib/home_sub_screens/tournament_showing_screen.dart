@@ -75,6 +75,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
       "Total_Teams":total_teams.text,
       "Register_Teams":0.toString(),
       "Entry_Fees":0.toString(),
+      "Location":"Not Added",
       "Winning_price":0.toString(),
       "Detail":"",
       "Start_tournament":start_selecteddate.toString(),
@@ -87,6 +88,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
         .set({
       "Tournament_Name":name.text,
       "id":time.trim(),
+      "Location":"Not Added",
       "format":format.text,
       "Phone_Number":phone_number.text,
       "Detail":Detail.text,
@@ -101,8 +103,6 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
     }).then((value) async {
       await sharedpreference!.setString("Tournament_Name", name.text.trim());
       await sharedpreference!.setString("format", format.text.trim());
-      // await sharedpreference!.setString("Start_date", startdatecontroller.text.trim());
-      // await sharedpreference!.setString("End_date", enddatecontroller.text.trim());
       Navigator.pop(context);
     });
   }
@@ -291,11 +291,13 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 20.0,top: 10,bottom: 10,right: 10),
-                                                  child: Text(new_tournamnent.Location.toString(),style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.bold
-                                                  ),),
+                                                  child: Center(
+                                                    child: Text(new_tournamnent.Location.toString()=="null"?"Location not added":new_tournamnent.Location.toString(),style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.bold
+                                                    ),),
+                                                  ),
                                                 ),
                                               ),
                                             )
@@ -337,7 +339,10 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                         return StatefulBuilder(
                           builder: (BuildContext context, StateSetter setState) {
                             return AlertDialog(
-                              backgroundColor: Colors.deepPurple,
+                              backgroundColor: Colors.grey,
+                              elevation: 10,
+
+                              shadowColor: Colors.yellow,
                               scrollable: true,
                               title: Text('Create Tournament'),
                               content: Padding(
@@ -346,57 +351,184 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                   child: Column(
                                     children: <Widget>[
 
-                                      Text_form_field(texthint:"Name",type: TextInputType.name,
-                                          data: Icons.access_time,controller: name),
+                                      Container(
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Text_form_field(texthint:"Name",type: TextInputType.name,
+                                            data: Icons.drive_file_rename_outline,controller: name),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Text_form_field(texthint:"Format",
+                                            data: Icons.question_mark_outlined,controller: format),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Text_form_field(texthint:"Total Teams",type: TextInputType.number,
+                                            data: Icons.groups_rounded,controller: total_teams),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Text_form_field(texthint:"Phone Number",type: TextInputType.number,
+                                            data: Icons.phone,controller: phone_number),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+
+                                      Container(
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Text_form_field(texthint:"Detail about Tournament",type: TextInputType.number,
+                                            data: Icons.textsms_outlined,controller: Detail),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+
+
+                                      Container(
+                                        width:MediaQuery.of(context).size.width ,
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: TextButton(
+                                            onPressed:
+                                                () async {
+                                              final DateTime? datetime = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime.now(),
+                                                  lastDate: DateTime(2024));
+                                              if (datetime !=
+                                                  null) {
+                                                setState(() {
+                                                  start_selecteddate = datetime;
+                                                });
+                                                print(start_selecteddate);
+                                              }
+                                            },
+                                            child: Text(
+                                                "Pick Start Date")),
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.02,
+                                      ),
+                                      Container(
+                                        width:MediaQuery.of(context).size.width ,
+                                        decoration: BoxDecoration(
+
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: TextButton(
+                                            onPressed:
+                                                () async {
+                                              final DateTime? datetime = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: start_selecteddate,
+                                                  firstDate: start_selecteddate,
+                                                  lastDate: DateTime(2024));
+                                              if (datetime !=
+                                                  null) {
+                                                setState(() {
+                                                  End_selecteddate = datetime;
+                                                });
+                                                print( End_selecteddate);
+                                              }
+                                            },
+                                            child: Text(
+                                                "Pick Final Date")),
+                                      ),
 
 
 
-                                      TextButton(
-                                          onPressed:
-                                              () async {
-                                            final DateTime? datetime = await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime.now(),
-                                                lastDate: DateTime(2024));
-                                            if (datetime !=
-                                                null) {
-                                              setState(() {
-                                                start_selecteddate = datetime;
-                                              });
-                                              print(start_selecteddate);
-                                            }
-                                          },
-                                          child: Text(
-                                              "Pick Start Date")),
-                                      TextButton(
-                                          onPressed:
-                                              () async {
-                                            final DateTime? datetime = await showDatePicker(
-                                                context: context,
-                                                initialDate: start_selecteddate,
-                                                firstDate: start_selecteddate,
-                                                lastDate: DateTime(2024));
-                                            if (datetime !=
-                                                null) {
-                                              setState(() {
-                                                End_selecteddate = datetime;
-                                              });
-                                              print( End_selecteddate);
-                                            }
-                                          },
-                                          child: Text(
-                                              "Pick Final Date")),
 
-                                      Text_form_field(texthint:"Format",
-                                          data: Icons.access_time,controller: format),
-
-                                      Text_form_field(texthint:"Total Teams",type: TextInputType.number,
-                                          data: Icons.access_time,controller: total_teams),
-                                      Text_form_field(texthint:"Phone Number",type: TextInputType.number,
-                                          data: Icons.access_time,controller: phone_number),
-                                      Text_form_field(texthint:"Detail about Tournament",type: TextInputType.number,
-                                          data: Icons.access_time,controller: Detail),
 
                                       // short address
                                     ],
@@ -405,18 +537,56 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                               ),
                               actions: [
 
-                                TextButton(
-                                    child: Text("cancel"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      // your code
-                                    }),
-                                TextButton(
-                                    child: Text("Create now"),
-                                    onPressed: () {
-                                      formvalidation();
-                                      // your code
-                                    }),
+                                Container(
+                                  decoration: BoxDecoration(
+
+                                      color: Colors.black,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.blue.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(5)
+                                  ),
+                                  child: TextButton(
+                                      child: Text("cancel",style: TextStyle(
+                                        color: Colors.white
+                                      ),),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        // your code
+                                      }),
+                                ),
+                                SizedBox(width: 10,),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+
+                                        color: Colors.black,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 5,
+                                            offset: Offset(0, 1), // changes position of shadow
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: TextButton(
+                                        child: Text("Create now",style: TextStyle(
+                                            color: Colors.white
+                                        ),),
+                                        onPressed: () {
+                                          formvalidation();
+                                          // your code
+                                        }),
+                                  ),
+                                ),
                               ],
                             );
                           }

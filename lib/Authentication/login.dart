@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sports_app/Global/global.dart';
-import 'package:sports_app/main_screens/option_screen_for_public_private.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
 import '../widgets/text_form_field.dart';

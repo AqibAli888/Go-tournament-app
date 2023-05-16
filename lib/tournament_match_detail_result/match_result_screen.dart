@@ -34,14 +34,19 @@ class _Match_result_screenState extends State<Match_result_screen> {
 
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        centerTitle: true,
+        title: Text("Add Result"),
+        elevation: 10,
+        shadowColor: Colors.blue,
+        backgroundColor: Colors.black,
       ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height*0.4,
+              height: MediaQuery.of(context).size.height*0.8,
               width:MediaQuery.of(context).size.width*0.9 ,
               child: StreamBuilder(
                   stream: pri_tournament_ref
@@ -58,6 +63,42 @@ class _Match_result_screenState extends State<Match_result_screen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+
+
+
+
+                          Container(height: MediaQuery.of(context).size.height * 0.01),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35.0),
+                            child: Container(
+                                height: MediaQuery.of(context).size.height * 0.1,
+                                width:MediaQuery.of(context).size.width * 0.75 ,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.red.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 7), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                            child: Column(
+                              children: [
+                                Text("Tap On The Team Who Won",style: TextStyle(
+                                  color: Colors.white
+                                ),),
+                                Container(
+                                  width:MediaQuery.of(context).size.width * 0.5,
+                                  height: MediaQuery.of(context).size.height * 0.05,
+                                child: Image.asset("animation/touch-screen.png"),)
+
+                              ],
+                            ),),
+                          ),
                           GestureDetector(
                             onTap:(){
 
@@ -108,7 +149,27 @@ class _Match_result_screenState extends State<Match_result_screen> {
 
                               }
    ,
-                              child: Text(snapshot.data["team0"])),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 25.0),
+                                child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.13,
+                                    width:MediaQuery.of(context).size.width * 0.75 ,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(child: Text(snapshot.data["team0"],style: TextStyle(
+                                        color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic
+                                    )))),
+                              )),
                           GestureDetector(onTap:(){
                             pri_tournament_ref
                                 .collection("Teams_in_Tournament")
@@ -160,7 +221,32 @@ class _Match_result_screenState extends State<Match_result_screen> {
 
 
                           },
-                              child: Text(snapshot.data["team1"])),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 25.0),
+                                child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.13,
+                                    width:MediaQuery.of(context).size.width * 0.75 ,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+
+
+
+                                    child: Center(
+                                      child: Text(snapshot.data["team1"],style: TextStyle(
+                    color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic
+                    )),
+                                    )),
+                              )),
                           GestureDetector(onTap:(){
                             pri_tournament_ref
                                 .collection("Teams_in_Tournament")
@@ -211,7 +297,29 @@ class _Match_result_screenState extends State<Match_result_screen> {
 
 
                           },
-                              child: Text("Draw")),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 25.0),
+                                child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.13,
+                                    width:MediaQuery.of(context).size.width * 0.75 ,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text("Draw",style: TextStyle(
+                                        color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic
+                                      ),),
+                                    )),
+                              )),
                         ],
                       ),
                     );

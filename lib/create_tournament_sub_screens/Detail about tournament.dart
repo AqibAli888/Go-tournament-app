@@ -163,6 +163,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                 child: Container(
                   child: Column(
                     children: [
+                      Container(height: MediaQuery.of(context).size.height * 0.020),
                       Center(
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.10,
@@ -1176,7 +1177,10 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                     fontWeight: FontWeight.bold
                                                 )),
                                               ],
-                                            )
+                                            ),
+
+
+
                                           ],
                                         ),
                                       ],

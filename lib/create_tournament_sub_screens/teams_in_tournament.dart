@@ -1,3 +1,6 @@
+// need to change error image only
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +12,7 @@ import '../models/Main_Player_model.dart';
 import '../models/New_Tournament_create_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
+import '../widgets/text_form_field.dart';
 
 class Teams_in_Tournament extends StatefulWidget {
   final New_Tournament_model new_tournament_model;
@@ -24,29 +28,21 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
   TextEditingController levelcontroller = TextEditingController();
   TextEditingController shirtnumber = TextEditingController();
   formvalidation() {
-    if (teamnamecontroller.text.trim().isNotEmpty &&
-        levelcontroller.text.isNotEmpty) {
+    if (teamnamecontroller.text.trim().isNotEmpty) {
       //login
       Adding_team();
     } else {
-      showDialog(
-          context: context,
-          builder: (c) {
-            return Error_Dialog(
-              message: 'Please Enter All textfields',
-            );
-          });
+      showDialog(context: context, builder: (c) {
+        return Error_Dialog(message: "Please Fill all the fields",path:"animation/95614-error-occurred.json");
+      });
     }
   }
 
   Adding_team() async {
-    showDialog(
-        context: context,
-        builder: (c) {
-          return Loading_Dialog(
-            message: 'Adding Team please wait',
-          );
-        });
+    showDialog(context: context, builder: (c) {
+      return Loading_Dialog(message: 'Please wait',
+        path:"animation/97930-loading.json" ,);
+    });
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
@@ -196,13 +192,10 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                     ],
                                   ),
                                   onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (c) {
-                                          return Loading_Dialog(
-                                            message: 'Please wait',
-                                          );
-                                        });
+                                    showDialog(context: context, builder: (c) {
+                                      return Loading_Dialog(message: 'Please wait',
+                                        path:"animation/97930-loading.json" ,);
+                                    });
 
                                     FirebaseFirestore.instance
                                         .collection("Users")
@@ -231,13 +224,10 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                       "win": 0
                                     }).then((value) {
                                       Navigator.pop(context);
-                                      showDialog(
-                                          context: context,
-                                          builder: (c) {
-                                            return Error_Dialog(
-                                              message: 'Team Added Succesfully',
-                                            );
-                                          });
+                                      showDialog(context: context, builder: (c) {
+                                        return Error_Dialog(message: "added succefully",
+                                            path:"animation/95614-error-occurred.json");
+                                      });
                                     });
                                   },
                                 ),
@@ -263,37 +253,34 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          backgroundColor: Colors.grey,
+                          shadowColor: Colors.yellow,
+                          elevation: 5,
                           scrollable: true,
-                          title: Text('Add New Team'),
+                          title: Text('Add New Team',style: TextStyle(
+                            color: Colors.white
+                          ),),
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Form(
                               child: Column(
                                 children: <Widget>[
-                                  Slider(
-                                      divisions: 100,
-                                      max: 100,
-                                      min: 0,
-                                      activeColor: Colors.green,
-                                      label: "$slidervalue",
-                                      value: slidervalue,
-                                      onChanged: (value) => setState(() {
-                                            print(value);
-                                            slidervalue = value;
-                                          })),
-                                  TextFormField(
-                                    controller: teamnamecontroller,
-                                    decoration: InputDecoration(
-                                      labelText: 'Name of the team',
-                                      icon: Icon(Icons.account_box),
+                                  Container(
+                                    decoration: BoxDecoration(
+
+                                        color: Colors.black,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 5,
+                                            offset: Offset(0, 1), // changes position of shadow
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(5)
                                     ),
-                                  ),
-                                  TextFormField(
-                                    controller: levelcontroller,
-                                    decoration: InputDecoration(
-                                      labelText: 'level  of the team',
-                                      icon: Icon(Icons.email),
-                                    ),
+                                    child: Text_form_field(texthint:"Enter Team Name",
+                                        data: Icons.group,controller:teamnamecontroller),
                                   ),
                                 ],
                               ),
@@ -301,7 +288,9 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                           ),
                           actions: [
                             TextButton(
-                                child: Text("Submit"),
+                                child: Text("Add",style: TextStyle(
+                                  color: Colors.black
+                                ),),
                                 onPressed: () {
                                   Navigator.pop(context);
                                   formvalidation();
