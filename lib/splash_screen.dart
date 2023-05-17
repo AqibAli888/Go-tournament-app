@@ -16,7 +16,7 @@ class Splash_screen extends StatefulWidget {
 class _Splash_screenState extends State<Splash_screen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 4), () {
       if(firebaseAuth.currentUser!.emailVerified==false){
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Auth_screen()));

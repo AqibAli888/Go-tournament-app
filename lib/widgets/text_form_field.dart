@@ -5,6 +5,9 @@ class Text_form_field extends StatelessWidget {
   final TextEditingController controller;
   final String texthint;
   final IconData? data;
+  int? min;
+  int? max;
+
 TextInputType? type;
   bool? obscure;
 
@@ -12,7 +15,7 @@ TextInputType? type;
   Text_form_field({
     this.type,
     required this.controller,required this.texthint,this.obscure=false,required this.data
-,this.enabled=true});
+,this.enabled=true,this.max, this.min});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,6 +26,8 @@ TextInputType? type;
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.all(8),
       child: TextFormField(
+        maxLength: max,
+        minLines: min,
 
         keyboardType:type,
         controller: controller,

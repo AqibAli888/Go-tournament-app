@@ -164,6 +164,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                   child: Column(
                     children: [
                       Container(height: MediaQuery.of(context).size.height * 0.020),
+
+
+                      // // title of the screen
                       Center(
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.10,
@@ -190,6 +193,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
+
+
+                      // user details phone email and name
                       StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("Users")
@@ -211,46 +217,79 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                       return StatefulBuilder(builder:
                                           (BuildContext context,
                                               StateSetter setState) {
-                                        return AlertDialog(
-                                          backgroundColor: Colors.deepPurple,
-                                          scrollable: true,
-                                          title: Text('Update Phone number'),
-                                          content: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Form(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Text_form_field(
-                                                      texthint: "Total Teams",
-                                                      data: Icons.access_time,
-                                                      controller: phonenumber),
+                                        return Container(
 
 
-                                                  // short address
-                                                ],
+                                          child: AlertDialog(
+                                            shadowColor: Colors.blue,
+                                            backgroundColor: Colors.grey,
+                                            elevation: 10,
+                                            scrollable: true,
+                                            title: Text('Update Phone number'),
+                                            content: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Form(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.white.withOpacity(0.5),
+                                                            spreadRadius: 1,
+                                                            blurRadius: 2,
+                                                            offset: Offset(0, 1), // changes position of shadow
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Text_form_field(
+                                                        max: 14,
+                                                          texthint: "Phone Number",
+                                                          data: Icons.phone,
+                                                          controller: phonenumber),
+                                                    ),
+
+
+                                                    // short address
+                                                  ],
+                                                ),
                                               ),
                                             ),
+                                            actions: [
+                                              Row(
+                                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    height:MediaQuery.of(context).size.height * 0.095,
+                                                    child: TextButton(
+                                                        child: Image.asset("animation/multiply.png"),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        }),
+                                                  ),
+                                                  Container(
+                                                    height:MediaQuery.of(context).size.height * 0.095,
+                                                    child: TextButton(
+                                                        child: Image.asset("animation/accept.png"),
+                                                        onPressed: () async{
+                                                          FirebaseFirestore.instance
+                                                              .collection("Users")
+                                                              .doc(firebaseAuth.currentUser!.uid).update({
+                                                            "Phone":phonenumber.text
+                                                          }).then((value)async{
+                                                            Navigator.pop(context);
+                                                          });
+                                                          // your code
+                                                        }),
+                                                  ),
+                                                ],
+                                              ),
+
+                                            ],
                                           ),
-                                          actions: [
-                                            TextButton(
-                                                child: Text("cancel"),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  // your code
-                                                }),
-                                            TextButton(
-                                                child: Text("UPDATE"),
-                                                onPressed: () async{
-                                                  FirebaseFirestore.instance
-                                                      .collection("Users")
-                                                      .doc(firebaseAuth.currentUser!.uid).update({
-                                                    "Phone":phonenumber.text
-                                                  }).then((value)async{
-                                                    Navigator.pop(context);
-                                                  });
-                                                  // your code
-                                                }),
-                                          ],
                                         );
                                       });
                                     });
@@ -353,9 +392,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
+                      // total teams and rigister teams
                       GestureDetector(
                         onTap: () {
-                          print("hello here");
 
                           showDialog(
                               context: context,
@@ -364,24 +403,63 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                     (BuildContext context,
                                         StateSetter setState) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.deepPurple,
+                                    shadowColor: Colors.blue,
+                                    backgroundColor: Colors.grey,
+                                    elevation: 10,
                                     scrollable: true,
+
                                     title: Text('Create Tournament'),
                                     content: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Form(
                                         child: Column(
                                           children: <Widget>[
-                                            Text_form_field(
-                                                texthint: "Total Teams",
-                                                data: Icons.access_time,
-                                                controller: total_teams),
+                                            //  total teaams and register teams
+                                            Container(
 
-                                            Text_form_field(
-                                                texthint: "Register Teams",
-                                                type: TextInputType.number,
-                                                data: Icons.access_time,
-                                                controller: Register_teams),
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+
+                                              child: Text_form_field(
+                                                max: 3,
+                                                  texthint: "Total Teams",
+                                                  data: Icons.group,
+                                                  controller: total_teams),
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context).size.height * 0.02,
+                                            ),
+                                            Container(
+
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Text_form_field(
+                                                  max: 3,
+                                                  texthint: "Register Teams",
+                                                  type: TextInputType.number,
+                                                  data: Icons.numbers,
+                                                  controller: Register_teams),
+                                            ),
 
                                             // short address
                                           ],
@@ -389,20 +467,31 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                       ),
                                     ),
                                     actions: [
-                                      TextButton(
-                                          child: Text("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            // your code
-                                          }),
-                                      TextButton(
-                                          child: Text("Create now"),
-                                          onPressed: () {
-                                              formvalidation();
+                                      //cancel and ok buttons
+                                      Row(
+                                        mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/multiply.png"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ),
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/accept.png"),
+                                                onPressed: () {
+                                                  formvalidation();
+                                                  // your code
+                                                }
+                                                ),
+                                          ),
+                                        ],
+                                      ),
 
-
-                                            // your code
-                                          }),
                                     ],
                                   );
                                 });
@@ -507,9 +596,14 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
+                      // update time
+
+
+
+
+
                       GestureDetector(
                         onTap: () {
-                          print("hello here");
                           var myInt = widget.new_tournament_model.End_tournament
                               .toString()
                               .split(" ")
@@ -533,109 +627,148 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                     (BuildContext context,
                                         StateSetter setState) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.deepPurple,
+                                    shadowColor: Colors.blue,
+                                    backgroundColor: Colors.grey,
+                                    elevation: 10,
                                     scrollable: true,
-                                    title: Text('Create Tournament'),
+                                    title: Text('Update Date'),
                                     content: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Form(
                                         child: Column(
                                           children: <Widget>[
-                                            TextButton(
-                                                onPressed: () async {
-                                                  print("helodbhh");
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: TextButton(
+                                                  onPressed: () async {
 
-                                                  final DateTime? datetime =
-                                                      await showDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              DateTime.now(),
-                                                          firstDate:
-                                                              DateTime.now(),
-                                                          lastDate: DateTime(
-                                                              year, m, day));
-                                                  if (datetime != null) {
-                                                    setState(() {
-                                                      start_selecteddate =
-                                                          datetime;
-                                                    });
-                                                    print(start_selecteddate);
-                                                  }
-                                                },
-                                                child: Text("Pick Start Date")),
-                                            TextButton(
-                                                onPressed: () async {
-                                                  final DateTime? datetime =
-                                                      await showDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              DateTime.now(),
-                                                          firstDate:
-                                                              DateTime.now(),
-                                                          lastDate:
-                                                              DateTime(2024));
-                                                  if (datetime != null) {
-                                                    setState(() {
-                                                      End_selecteddate =
-                                                          datetime;
-                                                    });
-                                                    print(End_selecteddate);
-                                                  }
-                                                },
-                                                child: Text("Pick Final Date")),
+                                                    final DateTime? datetime =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            lastDate: DateTime(
+                                                                year, m, day));
+                                                    if (datetime != null) {
+                                                      setState(() {
+                                                        start_selecteddate =
+                                                            datetime;
+                                                      });
+                                                      print(start_selecteddate);
+                                                    }
+                                                  },
+                                                  child: Text("Pick Start Date")),
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context).size.height * 0.02,
+                                            ),
+                                            Container(
+
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: TextButton(
+                                                  onPressed: () async {
+                                                    final DateTime? datetime =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            lastDate:
+                                                                DateTime(2024));
+                                                    if (datetime != null) {
+                                                      setState(() {
+                                                        End_selecteddate =
+                                                            datetime;
+                                                      });
+                                                      print(End_selecteddate);
+                                                    }
+                                                  },
+                                                  child: Text("Pick Final Date")),
+                                            ),
 
                                             // short address
                                           ],
                                         ),
                                       ),
                                     ),
+                                    // button for changing start and end date
                                     actions: [
-                                      TextButton(
-                                          child: Text("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            // your code
-                                          }),
-                                      TextButton(
-                                          child: Text("Change Date"),
-                                          onPressed: () async {
-                                            showDialog(
-                                                context: context,
-                                                builder: (c) {
-                                                  return Loading_Dialog(
-                                                    message:
-                                                        'Adding Player please wait',
-                                                  );
-                                                });
+                                      Row(
+                                        mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/multiply.png"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ),
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/accept.png"),
+                                                onPressed: () async{
+                                                  showDialog(context: context, builder: (c) {
+                                                    return Loading_Dialog(message: 'Please wait',
+                                                      path:"animation/97930-loading.json" ,);
+                                                  });
 
-                                            FirebaseFirestore.instance
-                                                .collection("All_Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Start_tournament":
-                                                  start_selecteddate.toString(),
-                                              "End_tournament":
-                                                  End_selecteddate.toString(),
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("Users")
-                                                .doc(firebaseAuth
-                                                    .currentUser!.uid)
-                                                .collection("Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Start_tournament":
-                                                  start_selecteddate.toString(),
-                                              "End_tournament":
-                                                  End_selecteddate.toString(),
-                                            }).then((value) async {
-                                              Navigator.pop(context);
-                                            });
+                                                  FirebaseFirestore.instance
+                                                      .collection("All_Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Start_tournament":
+                                                    start_selecteddate.toString(),
+                                                    "End_tournament":
+                                                    End_selecteddate.toString(),
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(firebaseAuth
+                                                      .currentUser!.uid)
+                                                      .collection("Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Start_tournament":
+                                                    start_selecteddate.toString(),
+                                                    "End_tournament":
+                                                    End_selecteddate.toString(),
+                                                  }).then((value) async {
+                                                    Navigator.pop(context);
+                                                  });
 
-                                            // your code
-                                          }),
+                                                }),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   );
                                 });
@@ -745,8 +878,12 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                             }),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
+
+
+
+                      // Match Entry Fees and Registration Fees
                       GestureDetector(
                         onTap: () {
                           showDialog(
@@ -756,24 +893,59 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                     (BuildContext context,
                                         StateSetter setState) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.deepPurple,
+                                    shadowColor: Colors.blue,
+                                    backgroundColor: Colors.grey,
+                                    elevation: 10,
                                     scrollable: true,
-                                    title: Text('Create Tournament'),
+                                    title: Text('Update Tournament Fees'),
                                     content: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Form(
                                         child: Column(
                                           children: <Widget>[
-                                            Text_form_field(
-                                                texthint: "Entry Fees",
-                                                data: Icons.access_time,
-                                                controller: entry_fees),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Text_form_field(
+                                                  max: 10,
+                                                  texthint: "Entry Fees",
+                                                  data: Icons.access_time,
+                                                  controller: entry_fees),
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context).size.height * 0.05,
+                                            ),
 
-                                            Text_form_field(
-                                                texthint: "Winning price",
-                                                type: TextInputType.number,
-                                                data: Icons.access_time,
-                                                controller: winning_price),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Text_form_field(
+                                                  max: 15,
+                                                  texthint: "Winning price",
+                                                  type: TextInputType.number,
+                                                  data: Icons.access_time,
+                                                  controller: winning_price),
+                                            ),
 
                                             // short address
                                           ],
@@ -781,49 +953,58 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                       ),
                                     ),
                                     actions: [
-                                      TextButton(
-                                          child: Text("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            // your code
-                                          }),
-                                      TextButton(
-                                          child: Text("Create now"),
-                                          onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (c) {
-                                                  return Loading_Dialog(
-                                                    message:
-                                                        'Adding Player please wait',
-                                                  );
-                                                });
-                                            FirebaseFirestore.instance
-                                                .collection("All_Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Entry_Fees": entry_fees.text,
-                                              "Winning_price":
-                                                  winning_price.text,
-                                            }).then((value) async {
-                                              print("helokkk");
-                                              Navigator.pop(context);
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("Users")
-                                                .doc(firebaseAuth
-                                                    .currentUser!.uid)
-                                                .collection("Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Entry_Fees": entry_fees.text,
-                                              "Winning_price":
-                                                  winning_price.text,
-                                            });
-                                            // your code
-                                          }),
+                                      Row(
+                                        mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/multiply.png"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ),
+
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/accept.png"),
+                                                onPressed: () {
+                                                  showDialog(context: context, builder: (c) {
+                                                    return Loading_Dialog(message: 'Please wait',
+                                                      path:"animation/97930-loading.json" ,);
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection("All_Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Entry_Fees": entry_fees.text,
+                                                    "Winning_price":
+                                                    winning_price.text,
+                                                  }).then((value) async {
+                                                    print("helokkk");
+                                                    Navigator.pop(context);
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(firebaseAuth
+                                                      .currentUser!.uid)
+                                                      .collection("Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Entry_Fees": entry_fees.text,
+                                                    "Winning_price":
+                                                    winning_price.text,
+                                                  });
+                                                  // your code
+                                                }
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
                                     ],
                                   );
                                 });
@@ -924,9 +1105,18 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                               );
                             }),
                       ),
+
+
+
+
+
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
+
+
+                      // Location showing Map
                       StreamBuilder(
                           stream:FirebaseFirestore.instance
                               .collection("Users")
@@ -1016,6 +1206,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                               ),
                             );
                           }),
+
+
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
@@ -1031,18 +1224,35 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                     (BuildContext context,
                                         StateSetter setState) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.deepPurple,
+                                    shadowColor: Colors.blue,
+                                    backgroundColor: Colors.grey,
+                                    elevation: 10,
                                     scrollable: true,
-                                    title: Text('Create Tournament'),
+                                    title: Text('Update Details'),
                                     content: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Form(
                                         child: Column(
                                           children: <Widget>[
-                                            Text_form_field(
-                                                texthint: "Detail",
-                                                data: Icons.access_time,
-                                                controller: detail),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1), // changes position of shadow
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Text_form_field(
+                                                  max: 500,
+                                                  texthint: "Detail",
+                                                  data: Icons.access_time,
+                                                  controller: detail),
+                                            ),
 
                                             // short address
                                           ],
@@ -1050,45 +1260,53 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                       ),
                                     ),
                                     actions: [
-                                      TextButton(
-                                          child: Text("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            // your code
-                                          }),
-                                      TextButton(
-                                          child: Text("Create now"),
-                                          onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (c) {
-                                                  return Loading_Dialog(
-                                                    message:
-                                                        'Adding Player please wait',
-                                                  );
-                                                });
-                                            FirebaseFirestore.instance
-                                                .collection("All_Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Detail": detail.text,
-                                            }).then((value) async {
-                                              print("helokkk");
-                                              Navigator.pop(context);
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("Users")
-                                                .doc(firebaseAuth
-                                                    .currentUser!.uid)
-                                                .collection("Tournaments")
-                                                .doc(widget.new_tournament_model
-                                                    .Tournament_Name)
-                                                .update({
-                                              "Detail": detail.text,
-                                            });
-                                            // your code
-                                          }),
+                                      Row(
+                                        mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/multiply.png"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ),
+
+                                          Container(
+                                            height:MediaQuery.of(context).size.height * 0.095,
+                                            child: TextButton(
+                                                child: Image.asset("animation/accept.png"),
+                                                onPressed: () {
+                                                  showDialog(context: context, builder: (c) {
+                                                    return Loading_Dialog(message: 'Please wait',
+                                                      path:"animation/97930-loading.json" ,);
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection("All_Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Detail": detail.text,
+                                                  }).then((value) async {
+                                                    print("helokkk");
+                                                    Navigator.pop(context);
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(firebaseAuth
+                                                      .currentUser!.uid)
+                                                      .collection("Tournaments")
+                                                      .doc(widget.new_tournament_model
+                                                      .Tournament_Name)
+                                                      .update({
+                                                    "Detail": detail.text,
+                                                  });
+                                                  // your code
+                                                }
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   );
                                 });
@@ -1145,9 +1363,8 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               MediaQuery.of(context).size.width * 0.6,
 
                                               decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius: BorderRadius.circular(10),
-
+                                                  color: Colors.blueGrey,
+                                                  borderRadius: BorderRadius.circular(5)
                                               ),
                                               child: Center(child: Text("Tap To Update",style: TextStyle(
                                                   color: Colors.white,
@@ -1189,7 +1406,10 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                 ),
                               );
                             }),
-                      )
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                     ],
                   ),
                 ),

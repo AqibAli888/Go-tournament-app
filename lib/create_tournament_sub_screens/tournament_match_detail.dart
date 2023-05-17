@@ -24,7 +24,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   DateTime selecteddate = DateTime.now();
   TimeOfDay matchtime = TimeOfDay(hour: 12, minute: 30);
   var _chosenValue;
-  void _showDecline() {
+  void _showDecline()  {
     showDialog(
       context: context,
       builder: (BuildContext context) {
