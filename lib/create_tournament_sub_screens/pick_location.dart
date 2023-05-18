@@ -31,13 +31,9 @@ class _Pick_Match_LocationState extends State<Pick_Match_Location> {
         .update({
       "Location": location,
     }).then((value){
-      showDialog(
-          context: context,
-          builder: (c) {
-            return Error_Dialog(
-              message: 'Location has been selected',
-            );
-          });
+      showDialog(context: context, builder: (c) {
+        return Error_Dialog(message: "Location Updated Successfully",path:"animation/79952-successful.json");
+      });
     });
   }
   @override

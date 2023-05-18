@@ -40,7 +40,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
   formvalidation() {
     if (name.text.trim().isNotEmpty &&
         format.text.isNotEmpty&&total_teams.text.trim().isNotEmpty
-        &&phone_number.text.trim().isNotEmpty &&Detail.text.trim().isNotEmpty) {
+        &&Detail.text.trim().isNotEmpty) {
       //login
       Adding_tournament();
     } else {
@@ -67,10 +67,10 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
         .collection("All_Tournaments")
         .doc(name.text)
         .set({
+      "fovorite":"false",
       "Tournament_Name":name.text,
       "id":time.trim(),
       "format":format.text,
-      "Phone_Number":phone_number.text,
       "Detail":Detail.text,
       "Total_Teams":total_teams.text,
       "Register_Teams":0.toString(),
@@ -90,7 +90,6 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
       "id":time.trim(),
       "Location":"Not Added",
       "format":format.text,
-      "Phone_Number":phone_number.text,
       "Detail":Detail.text,
       "Total_Teams":total_teams.text,
       "Register_Teams":0.toString(),
@@ -411,23 +410,10 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                       SizedBox(
                                         height: MediaQuery.of(context).size.height*0.02,
                                       ),
-                                      Container(
-                                        decoration: BoxDecoration(
 
-                                            color: Colors.black,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.blue.withOpacity(0.5),
-                                                spreadRadius: 1,
-                                                blurRadius: 5,
-                                                offset: Offset(0, 1), // changes position of shadow
-                                              ),
-                                            ],
-                                            borderRadius: BorderRadius.circular(5)
-                                        ),
-                                        child: Text_form_field(texthint:"Phone Number",type: TextInputType.number,
-                                            data: Icons.phone,controller: phone_number),
-                                      ),
+
+
+
                                       SizedBox(
                                         height: MediaQuery.of(context).size.height*0.02,
                                       ),

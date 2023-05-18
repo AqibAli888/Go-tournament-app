@@ -1,10 +1,10 @@
+// ok
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../Global/global.dart';
-import '../../models/New_Tournament_create_model.dart';
 import '../../models/all_tournament_showing_model.dart';
 
 class Match_Detail_screen extends StatefulWidget {
@@ -39,6 +39,7 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
 
     print(value!['Name']);
   }
+  bool love=false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,7 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03510,
                 ),
+                // detail about creator
                 Center(
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.10,
@@ -83,6 +85,99 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+                // favorite and unfavorite ui
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("All_Tournaments")
+                        .doc(widget.all_tournament_showing_model.Tournament_Name)
+                        .snapshots(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return GestureDetector(
+                        onTap: (){
+                          if(snapshot.data["fovorite"]=="true"){
+                            FirebaseFirestore.instance
+                                .collection("All_Tournaments")
+                                .doc(widget.all_tournament_showing_model.Tournament_Name).update({
+                              "fovorite":"false"
+
+                            });
+
+                          }
+                          else{
+                            FirebaseFirestore.instance
+                                .collection("All_Tournaments")
+                                .doc(widget.all_tournament_showing_model.Tournament_Name).update({
+                              "fovorite":"true"
+
+                            });
+                          }
+
+
+                        },
+                        child: Center(
+                          child: Container(
+                            height:
+                            MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 1), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Center(child: Text("Favorite :",style: TextStyle(
+                                          color: Colors.white
+                                      ),)),
+                                      SizedBox(
+                                        height: MediaQuery.of(context)
+                                            .size
+                                            .height *
+                                            0.015,
+                                      ),
+                                      Center(child:snapshot.data["fovorite"]=="true"?Image.asset(
+                                      height: MediaQuery.of(context).size.height*0.0350,
+
+                              "animation/lover.png"):Icon(Icons.favorite_border,color: Colors.red,size: MediaQuery.of(context).size.height*0.0350 ),
+                          )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+
+
+                // tournament creator detail ui
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("Users")
@@ -165,6 +260,9 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+
+                // total and register team ui
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("All_Tournaments")
@@ -236,6 +334,9 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+
+                // tournament start and end date showing ui
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("All_Tournaments")
@@ -314,6 +415,10 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+
+
+                //entry and registration fees design
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("All_Tournaments")
@@ -384,6 +489,9 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+
+                // Location showing ui
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("All_Tournaments")
@@ -433,9 +541,12 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                                           .height *
                                           0.025,
                                     ),
-                                    Center(child: Text(snapshot.data["Location"],style: TextStyle(
-                                        color: Colors.white
-                                    ),))
+                                    Center(child: Container(
+
+                                      child: Text(snapshot.data["Location"],style: TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                    ))
                                   ],
                                 ),
                               ],
@@ -447,6 +558,8 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
+
+                // details about tournament showing screen
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("All_Tournaments")
@@ -463,7 +576,7 @@ class _Match_Detail_screenState extends State<Match_Detail_screen> {
                       return Center(
                         child: Container(
                           height:
-                          MediaQuery.of(context).size.height * 0.15,
+                          MediaQuery.of(context).size.height * 0.35,
                           width:
                           MediaQuery.of(context).size.width * 0.9,
                           decoration: BoxDecoration(

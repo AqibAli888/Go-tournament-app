@@ -1,3 +1,5 @@
+//ok
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,42 +61,33 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
   TextEditingController detail = TextEditingController();
   TextEditingController phonenumber = TextEditingController();
 // updating total_teams and register_teams
-  formvalidation() {
+  formvalidation() async{
     if (total_teams.text.trim().isNotEmpty && Register_teams.text.isNotEmpty ) {
       //login
       if(int.parse(total_teams.text.trim())>=int.parse(Register_teams.text)){
         update_teams();
       }
       else{
-        showDialog(
-            context: context,
-            builder: (c) {
-              return Error_Dialog(
-                message: 'Register team cannot be greater then Total Teams',
-              );
-            });
+        showDialog(context: context, builder: (c) {
+          return Error_Dialog(message: "Register teams cannot be greater then total teams",path:"animation/95614-error-occurred.json");
+        });
       }
 
 
     } else {
-      showDialog(
-          context: context,
-          builder: (c) {
-            return Error_Dialog(
-              message: 'Please Enter All Textfields',
-            );
-          });
+      showDialog(context: context, builder: (c) {
+        return Error_Dialog(message:"Please Enter both fields",path:"animation/95614-error-occurred.json");
+      });
+
     }
   }
   update_teams() async {
+    Navigator.pop(context);
 
-    showDialog(
-        context: context,
-        builder: (c) {
-          return Loading_Dialog(
-            message: 'Updating please wait',
-          );
-        });
+    showDialog(context: context, builder: (c) {
+      return Loading_Dialog(message: 'Please wait',
+        path:"animation/97930-loading.json" ,);
+    });
     FirebaseFirestore.instance
         .collection("All_Tournaments")
         .doc(widget.new_tournament_model.Tournament_Name)
@@ -102,7 +95,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
       "Total_Teams": total_teams.text,
       "Register_Teams": Register_teams.text,
     });
-    FirebaseFirestore.instance
+     FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("Tournaments")
@@ -112,13 +105,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
       "Register_Teams": Register_teams.text,
     }).then((value) async {
       Navigator.pop(context);
-      showDialog(
-          context: context,
-          builder: (c) {
-            return Error_Dialog(
-              message: 'Updated Successfully',
-            );
-          });
+      showDialog(context: context, builder: (c) {
+        return Error_Dialog(message:"Updated Successfully",path:"animation/79952-successful.json");
+      });
     });
   }
 
@@ -246,6 +235,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                         ],
                                                       ),
                                                       child: Text_form_field(
+                                                        type: TextInputType.number,
                                                         max: 14,
                                                           texthint: "Phone Number",
                                                           data: Icons.phone,
@@ -260,7 +250,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             ),
                                             actions: [
                                               Row(
-                                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:MainAxisAlignment.spaceAround,
                                                 children: [
                                                   Container(
                                                     height:MediaQuery.of(context).size.height * 0.095,
@@ -270,6 +260,13 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                           Navigator.pop(context);
                                                         }),
                                                   ),
+
+
+
+
+
+
+
                                                   Container(
                                                     height:MediaQuery.of(context).size.height * 0.095,
                                                     child: TextButton(
@@ -281,6 +278,16 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                             "Phone":phonenumber.text
                                                           }).then((value)async{
                                                             Navigator.pop(context);
+                                                            showDialog(context: context, builder: (c) {
+                                                              return Error_Dialog(message: "Updated Successfully",path:"animation/79952-successful.json");
+                                                            });
+
+
+
+
+
+
+
                                                           });
                                                           // your code
                                                         }),
@@ -392,6 +399,13 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
+
+
+
+
+
+
+
                       // total teams and rigister teams
                       GestureDetector(
                         onTap: () {
@@ -431,14 +445,19 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               ),
 
                                               child: Text_form_field(
-                                                max: 3,
+                                                max: 4,
+                                                  type: TextInputType.number,
                                                   texthint: "Total Teams",
                                                   data: Icons.group,
                                                   controller: total_teams),
                                             ),
+
+
                                             SizedBox(
                                               height: MediaQuery.of(context).size.height * 0.02,
                                             ),
+
+                                            //REgister Teams
                                             Container(
 
                                               decoration: BoxDecoration(
@@ -454,7 +473,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                 ],
                                               ),
                                               child: Text_form_field(
-                                                  max: 3,
+                                                  max: 4,
                                                   texthint: "Register Teams",
                                                   type: TextInputType.number,
                                                   data: Icons.numbers,
@@ -483,7 +502,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             height:MediaQuery.of(context).size.height * 0.095,
                                             child: TextButton(
                                                 child: Image.asset("animation/accept.png"),
-                                                onPressed: () {
+                                                onPressed: ()async {
                                                   formvalidation();
                                                   // your code
                                                 }
@@ -651,8 +670,8 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                 ],
                                               ),
                                               child: TextButton(
-                                                  onPressed: () async {
-
+                                                  onPressed: () async
+                                              {
                                                     final DateTime? datetime =
                                                         await showDatePicker(
                                                             context: context,
@@ -661,7 +680,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                             firstDate:
                                                                 DateTime.now(),
                                                             lastDate: DateTime(
-                                                                year, m, day));
+                                                                2025));
+                                                    // year, m, day
+
                                                     if (datetime != null) {
                                                       setState(() {
                                                         start_selecteddate =
@@ -672,6 +693,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                   },
                                                   child: Text("Pick Start Date")),
                                             ),
+
                                             SizedBox(
                                               height: MediaQuery.of(context).size.height * 0.02,
                                             ),
@@ -695,11 +717,11 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                         await showDatePicker(
                                                             context: context,
                                                             initialDate:
-                                                                DateTime.now(),
+                                                            start_selecteddate,
                                                             firstDate:
-                                                                DateTime.now(),
+                                                            start_selecteddate,
                                                             lastDate:
-                                                                DateTime(2024));
+                                                            DateTime(2025));
                                                     if (datetime != null) {
                                                       setState(() {
                                                         End_selecteddate =
@@ -734,6 +756,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             child: TextButton(
                                                 child: Image.asset("animation/accept.png"),
                                                 onPressed: () async{
+                                                  Navigator.pop(context);
                                                   showDialog(context: context, builder: (c) {
                                                     return Loading_Dialog(message: 'Please wait',
                                                       path:"animation/97930-loading.json" ,);
@@ -763,6 +786,9 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                     End_selecteddate.toString(),
                                                   }).then((value) async {
                                                     Navigator.pop(context);
+                                                    showDialog(context: context, builder: (c) {
+                                                      return Error_Dialog(message: "Updated Successfully",path:"animation/79952-successful.json");
+                                                    });
                                                   });
 
                                                 }),
@@ -969,7 +995,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                             height:MediaQuery.of(context).size.height * 0.095,
                                             child: TextButton(
                                                 child: Image.asset("animation/accept.png"),
-                                                onPressed: () {
+                                                onPressed: () async{
                                                   showDialog(context: context, builder: (c) {
                                                     return Loading_Dialog(message: 'Please wait',
                                                       path:"animation/97930-loading.json" ,);
@@ -997,6 +1023,11 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                     "Entry_Fees": entry_fees.text,
                                                     "Winning_price":
                                                     winning_price.text,
+                                                  }).then((value)async{
+                                                    Navigator.pop(context);
+                                                    showDialog(context: context, builder: (c) {
+                                                      return Error_Dialog(message:"Updated Successfully",path:"animation/79952-successful.json");
+                                                    });
                                                   });
                                                   // your code
                                                 }
@@ -1105,11 +1136,6 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                               );
                             }),
                       ),
-
-
-
-
-
 
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
@@ -1272,11 +1298,14 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                 }),
                                           ),
 
+
                                           Container(
                                             height:MediaQuery.of(context).size.height * 0.095,
                                             child: TextButton(
                                                 child: Image.asset("animation/accept.png"),
-                                                onPressed: () {
+                                                onPressed: ()async {
+                                                  Navigator.pop(context);
+
                                                   showDialog(context: context, builder: (c) {
                                                     return Loading_Dialog(message: 'Please wait',
                                                       path:"animation/97930-loading.json" ,);
@@ -1287,9 +1316,6 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                       .Tournament_Name)
                                                       .update({
                                                     "Detail": detail.text,
-                                                  }).then((value) async {
-                                                    print("helokkk");
-                                                    Navigator.pop(context);
                                                   });
                                                   FirebaseFirestore.instance
                                                       .collection("Users")
@@ -1300,6 +1326,11 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                       .Tournament_Name)
                                                       .update({
                                                     "Detail": detail.text,
+                                                  }).then((value){
+                                                    Navigator.pop(context);
+                                                    showDialog(context: context, builder: (c) {
+                                                      return Error_Dialog(message: "Details Updated Successfully",path:"animation/79952-successful.json");
+                                                    });
                                                   });
                                                   // your code
                                                 }

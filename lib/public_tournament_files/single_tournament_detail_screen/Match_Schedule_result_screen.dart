@@ -18,6 +18,9 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
+          ),
 
           StreamBuilder(
             stream:FirebaseFirestore.instance
@@ -43,7 +46,7 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: MediaQuery.of(context).size.height * 0.35,
+                                  height: MediaQuery.of(context).size.height * 0.45,
                                     decoration: BoxDecoration(
                                         color: Colors.black,
                                         boxShadow: [
@@ -51,7 +54,7 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                                             color: Colors.blue.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 5,
-                                            offset: Offset(0, 5), // changes position of shadow
+                                            offset: Offset(0, 1), // changes position of shadow
                                           ),
                                         ],
                                         borderRadius: BorderRadius.circular(5)
@@ -66,31 +69,72 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
                                         ),
                                       ),
                                       focusColor: Colors.red,
-                                      title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(match_detail_model.team0.toString(),style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold
-                                          ),),
 
-                                          Container(
-                                            width: MediaQuery.of(context).size.width * 0.2,
-                                            height: MediaQuery.of(context).size.height * 0.08,
-                                            child: Image.asset("animation/election.png"),),
-                                          Text(match_detail_model.team1.toString(),style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold
-                                          ),),
 
-                                        ],
+                                      title: Padding(
+                                        padding: const  EdgeInsets.only(
+                                          left: 25.0,top: 5),
+                                        // Match type
+                                        child: Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.04,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                0.65,
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.blue
+                                                          .withOpacity(1),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 5,
+                                                      offset: Offset(
+                                                        1,
+                                                        1,
+                                                      ),
+                                                      blurStyle: BlurStyle
+                                                          .solid // changes position of shadow
+                                                  ),
+                                                ],
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    5)),
+                                            // Match Type
+
+
+                                            child: Center(child: Text(match_detail_model.Match_Type.toString()=="null"?"Match Type Not selected":match_detail_model.Match_Type.toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),))),
                                       ),
                                       subtitle: Center(
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+
+
+                                                Text(match_detail_model.team0.toString(),style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold
+                                                ),),
+
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width * 0.2,
+                                                  height: MediaQuery.of(context).size.height * 0.08,
+                                                  child: Image.asset("animation/election.png"),),
+                                                Text(match_detail_model.team1.toString(),style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold
+                                                ),),
+
+                                              ],
+                                            ),
                                             Padding(
                                               padding: const EdgeInsets.only(left: 25),
                                               child: Row(
@@ -130,9 +174,27 @@ class _Match_schedule_result_screen_publicState extends State<Match_schedule_res
 
                                             Padding(
                                               padding: const EdgeInsets.only(left: 25),
-                                              child: Text(match_detail_model.result.toString()==null.toString()?"Result not added":match_detail_model.result.toString(),style: TextStyle(
-                                                  color: Colors.white
-                                              )),
+                                              child: Container(
+                                                height: MediaQuery.of(context).size.height*0.05,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blue.withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Center(
+                                                  child: Text(match_detail_model.result.toString()==null.toString()?"Result not added":match_detail_model.result.toString(),style: TextStyle(
+                                                      color: Colors.white
+                                                  )),
+                                                ),
+                                              ),
                                             ),
                                             Row(
                                               children: [

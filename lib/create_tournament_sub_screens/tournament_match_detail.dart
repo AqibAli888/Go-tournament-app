@@ -24,6 +24,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   DateTime selecteddate = DateTime.now();
   TimeOfDay matchtime = TimeOfDay(hour: 12, minute: 30);
   var _chosenValue;
+  // match type selection
   void _showDecline()  {
     showDialog(
       context: context,
@@ -104,6 +105,8 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
     );
   }
 
+
+  // to delete all collection
   Future<void> deletecollection() async {
     var collection = await FirebaseFirestore.instance
         .collection('Users')
@@ -125,6 +128,8 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
     }
   }
 
+
+  // update match schedule
   Updatematchdetail(String id) {
     if (selecteddate.toString().isNotEmpty&&
         matchtime.toString().isNotEmpty &&selectedItem!="" &&
@@ -145,7 +150,6 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
       });
     }
   }
-
   updating_match_schedule(String id) async {
     showDialog(
         context: context,
@@ -209,6 +213,8 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
     });
   }
 
+
+  // create match schedule
   formvalidation(String time) {
     if (selecteddate.toString().isNotEmpty&&matchtime.toString().isNotEmpty
         &&selectedItem!="" && secondselected!=""&& _chosenValue!=null) {
@@ -230,7 +236,6 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
       });
     }
   }
-
   Adding_match_schedule(String time) async {
     showDialog(context: context, builder: (c) {
       return Loading_Dialog(message: 'Please wait',
@@ -285,6 +290,10 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
           .toString(),
       "Date": selecteddate.toString().split(" ").first.toString()
     }).then((value) {
+      Navigator.pop(context);
+      showDialog(context: context, builder: (c) {
+        return Error_Dialog(message: "Removed succefully",
+            path:"animation/79952-successful.json");});
       secondselected = "";
       selectedItem = "";
       Navigator.pop(context);
@@ -313,7 +322,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
         .doc(widget.new_tournament_model.Tournament_Name);
 
     List<String> teamsadded = <String>[""];
-
+    // get all registered teams to make availaible for scheudule
     void getallteams() async {
       await for (var messages in FirebaseFirestore.instance
           .collection('Users')
@@ -339,6 +348,8 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
           Container(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
+
+          // delete all schedule
           Container(
               decoration: BoxDecoration(
                   color: Colors.black,
@@ -362,289 +373,243 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                         fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ))),
-          StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('Users')
-                .doc(firebaseAuth.currentUser!.uid)
-                .collection("Tournaments")
-                .doc(widget.new_tournament_model.Tournament_Name)
-                .collection("Tournament_schedule")
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                // shows tournaments if the tournament exists
-                return Container(
-                  width: double.infinity,
+
+
+          //all showing schedules
+          Container(
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Match_Detail_model match_detail_model =
-                            Match_Detail_model.fromJson(
-                                snapshot.data!.docs[index].data()!
-                                    as Map<String, dynamic>);
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 10,
-                              ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.45,
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(
-                                            0, 1), // changes position of shadow
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Users')
+                  .doc(firebaseAuth.currentUser!.uid)
+                  .collection("Tournaments")
+                  .doc(widget.new_tournament_model.Tournament_Name)
+                  .collection("Tournament_schedule")
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  // shows tournaments if the tournament exists
+                  return Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          Match_Detail_model match_detail_model =
+                              Match_Detail_model.fromJson(
+                                  snapshot.data!.docs[index].data()!
+                                      as Map<String, dynamic>);
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.45,
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(
+                                              0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: ListTile(
+                                      trailing: SizedBox(
+                                        width: MediaQuery.of(context).size.width *
+                                            0.00001,
+                                        child: Row(
+                                          children: [],
+                                        ),
                                       ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: ListTile(
-                                    trailing: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.00001,
-                                      child: Row(
-                                        children: [],
+                                      focusColor: Colors.red,
+                                      title: Padding(
+                                        padding: const  EdgeInsets.only(
+                                          left: 25.0,),
+                                        // Match type
+                                        child: Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.04,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                0.85,
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.blue
+                                                          .withOpacity(1),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 5,
+                                                      offset: Offset(
+                                                        1,
+                                                        1,
+                                                      ),
+                                                      blurStyle: BlurStyle
+                                                          .solid // changes position of shadow
+                                                  ),
+                                                ],
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    5)),
+
+
+                                            //
+                                            //
+                                            // Match Type selection
+                                            child: Center(child: Text(match_detail_model.Match_Type.toString()=="null"?"Match Type Not selected":match_detail_model.Match_Type.toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),))),
                                       ),
-                                    ),
-                                    focusColor: Colors.red,
-                                    title: Padding(
-                                      padding: const  EdgeInsets.only(
-                                        left: 25.0,),
-                                      // Match type
-                                      child: Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                              0.04,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                              0.85,
-                                          decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.blue
-                                                        .withOpacity(1),
-                                                    spreadRadius: 1,
-                                                    blurRadius: 5,
-                                                    offset: Offset(
-                                                      1,
-                                                      1,
-                                                    ),
-                                                    blurStyle: BlurStyle
-                                                        .solid // changes position of shadow
-                                                ),
-                                              ],
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  5)),
-                                          // Match Type
+                                      subtitle: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
 
 
-                                          child: Center(child: Text(match_detail_model.Match_Type.toString()=="null"?"Match Type Not selected":match_detail_model.Match_Type.toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),))),
-                                    ),
-                                    subtitle: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          // team1 vs team 2 ui
 
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                match_detail_model.team0.toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.2,
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                    0.08,
-                                                child: Image.asset(
-                                                    "animation/election.png"),
-                                              ),
-                                              Text(
-                                                match_detail_model.team1.toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-
-                                          // calender and date ui
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 35.0, top: 10),
-                                            child: Row(
+                                            // team1 vs team 2 ui
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.25,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.05,
-                                                  child: Image.asset(
-                                                      "animation/calendar(1).png"),
-                                                ),
                                                 Text(
-                                                  match_detail_model.Date
-                                                      .toString(),
+                                                  match_detail_model.team0.toString(),
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.2,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.08,
+                                                  child: Image.asset(
+                                                      "animation/election.png"),
+                                                ),
+                                                Text(
+                                                  match_detail_model.team1.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.bold),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.02,
-                                          ),
 
-                                          // clock and time ui
-                                          Center(
-                                            child: Padding(
+
+
+                                            // calender and date ui
+                                            Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 20.0),
+                                                  left: 35.0, top: 10),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.25,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.05,
+                                                    width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.25,
+                                                    height: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.05,
                                                     child: Image.asset(
-                                                        "animation/clock.png"),
+                                                        "animation/calendar(1).png"),
                                                   ),
                                                   Text(
-                                                    "At ",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    match_detail_model.Time
+                                                    match_detail_model.Date
                                                         .toString(),
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.bold),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01,
-                                          ),
-
-
-
-                                          // result ui
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20.0),
-                                            child: Container(
+                                            SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
-                                                  0.06,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.85,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.blue
-                                                            .withOpacity(1),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 5,
-                                                        offset: Offset(
-                                                          1,
-                                                          1,
-                                                        ),
-                                                        blurStyle: BlurStyle
-                                                            .solid // changes position of shadow
-                                                        ),
-                                                  ],
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
+                                                  0.02,
+                                            ),
+
+                                            // clock and time ui
+                                            Center(
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Center(
-                                                  child: Text(
-                                                    match_detail_model.result
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
+                                                padding: const EdgeInsets.only(
+                                                    right: 20.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.25,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.05,
+                                                      child: Image.asset(
+                                                          "animation/clock.png"),
+                                                    ),
+                                                    Text(
+                                                      "At ",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      match_detail_model.Time
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.02,
-                                          ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.01,
+                                            ),
 
 
-                                          //   delete and result update ui
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20.0),
-                                            child: Center(
+
+                                            // result ui
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
                                               child: Container(
                                                 height: MediaQuery.of(context)
                                                         .size
@@ -671,826 +636,888 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                           ),
                                                     ],
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 8.0,
-                                                              bottom: 5),
-                                                      // delete button
-                                                      child: IconButton(
-                                                          onPressed: () {
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'Users')
-                                                                .doc(firebaseAuth
-                                                                    .currentUser!
-                                                                    .uid)
-                                                                .collection(
-                                                                    "Tournaments")
-                                                                .doc(widget
-                                                                    .new_tournament_model
-                                                                    .Tournament_Name)
-                                                                .collection(
-                                                                    "Tournament_schedule")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .id)
-                                                                .delete();
-
-                                                            all_tournament_ref
-                                                                .collection(
-                                                                    "Tournament_schedule")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .id)
-                                                                .delete();
-                                                          },
-                                                          icon: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.red,
-                                                          )),
+                                                        BorderRadius.circular(5)),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Center(
+                                                    child: Text(
+                                                      match_detail_model.result
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
-
-                                                    // update result
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0,
-                                                              bottom: 5),
-                                                      child: IconButton(
-                                                          onPressed: () async {
-                                                            DocumentSnapshot variable = await FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'Users')
-                                                                .doc(firebaseAuth
-                                                                    .currentUser!
-                                                                    .uid)
-                                                                .collection(
-                                                                    "Tournaments")
-                                                                .doc(widget
-                                                                    .new_tournament_model
-                                                                    .Tournament_Name)
-                                                                .collection(
-                                                                    "Tournament_schedule")
-                                                                .doc(
-                                                                    match_detail_model
-                                                                        .id)
-                                                                .get();
-                                                            String team =
-                                                                variable[
-                                                                        "result"]
-                                                                    .toString()
-                                                                    .split(" ")
-                                                                    .first;
-                                                            if ((variable[
-                                                                    "result"]) ==
-                                                                "Result Not added") {
-                                                              Navigator.of(context).push(
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          Match_result_screen(
-                                                                            new_tournament_model:
-                                                                                widget.new_tournament_model,
-                                                                            match_detail_model:
-                                                                                match_detail_model,
-                                                                          )));
-                                                            } else if (team ==
-                                                                match_detail_model
-                                                                    .team0) {
-                                                              print(team);
-                                                              print("here 1");
-                                                              print(
-                                                                  match_detail_model
-                                                                      .team0);
-                                                              // result updaate
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Tournament_schedule")
-                                                                  .doc(
-                                                                      match_detail_model
-                                                                          .id)
-                                                                  .update({
-                                                                "result":
-                                                                    "Result Not added"
-                                                              });
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "All_Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team0)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -2),
-                                                                "win": FieldValue
-                                                                    .increment(
-                                                                        -1)
-                                                              });
-
-                                                              //  decrease the other team played match
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "All_Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team1)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                              });
-
-                                                              // decrease the get points played win all in private of team[0]
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team0)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -2),
-                                                                "win": FieldValue
-                                                                    .increment(
-                                                                        -1)
-                                                              });
-
-                                                              //  decrease the other team played match
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team1)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                              }).then((value) {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(MaterialPageRoute(
-                                                                        builder: (context) => Match_result_screen(
-                                                                              new_tournament_model: widget.new_tournament_model,
-                                                                              match_detail_model: match_detail_model,
-                                                                            )));
-                                                              });
-                                                            } else if (team ==
-                                                                match_detail_model
-                                                                    .team1) {
-                                                              print(team);
-                                                              print("here 1");
-                                                              print(
-                                                                  match_detail_model
-                                                                      .team0);
-                                                              // result updaate
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Tournament_schedule")
-                                                                  .doc(
-                                                                      match_detail_model
-                                                                          .id)
-                                                                  .update({
-                                                                "result":
-                                                                    "Result Not added"
-                                                              });
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "All_Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team1)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -2),
-                                                                "win": FieldValue
-                                                                    .increment(
-                                                                        -1)
-                                                              });
-
-                                                              //  decrease the other team played match
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "All_Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team0)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                              });
-
-                                                              // decrease the get points played win all in private of team[0]
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team1)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -2),
-                                                                "win": FieldValue
-                                                                    .increment(
-                                                                        -1)
-                                                              });
-
-                                                              //  decrease the other team played match
-
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team0)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                              }).then((value) {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(MaterialPageRoute(
-                                                                        builder: (context) => Match_result_screen(
-                                                                              new_tournament_model: widget.new_tournament_model,
-                                                                              match_detail_model: match_detail_model,
-                                                                            )));
-                                                              });
-                                                            }
-                                                            // draw
-                                                            else if (team ==
-                                                                "Draw") {
-                                                              print("Draw");
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Tournament_schedule")
-                                                                  .doc(
-                                                                      match_detail_model
-                                                                          .id)
-                                                                  .update({
-                                                                "result":
-                                                                    "Result Not added"
-                                                              });
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'All_Tournaments')
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Tournament_schedule")
-                                                                  .doc(
-                                                                      match_detail_model
-                                                                          .id)
-                                                                  .update({
-                                                                "result":
-                                                                    "Result Not added"
-                                                              });
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team1)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -1),
-                                                              });
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'Users')
-                                                                  .doc(firebaseAuth
-                                                                      .currentUser!
-                                                                      .uid)
-                                                                  .collection(
-                                                                      "Tournaments")
-                                                                  .doc(widget
-                                                                      .new_tournament_model
-                                                                      .Tournament_Name)
-                                                                  .collection(
-                                                                      "Teams_in_Tournament")
-                                                                  .doc(match_detail_model
-                                                                      .team0)
-                                                                  .update({
-                                                                "played":
-                                                                    FieldValue
-                                                                        .increment(
-                                                                            -1),
-                                                                "point": FieldValue
-                                                                    .increment(
-                                                                        -1),
-                                                              }).then((value) {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(MaterialPageRoute(
-                                                                        builder: (context) => Match_result_screen(
-                                                                              new_tournament_model: widget.new_tournament_model,
-                                                                              match_detail_model: match_detail_model,
-                                                                            )));
-                                                              });
-                                                            }
-
-                                                            print(team);
-                                                          },
-                                                          icon: Icon(
-                                                            Icons.update,
-                                                            color: Colors.red,
-                                                          )),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.02,
+                                            ),
 
-                                        ],
-                                      ),
-                                    ),
 
-                                    //   tap on the list index
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              shadowColor: Colors.white,
-                                              elevation: 10,
-                                              backgroundColor: Colors.black,
-                                              scrollable: true,
-                                              title: Text(
-                                                'Are You Sure to Update the Match Scheduling?',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                            //   delete and result update ui
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
+                                              child: Center(
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.06,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.85,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.black,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.blue
+                                                                .withOpacity(1),
+                                                            spreadRadius: 1,
+                                                            blurRadius: 5,
+                                                            offset: Offset(
+                                                              1,
+                                                              1,
+                                                            ),
+                                                            blurStyle: BlurStyle
+                                                                .solid // changes position of shadow
+                                                            ),
+                                                      ],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                                right: 8.0,
+                                                                bottom: 5),
+                                                        // delete button
+                                                        child: IconButton(
+                                                            onPressed: () {
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Users')
+                                                                  .doc(firebaseAuth
+                                                                      .currentUser!
+                                                                      .uid)
+                                                                  .collection(
+                                                                      "Tournaments")
+                                                                  .doc(widget
+                                                                      .new_tournament_model
+                                                                      .Tournament_Name)
+                                                                  .collection(
+                                                                      "Tournament_schedule")
+                                                                  .doc(
+                                                                      match_detail_model
+                                                                          .id)
+                                                                  .delete();
+
+                                                              all_tournament_ref
+                                                                  .collection(
+                                                                      "Tournament_schedule")
+                                                                  .doc(
+                                                                      match_detail_model
+                                                                          .id)
+                                                                  .delete();
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.delete,
+                                                              color: Colors.red,
+                                                            )),
+                                                      ),
+
+                                                      // update result
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                                left: 8.0,
+                                                                bottom: 5),
+                                                        child: IconButton(
+                                                            onPressed: () async {
+                                                              DocumentSnapshot variable = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Users')
+                                                                  .doc(firebaseAuth
+                                                                      .currentUser!
+                                                                      .uid)
+                                                                  .collection(
+                                                                      "Tournaments")
+                                                                  .doc(widget
+                                                                      .new_tournament_model
+                                                                      .Tournament_Name)
+                                                                  .collection(
+                                                                      "Tournament_schedule")
+                                                                  .doc(
+                                                                      match_detail_model
+                                                                          .id)
+                                                                  .get();
+                                                              String team =
+                                                                  variable[
+                                                                          "result"]
+                                                                      .toString()
+                                                                      .split(" ")
+                                                                      .first;
+                                                              if ((variable[
+                                                                      "result"]) ==
+                                                                  "Result Not added") {
+                                                                Navigator.of(context).push(
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            Match_result_screen(
+                                                                              new_tournament_model:
+                                                                                  widget.new_tournament_model,
+                                                                              match_detail_model:
+                                                                                  match_detail_model,
+                                                                            )));
+                                                              } else if (team ==
+                                                                  match_detail_model
+                                                                      .team0) {
+                                                                print(team);
+                                                                print("here 1");
+                                                                print(
+                                                                    match_detail_model
+                                                                        .team0);
+                                                                // result updaate
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Tournament_schedule")
+                                                                    .doc(
+                                                                        match_detail_model
+                                                                            .id)
+                                                                    .update({
+                                                                  "result":
+                                                                      "Result Not added"
+                                                                });
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "All_Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team0)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -2),
+                                                                  "win": FieldValue
+                                                                      .increment(
+                                                                          -1)
+                                                                });
+
+                                                                //  decrease the other team played match
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "All_Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team1)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                });
+
+                                                                // decrease the get points played win all in private of team[0]
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team0)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -2),
+                                                                  "win": FieldValue
+                                                                      .increment(
+                                                                          -1)
+                                                                });
+
+                                                                //  decrease the other team played match
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team1)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                }).then((value) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder: (context) => Match_result_screen(
+                                                                                new_tournament_model: widget.new_tournament_model,
+                                                                                match_detail_model: match_detail_model,
+                                                                              )));
+                                                                });
+                                                              } else if (team ==
+                                                                  match_detail_model
+                                                                      .team1) {
+                                                                print(team);
+                                                                print("here 1");
+                                                                print(
+                                                                    match_detail_model
+                                                                        .team0);
+                                                                // result updaate
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Tournament_schedule")
+                                                                    .doc(
+                                                                        match_detail_model
+                                                                            .id)
+                                                                    .update({
+                                                                  "result":
+                                                                      "Result Not added"
+                                                                });
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "All_Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team1)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -2),
+                                                                  "win": FieldValue
+                                                                      .increment(
+                                                                          -1)
+                                                                });
+
+                                                                //  decrease the other team played match
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "All_Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team0)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                });
+
+                                                                // decrease the get points played win all in private of team[0]
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team1)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -2),
+                                                                  "win": FieldValue
+                                                                      .increment(
+                                                                          -1)
+                                                                });
+
+                                                                //  decrease the other team played match
+
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team0)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                }).then((value) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder: (context) => Match_result_screen(
+                                                                                new_tournament_model: widget.new_tournament_model,
+                                                                                match_detail_model: match_detail_model,
+                                                                              )));
+                                                                });
+                                                              }
+                                                              // draw
+                                                              else if (team ==
+                                                                  "Draw") {
+                                                                print("Draw");
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Tournament_schedule")
+                                                                    .doc(
+                                                                        match_detail_model
+                                                                            .id)
+                                                                    .update({
+                                                                  "result":
+                                                                      "Result Not added"
+                                                                });
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'All_Tournaments')
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Tournament_schedule")
+                                                                    .doc(
+                                                                        match_detail_model
+                                                                            .id)
+                                                                    .update({
+                                                                  "result":
+                                                                      "Result Not added"
+                                                                });
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team1)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -1),
+                                                                });
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Users')
+                                                                    .doc(firebaseAuth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .collection(
+                                                                        "Tournaments")
+                                                                    .doc(widget
+                                                                        .new_tournament_model
+                                                                        .Tournament_Name)
+                                                                    .collection(
+                                                                        "Teams_in_Tournament")
+                                                                    .doc(match_detail_model
+                                                                        .team0)
+                                                                    .update({
+                                                                  "played":
+                                                                      FieldValue
+                                                                          .increment(
+                                                                              -1),
+                                                                  "point": FieldValue
+                                                                      .increment(
+                                                                          -1),
+                                                                }).then((value) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder: (context) => Match_result_screen(
+                                                                                new_tournament_model: widget.new_tournament_model,
+                                                                                match_detail_model: match_detail_model,
+                                                                              )));
+                                                                });
+                                                              }
+
+                                                              print(team);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.update,
+                                                              color: Colors.red,
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              actions: [
-                                                TextButton(
-                                                    child: Text(
-                                                      "cancel",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      // your code
-                                                    }),
-                                                TextButton(
-                                                    child: Text(
-                                                      "Update",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      getallteams();
-                                                      items = items
-                                                          .toSet()
-                                                          .toList();
-                                                      teamsadded = teamsadded
-                                                          .toSet()
-                                                          .toList();
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return items.length>1 && teamsadded.length>1? SingleChildScrollView(
-                                                              child:
-                                                                  AlertDialog(
-                                                                title: Text(
-                                                                    'Update Match Schedule'),
-                                                                content: Column(
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    Row(
-                                                                      mainAxisSize: MainAxisSize.min,
-                                                                      children: <Widget>[
-                                                                        Icon(Icons.group),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 8.0, right: 8.0),
-                                                                          child: Text('Select Team:'),
-                                                                        ),
-                                                                        Expanded(
-                                                                          // add Expanded to have your dropdown button fill remaining space
-                                                                          child: DropdownButton<String>(
+                                            ),
+
+                                          ],
+                                        ),
+                                      ),
+
+                                      //   tap on the list index to  update match details
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                shadowColor: Colors.white,
+                                                elevation: 10,
+                                                backgroundColor: Colors.black,
+                                                scrollable: true,
+                                                title: Text(
+                                                  'Are You Sure to Update the Match Scheduling?',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      child: Text(
+                                                        "cancel",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                        // your code
+                                                      }),
+                                                  TextButton(
+                                                      child: Text(
+                                                        "Update",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                        getallteams();
+                                                        items = items
+                                                            .toSet()
+                                                            .toList();
+                                                        teamsadded = teamsadded
+                                                            .toSet()
+                                                            .toList();
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                context) {
+                                                              return items.length>1 && teamsadded.length>1? SingleChildScrollView(
+                                                                child:
+                                                                    AlertDialog(
+                                                                  title: Text(
+                                                                      'Update Match Schedule'),
+                                                                  content: Column(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    children: <Widget>[
+                                                                      Row(
+                                                                        mainAxisSize: MainAxisSize.min,
+                                                                        children: <Widget>[
+                                                                          Icon(Icons.group),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 8.0, right: 8.0),
+                                                                            child: Text('Select Team:'),
+                                                                          ),
+                                                                          Expanded(
+                                                                            // add Expanded to have your dropdown button fill remaining space
+                                                                            child: DropdownButton<String>(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                              isExpanded:
+                                                                              true, // this allows your dropdown icon to be visible
+                                                                              value: items.isNotEmpty
+                                                                                  ? selectedItem
+                                                                                  : null,
+                                                                              iconSize: 24,
+                                                                              items: items.map((item) {
+                                                                                return DropdownMenuItem(
+                                                                                  value: item,
+                                                                                  child: Text(item),
+                                                                                );
+                                                                              }).toList(),
+                                                                              onChanged: (value) =>
+                                                                                  setState(() {
+                                                                                    selectedItem = value!;
+                                                                                    print(selectedItem);
+                                                                                    items.add(selectedItem);
+                                                                                    items.clear();
+                                                                                    items.add("");
+                                                                                    items = items.toSet().toList();
+                                                                                  }),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Text("VS"),
+                                                                      Row(
+                                                                        mainAxisSize: MainAxisSize.min,
+                                                                        children: <Widget>[
+                                                                          Icon(Icons.group),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 8.0, right: 8.0),
+                                                                            child: Text('Select Team:'),
+                                                                          ),
+                                                                          Expanded(
+                                                                            // add Expanded to have your dropdown button fill remaining space
+                                                                            child: DropdownButton<String>(
+                                                                              isExpanded:
+                                                                              true, // this allows your dropdown icon to be visible
+                                                                              value: teamsadded.isNotEmpty
+                                                                                  ? selectedItem
+                                                                                  : null,
+                                                                              iconSize: 24,
+                                                                              items: teamsadded.map((item) {
+                                                                                return DropdownMenuItem(
+                                                                                  value: item,
+                                                                                  child: Text(item),
+                                                                                );
+                                                                              }).toList(),
+                                                                              onChanged: (value) =>
+                                                                                  setState(() {
+                                                                                    secondselected = value!;
+                                                                                    print(secondselected);
+                                                                                    teamsadded.add(selectedItem);
+                                                                                    teamsadded.clear();
+                                                                                    teamsadded.add("");
+                                                                                    teamsadded =
+                                                                                        teamsadded.toSet().toList();
+                                                                                  }),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+
+                                                                      Container(
+                                                                        height:  MediaQuery.of(context).size.height*0.1,
+                                                                        width:
+                                                                        MediaQuery.of(context).size.width,
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.black,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: Colors.blue
+                                                                                    .withOpacity(0.5),
+                                                                                spreadRadius: 1,
+                                                                                blurRadius: 5,
+                                                                                offset: Offset(0,
+                                                                                    1), // changes position of shadow
+                                                                              ),
+                                                                            ],
                                                                             borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                            isExpanded:
-                                                                            true, // this allows your dropdown icon to be visible
-                                                                            value: items.isNotEmpty
-                                                                                ? selectedItem
-                                                                                : null,
-                                                                            iconSize: 24,
-                                                                            items: items.map((item) {
-                                                                              return DropdownMenuItem(
-                                                                                value: item,
-                                                                                child: Text(item),
-                                                                              );
-                                                                            }).toList(),
-                                                                            onChanged: (value) =>
-                                                                                setState(() {
-                                                                                  selectedItem = value!;
-                                                                                  print(selectedItem);
-                                                                                  items.add(selectedItem);
-                                                                                  items.clear();
-                                                                                  items.add("");
-                                                                                  items = items.toSet().toList();
-                                                                                }),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Text("VS"),
-                                                                    Row(
-                                                                      mainAxisSize: MainAxisSize.min,
-                                                                      children: <Widget>[
-                                                                        Icon(Icons.group),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 8.0, right: 8.0),
-                                                                          child: Text('Select Team:'),
-                                                                        ),
-                                                                        Expanded(
-                                                                          // add Expanded to have your dropdown button fill remaining space
-                                                                          child: DropdownButton<String>(
-                                                                            isExpanded:
-                                                                            true, // this allows your dropdown icon to be visible
-                                                                            value: teamsadded.isNotEmpty
-                                                                                ? selectedItem
-                                                                                : null,
-                                                                            iconSize: 24,
-                                                                            items: teamsadded.map((item) {
-                                                                              return DropdownMenuItem(
-                                                                                value: item,
-                                                                                child: Text(item),
-                                                                              );
-                                                                            }).toList(),
-                                                                            onChanged: (value) =>
-                                                                                setState(() {
-                                                                                  secondselected = value!;
-                                                                                  print(secondselected);
-                                                                                  teamsadded.add(selectedItem);
-                                                                                  teamsadded.clear();
-                                                                                  teamsadded.add("");
-                                                                                  teamsadded =
-                                                                                      teamsadded.toSet().toList();
-                                                                                }),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-
-                                                                    Container(
-                                                                      height:  MediaQuery.of(context).size.height*0.1,
-                                                                      width:
-                                                                      MediaQuery.of(context).size.width,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black,
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                              color: Colors.blue
-                                                                                  .withOpacity(0.5),
-                                                                              spreadRadius: 1,
-                                                                              blurRadius: 5,
-                                                                              offset: Offset(0,
-                                                                                  1), // changes position of shadow
-                                                                            ),
-                                                                          ],
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(10)),
-                                                                      child: GestureDetector(
-                                                                        onTap: (){
-                                                                          _showDecline();
-                                                                        },
-                                                                        child:  Center(
-                                                                          child: Text("Match Type",style: TextStyle(
-                                                                              color: Colors.white,fontSize: 13
+                                                                            BorderRadius.circular(10)),
+                                                                        child: GestureDetector(
+                                                                          onTap: (){
+                                                                            _showDecline();
+                                                                          },
+                                                                          child:  Center(
+                                                                            child: Text("Match Type",style: TextStyle(
+                                                                                color: Colors.white,fontSize: 13
+                                                                            ),),
                                                                           ),),
-                                                                        ),),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: MediaQuery.of(context).size.height*0.02,
-                                                                    ),
-                                                                    Container(
-                                                                      width:
-                                                                      MediaQuery.of(context).size.width,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black,
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                              color: Colors.blue
-                                                                                  .withOpacity(0.5),
-                                                                              spreadRadius: 1,
-                                                                              blurRadius: 5,
-                                                                              offset: Offset(0,
-                                                                                  1), // changes position of shadow
-                                                                            ),
-                                                                          ],
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(5)),
-                                                                      child: TextButton(
-                                                                          onPressed: () async {
-                                                                            var myInt = widget
-                                                                                .new_tournament_model
-                                                                                .End_tournament
-                                                                                .toString()
-                                                                                .split(" ")
-                                                                                .first;
-                                                                            print(myInt);
-                                                                            var year = int.parse(
-                                                                                myInt.split("-").first);
-                                                                            var month = int.parse(myInt
-                                                                                .split("")
-                                                                                .skip(5)
-                                                                                .first);
-                                                                            var monthh = int.parse(myInt
-                                                                                .split("")
-                                                                                .skip(6)
-                                                                                .first);
-                                                                            print(month);
-                                                                            print(monthh);
-                                                                            var m = int.parse(
-                                                                                month.toString() +
-                                                                                    monthh.toString());
-                                                                            print(m);
-                                                                            var day = int.parse(
-                                                                                myInt.split("-").last);
-                                                                            print("${year}y-${m}m-${day}");
-
-                                                                            final DateTime? datetime =
-                                                                            await showDatePicker(
-                                                                                context: context,
-                                                                                initialDate:
-                                                                                DateTime.now(),
-                                                                                firstDate: DateTime.now(),
-                                                                                lastDate: DateTime(
-                                                                                    year, m, day));
-                                                                            if (datetime != null) {
-                                                                              setState(() {
-                                                                                selecteddate = datetime;
-                                                                              });
-                                                                            }
-                                                                          },
-                                                                          child: Text("pick date")),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: MediaQuery.of(context).size.height*0.02,
-                                                                    ),
-                                                                    Container(
-                                                                      width:
-                                                                      MediaQuery.of(context).size.width,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black,
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                              color: Colors.blue
-                                                                                  .withOpacity(0.5),
-                                                                              spreadRadius: 1,
-                                                                              blurRadius: 5,
-                                                                              offset: Offset(0,
-                                                                                  1), // changes position of shadow
-                                                                            ),
-                                                                          ],
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(5)),
-                                                                      child: TextButton(
-                                                                          onPressed: () async {
-                                                                            TimeOfDay? newtime =
-                                                                            await showTimePicker(
-                                                                                context: context,
-                                                                                initialTime: matchtime!);
-                                                                            if (newtime != null) {
-                                                                              setState(() {
-                                                                                matchtime = newtime;
-                                                                              });
-                                                                            }
-                                                                          },
-                                                                          child: Text("pick time")),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: MediaQuery.of(context).size.height*0.02,
-                                                                    ),
-                                                                    Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween
-                                                                      ,
-                                                                      children: [
-
-
-
-
-                                                                        TextButton(
-                                                                            onPressed: () {
-                                                                              selectedteam="";
-                                                                              selectedItem="";
-                                                                              secondselected="";
-                                                                              Navigator.pop(context);
-                                                                            },
-                                                                            child:Container(height: MediaQuery.of(context).size.height*0.1,
-                                                                                child:Image.asset("animation/multiply.png"))),
-                                                                        TextButton(
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: MediaQuery.of(context).size.height*0.02,
+                                                                      ),
+                                                                      Container(
+                                                                        width:
+                                                                        MediaQuery.of(context).size.width,
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.black,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: Colors.blue
+                                                                                    .withOpacity(0.5),
+                                                                                spreadRadius: 1,
+                                                                                blurRadius: 5,
+                                                                                offset: Offset(0,
+                                                                                    1), // changes position of shadow
+                                                                              ),
+                                                                            ],
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(5)),
+                                                                        child: TextButton(
                                                                             onPressed: () async {
-                                                                              Navigator.pop(
-                                                                                  context);
-                                                                              Updatematchdetail(match_detail_model
-                                                                                  .id
-                                                                                  .toString());
+                                                                              var myInt = widget
+                                                                                  .new_tournament_model
+                                                                                  .End_tournament
+                                                                                  .toString()
+                                                                                  .split(" ")
+                                                                                  .first;
+                                                                              print(myInt);
+                                                                              var year = int.parse(
+                                                                                  myInt.split("-").first);
+                                                                              var month = int.parse(myInt
+                                                                                  .split("")
+                                                                                  .skip(5)
+                                                                                  .first);
+                                                                              var monthh = int.parse(myInt
+                                                                                  .split("")
+                                                                                  .skip(6)
+                                                                                  .first);
+                                                                              print(month);
+                                                                              print(monthh);
+                                                                              var m = int.parse(
+                                                                                  month.toString() +
+                                                                                      monthh.toString());
+                                                                              print(m);
+                                                                              var day = int.parse(
+                                                                                  myInt.split("-").last);
+                                                                              print("${year}y-${m}m-${day}");
+
+                                                                              final DateTime? datetime =
+                                                                              await showDatePicker(
+                                                                                  context: context,
+                                                                                  initialDate:
+                                                                                  DateTime.now(),
+                                                                                  firstDate: DateTime.now(),
+                                                                                  lastDate: DateTime(
+                                                                                      year, m, day));
+                                                                              if (datetime != null) {
+                                                                                setState(() {
+                                                                                  selecteddate = datetime;
+                                                                                });
+                                                                              }
                                                                             },
-                                                                            child:Container(height: MediaQuery.of(context).size.height*0.1,
-                                                                                child:Image.asset("animation/accept.png")) ),
-                                                                      ],
-                                                                    ),
+                                                                            child: Text("pick date")),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: MediaQuery.of(context).size.height*0.02,
+                                                                      ),
+                                                                      Container(
+                                                                        width:
+                                                                        MediaQuery.of(context).size.width,
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.black,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: Colors.blue
+                                                                                    .withOpacity(0.5),
+                                                                                spreadRadius: 1,
+                                                                                blurRadius: 5,
+                                                                                offset: Offset(0,
+                                                                                    1), // changes position of shadow
+                                                                              ),
+                                                                            ],
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(5)),
+                                                                        child: TextButton(
+                                                                            onPressed: () async {
+                                                                              TimeOfDay? newtime =
+                                                                              await showTimePicker(
+                                                                                  context: context,
+                                                                                  initialTime: matchtime!);
+                                                                              if (newtime != null) {
+                                                                                setState(() {
+                                                                                  matchtime = newtime;
+                                                                                });
+                                                                              }
+                                                                            },
+                                                                            child: Text("pick time")),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: MediaQuery.of(context).size.height*0.02,
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween
+                                                                        ,
+                                                                        children: [
 
 
-                                                                    SizedBox(
-                                                                      height: MediaQuery.of(context).size.height*0.02,
-                                                                    ),
 
-                                                                  ],
+
+                                                                          TextButton(
+                                                                              onPressed: () {
+                                                                                selectedteam="";
+                                                                                selectedItem="";
+                                                                                secondselected="";
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child:Container(height: MediaQuery.of(context).size.height*0.1,
+                                                                                  child:Image.asset("animation/multiply.png"))),
+                                                                          TextButton(
+                                                                              onPressed: () async {
+                                                                                Navigator.pop(
+                                                                                    context);
+                                                                                Updatematchdetail(match_detail_model
+                                                                                    .id
+                                                                                    .toString());
+                                                                              },
+                                                                              child:Container(height: MediaQuery.of(context).size.height*0.1,
+                                                                                  child:Image.asset("animation/accept.png")) ),
+                                                                        ],
+                                                                      ),
+
+
+                                                                      SizedBox(
+                                                                        height: MediaQuery.of(context).size.height*0.02,
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ):Container(
-                                                              child: Center(child: Text("Loading")),
-                                                            );
-                                                          });
-                                                    })
-                                              ],
-                                            );
-                                          });
-                                      // Navigator.of(context).push(MaterialPageRoute(
-                                      //     builder: (context) => Match_result_screen(new_tournament_model: widget.new_tournament_model,
-                                      //       match_detail_model: match_detail_model,)));
-                                    }),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                );
-              } else {
-                return Container();
-              }
-            },
+                                                              ):Container(
+                                                                child: Center(child: Text("Loading")),
+                                                              );
+                                                            });
+                                                      })
+                                                ],
+                                              );
+                                            });
+                                        // Navigator.of(context).push(MaterialPageRoute(
+                                        //     builder: (context) => Match_result_screen(new_tournament_model: widget.new_tournament_model,
+                                        //       match_detail_model: match_detail_model,)));
+                                      }),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                  );
+                } else {
+                  return Center(child: Container(child:Text("Loading",style: TextStyle(
+                    color: Colors.white
+                  ),) ,));
+                }
+              },
+            ),
           ),
+
+          //  create new schedule floating button
           Padding(
             padding: const EdgeInsets.only(bottom: 100),
             child: Container(
@@ -1510,6 +1537,7 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                   backgroundColor: Colors.grey,
                                   elevation: 10,
                                   shadowColor: Colors.yellow,
+                                  // title of the dialog box
                                   title: Text('Match Scheduling'),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -1644,13 +1672,43 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                 BorderRadius.circular(5)),
                                         child: TextButton(
                                             onPressed: () async {
+
+                                              var myyInt = widget
+                                                  .new_tournament_model
+                                                  .Start_tournament
+                                                  .toString()
+                                                  .split(" ")
+                                                  .first;
+
+                                              var start_year = int.parse(
+                                                  myyInt.split("-").first);
+                                              var s_month = int.parse(myyInt
+                                                  .split("")
+                                                  .skip(5)
+                                                  .first);
+                                              var start_monthh = int.parse(myyInt
+                                                  .split("")
+                                                  .skip(6)
+                                                  .first);
+                                              var S_m = int.parse(
+                                                  s_month.toString() +
+                                                      start_monthh.toString());
+                                              print(S_m);
+                                              var s_day = int.parse(
+                                                  myyInt.split("-").last);
+                                              print("${start_year}y-${start_monthh}m-${s_day}");
+
+
+
+
+
                                               var myInt = widget
                                                   .new_tournament_model
                                                   .End_tournament
                                                   .toString()
                                                   .split(" ")
                                                   .first;
-                                              print(myInt);
+
                                               var year = int.parse(
                                                   myInt.split("-").first);
                                               var month = int.parse(myInt
@@ -1675,8 +1733,8 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
                                                   await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          DateTime.now(),
-                                                      firstDate: DateTime.now(),
+                                                      DateTime(start_year,start_monthh,s_day),
+                                                      firstDate: DateTime(start_year,start_monthh,s_day),
                                                       lastDate: DateTime(
                                                           year, m, day));
                                               if (datetime != null) {

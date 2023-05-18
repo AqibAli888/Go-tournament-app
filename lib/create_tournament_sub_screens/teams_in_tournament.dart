@@ -60,13 +60,10 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
     });
   }
   Updaate_team(String teamname,String result) async {
-    showDialog(
-        context: context,
-        builder: (c) {
-          return Loading_Dialog(
-            message: 'Adding Team please wait',
-          );
-        });
+    showDialog(context: context, builder: (c) {
+      return Loading_Dialog(message: 'Please wait',
+        path:"animation/97930-loading.json" ,);
+    });
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(
@@ -226,7 +223,7 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                       Navigator.pop(context);
                                       showDialog(context: context, builder: (c) {
                                         return Error_Dialog(message: "added succefully",
-                                            path:"animation/95614-error-occurred.json");
+                                            path:"animation/79952-successful.json");
                                       });
                                     });
                                   },
@@ -279,7 +276,8 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
                                         ],
                                         borderRadius: BorderRadius.circular(5)
                                     ),
-                                    child: Text_form_field(texthint:"Enter Team Name",
+                                    child: Text_form_field(max: 15,
+                                        texthint:"Enter Team Name",
                                         data: Icons.group,controller:teamnamecontroller),
                                   ),
                                 ],

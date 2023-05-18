@@ -111,6 +111,11 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                                       ),
 
                                       child: TextButton(onPressed: ()async{
+
+                                        showDialog(context: context, builder: (c) {
+                                          return Loading_Dialog(message: 'Please wait',
+                                            path:"animation/97930-loading.json" ,);
+                                        });
                                         await FirebaseFirestore.instance
                                               .collection("Users")
                                               .doc(firebaseAuth.currentUser!.uid)
@@ -124,7 +129,12 @@ class _Final_added_teams_in_tournamentState extends State<Final_added_teams_in_t
                                         FirebaseFirestore.instance
                                             .collection("All_Tournaments")
                                             .doc(widget.new_tournament_model.Tournament_Name).collection("Teams_in_Tournament").
-                                        doc(final_added_teams.Team_Name).delete();
+                                        doc(final_added_teams.Team_Name).delete().then((value){
+                                          Navigator.pop(context);
+    showDialog(context: context, builder: (c) {
+    return Error_Dialog(message: "Removed succefully",
+    path:"animation/79952-successful.json");});
+                                        });
 
 
 

@@ -8,6 +8,7 @@ import 'package:sports_app/Authentication/auth_screen.dart';
 import 'package:sports_app/splash_screen.dart';
 
 import 'Global/global.dart';
+import 'new_splash_screen.dart';
 class PostHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(context){
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Splash_screen(),
+      home: New_splsh_Screen(),
     );
   }
 }
