@@ -93,8 +93,8 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
            color: Colors.white
          ),),
         ElevatedButton(
-          onPressed: (){},
-          // onPressed: canresend?sendverificationemail:null,
+          // onPressed: (){},
+          onPressed: canresend?sendverificationemail:null,
           child: Container(
             child: Text("Resend",style: TextStyle(
                 color: Colors.tealAccent
