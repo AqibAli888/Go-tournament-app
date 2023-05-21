@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sports_app/Authentication/login.dart';
-
 import '../main_screens/option_screen_for_public_private.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
@@ -52,23 +50,16 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
   }
 
   Future sendverificationemail() async{
-    Loading_Dialog(message: 'Checking Credintial',
-      path:"animation/97930-loading.json" ,);
     try{
-    final user=FirebaseAuth.instance.currentUser!;
-    await user.sendEmailVerification().then((value){
-      Navigator.pop(context);
-
-      return Error_Dialog(message: 'Sent succefully '
-        ,path:"animation/95614-error-occurred.json" ,);
-    });
-    setState(() {
-      canresend=false;
-    });
-    await Future.delayed(Duration(seconds: 5));
-    setState(() {
-      canresend=true;
-    });
+      final user=FirebaseAuth.instance.currentUser!;
+      await user.sendEmailVerification();
+      setState(() {
+        canresend=false;
+      });
+      await Future.delayed(Duration(seconds: 5));
+      setState(() {
+        canresend=true;
+      });
 
 
     }catch(e){
@@ -80,10 +71,9 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
 
 
 
-
-
   @override
   Widget build(BuildContext context) {
+    print(isverifiedemail.toString() + "not verified");
    return isverifiedemail?Option_Screen():Scaffold(
      backgroundColor: Colors.black12,
 
@@ -103,7 +93,8 @@ class _Verify_email_screenState extends State<Verify_email_screen> {
            color: Colors.white
          ),),
         ElevatedButton(
-          onPressed: canresend?sendverificationemail:null,
+          onPressed: (){},
+          // onPressed: canresend?sendverificationemail:null,
           child: Container(
             child: Text("Resend",style: TextStyle(
                 color: Colors.tealAccent
