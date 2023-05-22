@@ -134,8 +134,24 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
     if (selecteddate.toString().isNotEmpty&&
         matchtime.toString().isNotEmpty &&selectedItem!="" &&
         secondselected!="" && _chosenValue!=null) {
+      if(selectedItem.toString()!=secondselected.toString()){
+        updating_match_schedule(id);
+      }
+      else {
+        showDialog(
+            context: context,
+            builder: (c) {
+              return Error_Dialog(
+                  message: "You select Same Teams",
+                  path: "animation/95614-error-occurred.json");
+            }).then((value) {
+          setState(() {
+            selecteddate = DateTime.now();
+          });
+        });
+      }
      // will update
-      updating_match_schedule(id);
+
     } else {
       showDialog(
           context: context,
@@ -218,8 +234,24 @@ class _Tournament_match_detailState extends State<Tournament_match_detail> {
   formvalidation(String time) {
     if (selecteddate.toString().isNotEmpty&&matchtime.toString().isNotEmpty
         &&selectedItem!="" && secondselected!=""&& _chosenValue!=null) {
+      if(selectedItem.toString()!=secondselected.toString()){
+        Adding_match_schedule(time);
+      }
+      else {
+        showDialog(
+            context: context,
+            builder: (c) {
+              return Error_Dialog(
+                  message: "You select Same Teams",
+                  path: "animation/95614-error-occurred.json");
+            }).then((value) {
+          setState(() {
+            selecteddate = DateTime.now();
+          });
+        });
+      }
       //login
-      Adding_match_schedule(time);
+
 
     } else {
       showDialog(

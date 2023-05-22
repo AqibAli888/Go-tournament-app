@@ -37,7 +37,6 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
       });
     }
   }
-
   Adding_team() async {
     showDialog(context: context, builder: (c) {
       return Loading_Dialog(message: 'Please wait',
@@ -245,6 +244,7 @@ class _Teams_in_TournamentState extends State<Teams_in_Tournament> {
             child: Container(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                backgroundColor: Colors.grey,
                 onPressed: () {
                   showDialog(
                       context: context,

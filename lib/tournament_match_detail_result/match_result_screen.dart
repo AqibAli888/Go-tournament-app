@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Global/global.dart';
+import '../create_tournament_sub_screens/tournament_match_detail.dart';
 import '../models/New_Tournament_create_model.dart';
 import '../models/match_detail_model.dart';
 
@@ -178,6 +179,8 @@ class _Match_result_screenState extends State<Match_result_screen> {
                               "point": FieldValue.increment(2),
                               "win": FieldValue.increment(1),
                               "played": FieldValue.increment(1)
+                            }).then((value){
+                              Navigator.pop(context);
                             });
 
 

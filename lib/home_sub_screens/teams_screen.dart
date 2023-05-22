@@ -5,6 +5,7 @@ import 'package:sports_app/Global/global.dart';
 import '../models/team_model.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
+import '../widgets/text_form_field.dart';
 import 'navigatescreen.dart';
 
 class Teams_screen extends StatefulWidget {
@@ -49,10 +50,18 @@ class _Teams_screenState extends State<Teams_screen> {
         .collection("Teams")
         .doc(time)
         .set({
-      "id":time,
+      "id": time,
       "Name": teamnamecontroller.text,
     }).then((value) async {
       Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (c) {
+            return Error_Dialog(
+              message: 'Team Added Successfully',
+              path: "animation/79952-successful.json",
+            );
+          });
       await sharedpreference!
           .setString("Team_Name", teamnamecontroller.text.trim());
     });
@@ -93,18 +102,17 @@ class _Teams_screenState extends State<Teams_screen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.20,
                                   decoration: BoxDecoration(
-
                                       color: Colors.black,
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.blue.withOpacity(0.5),
                                           spreadRadius: 1,
                                           blurRadius: 5,
-                                          offset: Offset(0, 1), // changes position of shadow
+                                          offset: Offset(0,
+                                              1), // changes position of shadow
                                         ),
                                       ],
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: ListTile(
                                       focusColor: Colors.red,
                                       title: Column(
@@ -142,8 +150,19 @@ class _Teams_screenState extends State<Teams_screen> {
                                                       MainAxisAlignment
                                                           .spaceAround,
                                                   children: [
+                                                    // Delete button to delete team
                                                     GestureDetector(
                                                       onTap: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (c) {
+                                                              return Loading_Dialog(
+                                                                message:
+                                                                    'Please wait',
+                                                                path:
+                                                                    "animation/97930-loading.json",
+                                                              );
+                                                            });
                                                         FirebaseFirestore
                                                             .instance
                                                             .collection("Users")
@@ -152,21 +171,39 @@ class _Teams_screenState extends State<Teams_screen> {
                                                                 .uid)
                                                             .collection("Teams")
                                                             .doc(team.id)
-                                                            .delete();
+                                                            .delete()
+                                                            .then((value) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (c) {
+                                                                return Error_Dialog(
+                                                                  message:
+                                                                      'Team removed Successfully',
+                                                                  path:
+                                                                      "animation/79952-successful.json",
+                                                                );
+                                                              });
+                                                        });
                                                       },
                                                       child: Container(
-                                                          height: MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                              0.085,
-                                                          width: MediaQuery.of(context)
-                                                              .size
-                                                              .width *
+                                                          height:
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.085,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
                                                               0.35,
-
-                                                        child: Image.asset("animation/delete.png")
-                                                      ),
+                                                          child: Image.asset(
+                                                              "animation/delete.png")),
                                                     ),
+
+                                                    // update button to update the team
                                                     GestureDetector(
                                                       onTap: () {
                                                         showDialog(
@@ -174,90 +211,130 @@ class _Teams_screenState extends State<Teams_screen> {
                                                             builder:
                                                                 (BuildContext
                                                                     context) {
-                                                              return AlertDialog(
-                                                                scrollable:
-                                                                    true,
-                                                                title: Text(
-                                                                    'Update Team Name'),
-                                                                content:
-                                                                    Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          8.0),
-                                                                  child: Form(
-                                                                    child:
-                                                                        Column(
-                                                                      children: <
-                                                                          Widget>[
-                                                                        TextFormField(
-                                                                          controller:
-                                                                              teamnamecontroller,
-                                                                          decoration:
-                                                                              InputDecoration(
-                                                                            labelText:
-                                                                                'Name of the team',
-                                                                            icon:
-                                                                                Icon(Icons.account_box),
-                                                                          ),
+                                                              return Container(
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.25,
+                                                                child:
+                                                                    AlertDialog(
+                                                                  title: Text(
+                                                                      'Update Team Name'),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .grey,
+                                                                  content:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child: Form(
+                                                                      child:
+                                                                          SingleChildScrollView(
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  color: Colors.black,
+                                                                                  boxShadow: [
+                                                                                    BoxShadow(
+                                                                                      color: Colors.blue.withOpacity(0.5),
+                                                                                      spreadRadius: 1,
+                                                                                      blurRadius: 5,
+                                                                                      offset: Offset(0, 1), // changes position of shadow
+                                                                                    ),
+                                                                                  ],
+                                                                                  borderRadius: BorderRadius.circular(5)),
+                                                                              child: Text_form_field(
+                                                                                texthint: "Team Name",
+                                                                                type: TextInputType.name,
+                                                                                data: Icons.group,
+                                                                                controller: teamnamecontroller,
+                                                                                max: 20,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  actions: [
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceAround,
+                                                                      children: [
+                                                                        Container(
+                                                                          height:
+                                                                              MediaQuery.of(context).size.height * 0.095,
+                                                                          child: TextButton(
+                                                                              child: Image.asset("animation/multiply.png"),
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context);
+                                                                              }),
+                                                                        ),
+                                                                        Container(
+                                                                          height:
+                                                                              MediaQuery.of(context).size.height * 0.095,
+                                                                          child: TextButton(
+                                                                              child: Image.asset("animation/accept.png"),
+                                                                              onPressed: () async {
+                                                                                Navigator.pop(context);
+                                                                                if (teamnamecontroller.text.isNotEmpty) {
+                                                                                  showDialog(
+                                                                                      context: context,
+                                                                                      builder: (c) {
+                                                                                        return Loading_Dialog(
+                                                                                          message: 'Please wait',
+                                                                                          path: "animation/97930-loading.json",
+                                                                                        );
+                                                                                      });
+                                                                                  FirebaseFirestore.instance.collection("Users").doc(firebaseAuth.currentUser!.uid).collection("Teams").doc(team.id).update({
+                                                                                    "Name": teamnamecontroller.text,
+                                                                                  }).then((value)async {
+                                                                                    Navigator.pop(context);
+                                                                                    showDialog(
+                                                                                        context: context,
+                                                                                        builder: (c) {
+                                                                                          return Error_Dialog(message: "Please fill the name ", path: "animation/95614-error-occurred.json");
+                                                                                        });
+                                                                                  });
+                                                                                } else {
+                                                                                  showDialog(
+                                                                                      context: context,
+                                                                                      builder: (c) {
+                                                                                        return Error_Dialog(message: "Please Enter Name to update", path: "animation/95614-error-occurred.json");
+                                                                                      });
+                                                                                }
+                                                                              }),
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                  ),
+                                                                  ],
                                                                 ),
-                                                                actions: [
-                                                                  TextButton(
-                                                                      child: Text(
-                                                                          "Update"),
-                                                                      onPressed:
-                                                                          () {
-
-                                                                        if(teamnamecontroller.text.isNotEmpty){
-                                                                          showDialog(context: context, builder: (c) {
-                                                                            return Loading_Dialog(message: 'Please wait',
-                                                                              path:"animation/97930-loading.json" ,);
-                                                                          });
-                                                                          FirebaseFirestore
-                                                                              .instance
-                                                                              .collection("Users")
-                                                                              .doc(firebaseAuth.currentUser!.uid)
-                                                                              .collection("Teams")
-                                                                              .doc(team.id)
-                                                                              .update({
-                                                                            "Name":
-                                                                            teamnamecontroller.text,
-                                                                          }).then((value){
-                                                                            Navigator.pop(context);
-                                                                          });
-                                                                        }
-                                                                        else{
-                                                                          showDialog(context: context, builder: (c) {
-                                                                            return Error_Dialog(message: "Please Enter Name to update"
-                                                                                ,path:"animation/95614-error-occurred.json");
-                                                                          });
-                                                                        }
-
-
-                                                                        // your code
-                                                                      })
-                                                                ],
                                                               );
                                                             });
                                                       },
                                                       child: Container(
-                                                        child: Container(
-                                                            height: MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                                0.085,
-                                                            width: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                                0.35,
-
-                                                            child: Image.asset("animation/updated.png")
-                                                        )
-                                                      ),
+                                                          child: Container(
+                                                              height: MediaQuery
+                                                                          .of(
+                                                                              context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.085,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.35,
+                                                              child: Image.asset(
+                                                                  "animation/updated.png"))),
                                                     ),
                                                   ],
                                                 ),
@@ -296,36 +373,80 @@ class _Teams_screenState extends State<Teams_screen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: Text('Add New Team'),
-                          content: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Form(
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    controller: teamnamecontroller,
-                                    decoration: InputDecoration(
-                                      labelText: 'Name of the team',
-                                      icon: Icon(Icons.account_box),
-                                    ),
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          child: AlertDialog(
+                            title: Text('Add New Team'),
+                            backgroundColor: Colors.grey,
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Form(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blue
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0,
+                                                    1), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Text_form_field(
+                                          texthint: "Team Name",
+                                          type: TextInputType.name,
+                                          data: Icons.group,
+                                          controller: teamnamecontroller,
+                                          max: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.095,
+                                    child: TextButton(
+                                        child: Image.asset(
+                                            "animation/multiply.png"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        }),
+                                  ),
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.095,
+                                    child: TextButton(
+                                        child:
+                                            Image.asset("animation/accept.png"),
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+
+                                          String time = DateTime.now()
+                                              .millisecondsSinceEpoch
+                                              .toString();
+                                          formvalidation(time);
+                                        }),
                                   ),
                                 ],
                               ),
-                            ),
+                            ],
                           ),
-                          actions: [
-                            TextButton(
-                                child: Text("Submit"),
-                                onPressed: () {
-                                  String time = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString();
-                                  formvalidation(time);
-                                  // your code
-                                })
-                          ],
                         );
                       });
                 },

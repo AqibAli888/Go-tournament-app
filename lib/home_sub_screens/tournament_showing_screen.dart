@@ -432,7 +432,7 @@ class _Tournament_home_screenState extends State<Tournament_home_screen> {
                                             ],
                                             borderRadius: BorderRadius.circular(5)
                                         ),
-                                        child: Text_form_field(texthint:"Detail about Tournament",type: TextInputType.number,
+                                        child: Text_form_field(texthint:"Detail about Tournament",type: TextInputType.text,
                                             data: Icons.textsms_outlined,controller: Detail),
                                       ),
                                       SizedBox(

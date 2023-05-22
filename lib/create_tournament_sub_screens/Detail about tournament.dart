@@ -945,7 +945,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               child: Text_form_field(
                                                   max: 10,
                                                   texthint: "Entry Fees",
-                                                  data: Icons.access_time,
+                                                  data: Icons.attach_money_sharp,
                                                   controller: entry_fees),
                                             ),
                                             SizedBox(
@@ -969,7 +969,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                                   max: 15,
                                                   texthint: "Winning price",
                                                   type: TextInputType.number,
-                                                  data: Icons.access_time,
+                                                  data: Icons.attach_money_sharp,
                                                   controller: winning_price),
                                             ),
 
@@ -1276,7 +1276,7 @@ class _Tournament_Deatail_ScreenState extends State<Tournament_Deatail_Screen> {
                                               child: Text_form_field(
                                                   max: 500,
                                                   texthint: "Detail",
-                                                  data: Icons.access_time,
+                                                  data: Icons.app_registration,
                                                   controller: detail),
                                             ),
 

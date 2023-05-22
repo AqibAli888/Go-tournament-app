@@ -296,18 +296,9 @@ class _All_Tournament_showing_screenState
                                                 height: MediaQuery.of(context).size.height*0.02,
                                               ),
 
-
-
-
-
-
-
-
-
-
-
                                               Container(
-                                                height: MediaQuery.of(context).size.height*0.035,
+                                                height: MediaQuery.of(context).size.height*0.0755,
+                                                width:double.infinity,
 
                                                 decoration: BoxDecoration(
 
@@ -324,7 +315,7 @@ class _All_Tournament_showing_screenState
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 5,right: 5),
-                                                  child: Row(
+                                                  child: Column(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,

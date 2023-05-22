@@ -43,7 +43,7 @@ class _Pick_Match_LocationState extends State<Pick_Match_Location> {
         padding: EdgeInsets.all(8),
         child: OpenStreetMapSearchAndPick(
             center: LatLong(33.9946, 72.9106),
-            buttonColor: Colors.blue,
+            buttonColor: Colors.grey,
             buttonText: 'Set Current Location',
             onPicked: (pickedData) {
               print(pickedData.latLong.latitude);

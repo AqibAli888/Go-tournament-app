@@ -29,7 +29,7 @@ class _Forget_password_pageState extends State<Forget_password_page> {
             context: context,
             builder: (c) {
              return Error_Dialog(message: 'Sent succefully '
-                ,path:"animation/95614-error-occurred.json" ,);
+                ,path:"animation/79952-successful.json" ,);
             });
       });
     } catch (err) {

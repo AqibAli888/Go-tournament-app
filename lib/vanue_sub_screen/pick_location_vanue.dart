@@ -32,7 +32,7 @@ class _Pick_Location_VanueState extends State<Pick_Location_Vanue> {
           context: context,
           builder: (c) {
            return Error_Dialog(message: 'selected'
-              ,path:"animation/95614-error-occurred.json" ,);
+              ,path:"animation/79952-successful.json" ,);
           });
 
 
@@ -45,7 +45,8 @@ class _Pick_Location_VanueState extends State<Pick_Location_Vanue> {
         padding: EdgeInsets.all(8),
         child: OpenStreetMapSearchAndPick(
             center: LatLong(33.9946, 72.9106),
-            buttonColor: Colors.blue,
+            buttonColor: Colors.grey,
+
             buttonText: 'Set Current Location',
             onPicked: (pickedData) {
               print(pickedData.latLong.latitude);

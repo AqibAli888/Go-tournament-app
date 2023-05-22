@@ -84,9 +84,9 @@ class _Option_ScreenState extends State<Option_Screen> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 height: MediaQuery.of(context).size.height * 0.15,
-                                child: Image.asset("animation/pointing.png"),),
+                                child: Image.asset("animation/login.png"),),
                             ),
-                            Center(child: Text("Your Tournaments",style: TextStyle(
+                            Center(child: Text("My Tournaments",style: TextStyle(
                               color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20
                             ),))],
                         )),
@@ -176,7 +176,10 @@ class _Option_ScreenState extends State<Option_Screen> {
                     ),),
                   ],
                 )),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height*0.03,
+              ),
             ],
           ),
         ),

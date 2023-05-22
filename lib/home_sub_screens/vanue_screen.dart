@@ -7,6 +7,7 @@ import '../vanue_sub_screen/pick_location_vanue.dart';
 
 import '../widgets/error_dialog.dart';
 import '../widgets/loading_dialog.dart';
+import '../widgets/text_form_field.dart';
 class Vanue_screen extends StatefulWidget {
   const Vanue_screen({Key? key}) : super(key: key);
 
@@ -15,7 +16,7 @@ class Vanue_screen extends StatefulWidget {
 }
 
 class _Vanue_screenState extends State<Vanue_screen> {
-  TextEditingController vanuenamecontroller = TextEditingController();
+
   TextEditingController locationcontroller = TextEditingController();
   TextEditingController vanuename = TextEditingController();
   var data;
@@ -33,7 +34,7 @@ class _Vanue_screenState extends State<Vanue_screen> {
 
   }
   formvalidation(String id) {
-    if (vanuenamecontroller.text.trim().isNotEmpty) {
+    if (vanuename.text.trim().isNotEmpty) {
       //login
       Adding_vanue (id);
     } else {
@@ -59,12 +60,19 @@ class _Vanue_screenState extends State<Vanue_screen> {
         .doc(id)
         .set({
       "id":id,
-      "Name":vanuenamecontroller.text,
       "vanuename":vanuename.text,
       "Location":""
     }).then((value) async {
-      await sharedpreference!.setString("Vanue_Name", vanuenamecontroller.toString());
       Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (c) {
+            return  Error_Dialog(message: 'Added Succesfully'
+              ,path:"animation/79952-successful.json" ,);
+          });
+
+      await sharedpreference!.setString("Vanue_Name", vanuename.toString());
+
     });
   }
 
@@ -249,11 +257,14 @@ class _Vanue_screenState extends State<Vanue_screen> {
             child: Container(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                backgroundColor: Colors.grey,
                 onPressed: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          backgroundColor: Colors.grey,
+                          shadowColor: Colors.yellow,
                           scrollable: true,
                           title: Text('Add New vanue'),
                           content: Padding(
@@ -261,11 +272,25 @@ class _Vanue_screenState extends State<Vanue_screen> {
                             child: Form(
                               child: Column(
                                 children: <Widget>[
-                                  TextFormField(
-                                    controller: vanuenamecontroller,
-                                    decoration: InputDecoration(
-                                      labelText: 'Name of the vanue',
-                                      icon: Icon(Icons.account_box),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Text_form_field(
+                                      texthint: "Vanue Name",
+                                      type: TextInputType.name,
+                                      data: Icons.place,
+                                      controller: vanuename,
+                                      max: 20,
                                     ),
                                   ),
 
@@ -274,15 +299,37 @@ class _Vanue_screenState extends State<Vanue_screen> {
                             ),
                           ),
                           actions: [
-                            TextButton(
-                                child: Text("Create"),
-                                onPressed: () {
-                                  String id = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString();
-                                  formvalidation(id);
-                                  // your code
-                                })
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .spaceAround,
+                              children: [
+                                Container(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.095,
+                                  child: TextButton(
+                                      child: Image.asset("animation/multiply.png"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ),
+                                Container(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.095,
+                                  child: TextButton(
+                                      child: Image.asset("animation/accept.png"),
+                                      onPressed: () async {
+
+                                          String id = DateTime.now()
+                                              .millisecondsSinceEpoch
+                                              .toString();
+                                          formvalidation(id);
+                                          // your code
+                                      }
+                                      ),
+                                ),
+                              ],
+                            ),
                           ],
                         );
                       });

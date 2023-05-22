@@ -5,6 +5,7 @@ import '../home_sub_screens/private_tournament_search_screen.dart';
 import '../home_sub_screens/teams_screen.dart';
 import '../home_sub_screens/tournament_showing_screen.dart';
 import '../home_sub_screens/vanue_screen.dart';
+import '../widgets/error_dialog.dart';
 
 class Home_screen extends StatefulWidget {
 
@@ -23,30 +24,43 @@ class _Home_screenState extends State<Home_screen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState){
             return AlertDialog(
-              title: new Text("SEARCH TOURNAMENT WITH"),
+              shadowColor: Colors.orange,
+              elevation: 20,
+              backgroundColor: Colors.grey,
+              title: new Text("SEARCH TOURNAMENT",style: TextStyle(
+                  color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20
+              ),),
               content: Container(
                 child: SingleChildScrollView(
                   child: Form(
                     child: Column(
                       children: <Widget>[
-                        Text("Search With"),
+                        Text("Search With",style: TextStyle(
+                            color: Colors.white,fontSize: 15
+                        )),
                         DropdownButton<String>(
-                          hint: Text('Select one option'),
+                          hint: Text('Select one option',style: TextStyle(
+                              color: Colors.white,fontSize: 15
+                          )),
                           value: _chosenValue,
                           underline: Container(
 
+
+
                           ),
                           items: <String>[
+
                             'Tournament_Name',
                             'id',
                             'format',
                             'Entry_Fees'
                           ].map((String value) {
                             return new DropdownMenuItem<String>(
+
                               value: value,
                               child: new Text(
                                 value,
-                                style: TextStyle(fontWeight: FontWeight.w200),
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                               ),
                             );
                           }).toList(),
@@ -62,20 +76,46 @@ class _Home_screenState extends State<Home_screen> {
                 ),
               ),
               actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                TextButton(
-                  child: new Text("Close"),
-                  onPressed: () {
+
+
+                GestureDetector(
+                  onTap: (){
                     Navigator.of(context).pop();
                   },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Image.asset("animation/multiply.png"),),
                 ),
-                TextButton(
-                  child: new Text("ok"),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Private_Tournament_search_screen(data: _chosenValue,)));
+                SizedBox(
+                  width:MediaQuery.of(context).size.width * 0.15 ,
+                ),
+                // usually buttons at the bottom of the dialog
+                GestureDetector(
+                  onTap: (){
+                    if(_chosenValue==null){
+                      showDialog(context: context, builder: (c) {
+                        return Error_Dialog(message: "Please Select one Option For Searching",path:"animation/95614-error-occurred.json");
+                      });
+                      print("please select option");
+                    }
+                    else{
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Private_Tournament_search_screen(data: _chosenValue,)));
+                    }
+
+
+
                   },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Image.asset("animation/check.png"),),
                 ),
+                SizedBox(
+                  width:MediaQuery.of(context).size.width * 0.15 ,
+                ),
+
               ],
             );
           },
@@ -84,6 +124,11 @@ class _Home_screenState extends State<Home_screen> {
       },
     );
   }
+
+
+
+
+
   User? currentuser;
   @override
   Widget build(BuildContext context) {
@@ -130,7 +175,6 @@ class _Home_screenState extends State<Home_screen> {
               tabs: [
                 Tab(text: "Tournaments",icon: Image.asset("animation/trophy(1).png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,),),
                 Tab(text: "Team",icon: Image.asset("animation/group.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,)),
-                // Tab(text: "Players",icon: Icon(Icons.person),),
                 Tab(text: "Place",icon: Image.asset("animation/places.png",height:MediaQuery.of(context).size.height*0.051,width:MediaQuery.of(context).size.width*0.1 ,))
               ],
             ),),
@@ -139,7 +183,6 @@ class _Home_screenState extends State<Home_screen> {
               children: [
                 Tournament_home_screen(),
                 Teams_screen(),
-                // player_screen(),
                 Vanue_screen()
               ],
             ),
